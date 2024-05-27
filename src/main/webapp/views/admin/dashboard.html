@@ -1,263 +1,401 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
+    <meta charset="utf-8"/>
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <!-- App favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/assets_admin/images/favicon.ico}">
 
-	<!-- Basic Page Needs
-    ================================================== -->
-	<title>Admin Page</title>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		  content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- App css -->
+    <link th:href="@{/assets/assets_admin/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/css/icons.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/css/app.min.css}" rel="stylesheet" type="text/css"/>
 
-	<!-- CSS
-    ================================================== -->
-	<link rel="stylesheet" th:href="@{/assets/listeo/css/style.css}">
-	<link rel="stylesheet" th:href="@{/assets/listeo/css/main-color.css}" id="colors">
-	<link rel="icon" th:href="@{/assets/img/logo-3.png}">
 </head>
 
 <body>
 
-<!-- Wrapper -->
+<!-- Begin page -->
 <div id="wrapper">
 
-	<!-- Header Container
-================================================== -->
-	<header id="header-container" class="fixed fullwidth dashboard">
 
-		<!-- Header -->
-		<div id="header" class="not-sticky">
-			<div class="container">
+    <!-- Topbar Start -->
+    <div class="navbar-custom">
+        <ul class="list-unstyled topnav-menu float-right mb-0">
 
-				<!-- Left Side Content -->
-				<div class="left-side">
-
-					<!-- Logo -->
-					<div id="logo">
-						<a th:href="@{/dashboard}"><img th:src="@{/assets/images/logo.png}" alt=""></a>
-						<a th:href="@{/dashboard}" class="dashboard-logo"><img
-								src="images/logo2.png" alt=""></a>
-					</div>
-
-					<!-- Mobile Navigation -->
-					<div class="mmenu-trigger">
-						<button class="hamburger hamburger--collapse" type="button">
-								<span class="hamburger-box"> <span
-										class="hamburger-inner"></span>
-								</span>
-						</button>
-					</div>
-					<div class="clearfix"></div>
-					<!-- Main Navigation / End -->
-
-				</div>
-				<!-- Left Side Content / End -->
-
-				<!-- Right Side Content / End -->
-				<div class="right-side">
-					<!-- Header Widget -->
-					<div class="header-widget">
-
-						<!-- User Menu -->
-						<div class="user-menu">
-							<div class="user-name">
-								<span><img th:src="${session.admin.avatar}" alt=""></span>My
-								Account
-							</div>
-							<ul>
-								<li><a th:href="@{/dashboard}"><i
-										class="sl sl-icon-settings"></i> Dashboard</a></li>
-								<li><a th:href="@{/dashboard-myprofile}"><i
-										class="sl sl-icon-envelope-open"></i> My Profile</a></li>
-								<li><a th:href="@{/dashboard-orders}"><i
-										class="fa fa-calendar-check-o"></i> Payments</a></li>
-								<li><a th:href="@{/logout-admin}"><i
-										class="sl sl-icon-power"></i> Logout</a></li>
-							</ul>
-						</div>
-
-						<a th:href="@{/dashboard-addproduct}"
-						   class="button border with-icon">Add Film<i
-								class="sl sl-icon-plus"></i></a>
-					</div>
-					<!-- Header Widget / End -->
-				</div>
-				<!-- Right Side Content / End -->
-
-			</div>
-		</div>
-		<!-- Header / End -->
-
-	</header>
-	<div class="clearfix"></div>
-	<!-- Header Container / End -->
+            <li class="dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" href="#"
+                   role="button" aria-haspopup="false" aria-expanded="false">
+                    <img th:src="@{/assets/assets_admin/images/flags/vietnam.jpg}" alt="user-image" class="mr-1" height="12">
+                    <span
+                            class="align-middle">Vietnam <i class="mdi mdi-chevron-down"></i> </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <img th:src="@{/assets/assets_admin/images/flags/us.jpg}" alt="user-image" class="mr-1"
+                             height="12"> <span
+                            class="align-middle">English</span>
+                    </a>
+                </div>
+            </li>
 
 
-	<!-- Dashboard -->
-	<div id="dashboard">
+            <li class="dropdown notification-list">
+                <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="#"
+                   role="button" aria-haspopup="false" aria-expanded="false">
+                    <i class="fe-bell noti-icon"></i>
+                    <span class="badge badge-danger rounded-circle noti-icon-badge">9</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-lg">
 
-		<!-- Navigation
-================================================== -->
+                    <!-- item-->
+                    <div class="dropdown-item noti-title">
+                        <h5 class="m-0">
+                                    <span class="float-right">
+                                        <a href="" class="text-dark">
+                                            <small>Clear All</small>
+                                        </a>
+                                    </span>Notification
+                        </h5>
+                    </div>
 
-		<!-- Responsive Navigation Trigger -->
-		<a href="#" class="dashboard-responsive-nav-trigger"><i
-				class="fa fa-reorder"></i> Dashboard Navigation</a>
+                    <div class="slimscroll noti-scroll">
 
-		<div class="dashboard-nav">
-			<div class="dashboard-nav-inner">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-success"><i class="mdi mdi-comment-account-outline"></i></div>
+                            <p class="notify-details">Caleb Flakelar commented on Admin<small class="text-muted">1 min
+                                ago</small></p>
+                        </a>
 
-				<ul data-submenu-title="Main">
-					<li class="active"><a th:href="@{/dashboard}"><i
-							class="sl sl-icon-settings"></i> Dashboard</a></li>
-					<li><a th:href="@{/dashboard-orders}"><i
-							class="fa fa-calendar-check-o"></i> Payments</a></li>
-					<li><a th:href="@{/dashboard-wallet}"><i
-							class="sl sl-icon-wallet"></i> Wallet</a></li>
-				</ul>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-info"><i class="mdi mdi-account-plus"></i></div>
+                            <p class="notify-details">New user registered.<small class="text-muted">5 hours ago</small>
+                            </p>
+                        </a>
 
-				<ul data-submenu-title="Products">
-					<li><a th:href="@{/dashboard-myproducts}"><i
-							class="sl sl-icon-layers"></i> Banner</a></li>
-					<li><a th:href="@{/dashboard-addproduct}"><i
-							class="sl sl-icon-plus"></i> Add Banner</a></li>
-				</ul>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-danger"><i class="mdi mdi-heart"></i></div>
+                            <p class="notify-details">Carlos Crouch liked <b>Admin</b><small class="text-muted">3 days
+                                ago</small></p>
+                        </a>
 
-				<ul data-submenu-title="Products">
-					<li><a th:href="@{/dashboard-myproducts}"><i
-							class="sl sl-icon-layers"></i> Film Category</a></li>
-					<li><a th:href="@{/dashboard-addproduct}"><i
-							class="sl sl-icon-plus"></i> Add Category</a></li>
-				</ul>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-warning"><i class="mdi mdi-comment-account-outline"></i></div>
+                            <p class="notify-details">Caleb Flakelar commented on Admin<small class="text-muted">4 days
+                                ago</small></p>
+                        </a>
 
-				<ul data-submenu-title="Products">
-					<li><a th:href="@{/dashboard-myproducts}"><i
-							class="sl sl-icon-layers"></i> Film</a></li>
-					<li><a th:href="@{/dashboard-addproduct}"><i
-							class="sl sl-icon-plus"></i> Add Film</a></li>
-				</ul>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-purple"><i class="mdi mdi-account-plus"></i></div>
+                            <p class="notify-details">New user registered.<small class="text-muted">7 days ago</small>
+                            </p>
+                        </a>
 
-				<ul data-submenu-title="Users">
-					<li><a th:href="@{/dashboard-users}"><i
-							class="sl sl-icon-user"></i> List Users</a></li>
-				</ul>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-primary"><i class="mdi mdi-heart"></i></div>
+                            <p class="notify-details">Carlos Crouch liked <b>Admin</b><small class="text-muted">13 days
+                                ago</small></p>
+                        </a>
 
-				<ul data-submenu-title="Account">
-					<li><a th:href="@{/dashboard-myprofile}"><i
-							class="sl sl-icon-user"></i> My Profile</a></li>
-					<li><a th:href="@{/logout-admin}"><i
-							class="sl sl-icon-power"></i> Logout</a></li>
-				</ul>
-				<ul data-submenu-title="">
-					<li><a th:href="@{/home}"><i class="im im-icon-Home"></i>
-						Go To Home Page</a></li>
-				</ul>
-			</div>
-		</div>
-		<!-- Navigation / End -->
+                    </div>
 
+                    <!-- All-->
+                    <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+                        View all
+                        <i class="fi-arrow-right"></i>
+                    </a>
 
-		<!-- Content
-================================================== -->
-		<div class="dashboard-content">
+                </div>
+            </li>
 
-			<!-- Titlebar -->
-			<div id="titlebar">
-				<div class="row">
-					<div class="col-md-12">
-						<h2 th:text="${session.admin.user_Name + '!'}"></h2>
-						<!-- Breadcrumbs -->
-						<nav id="breadcrumbs">
-							<ul>
-								<li><a href="#">Home</a></li>
-								<li>Dashboard</li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</div>
+            <li class="dropdown notification-list">
+                <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown"
+                   href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <span class="ml-1" th:text="${email}"> <i class="mdi mdi-chevron-down"></i> </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                    <!-- item-->
+                    <div class="dropdown-header noti-title">
+                        <h6 class="text-overflow m-0">Chào mừng!</h6>
+                    </div>
 
+                    <!-- item-->
+                    <a th:href="@{/admin/profile}" class="dropdown-item notify-item">
+                        <i class="fe-user"></i>
+                        <span>Thông tin cá nhân</span>
+                    </a>
 
-			<!-- Content -->
-			<div class="row" style="justify-content: center; display: flex;">
+                    <!-- item-->
+                    <a th:href="@{/logout}" class="dropdown-item notify-item">
+                        <i class="fe-log-out"></i>
+                        <span>Logout</span>
+                    </a>
 
-				<!-- Item -->
-				<div class="col-lg-3 col-md-6">
-					<div class="dashboard-stat color-1">
-						<div class="dashboard-stat-content">
-							<h4 th:text="${Total_Order}"></h4>
-							<span>Total Categories</span>
-						</div>
-						<div class="dashboard-stat-icon">
-							<i class="im im-icon-Add-Bag"></i>
-						</div>
-					</div>
-				</div>
+                </div>
+            </li>
 
-				<!-- Item -->
-				<div class="col-lg-3 col-md-6">
-					<div class="dashboard-stat color-2">
-						<div class="dashboard-stat-content">
-							<h4 th:text="${Total_Product}"></h4>
-							<span>Total Films</span>
-						</div>
-						<div class="dashboard-stat-icon">
-							<i class="im im-icon-Polo-Shirt"></i>
-						</div>
-					</div>
-				</div>
+            <li class="dropdown notification-list">
+                <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light">
+                    <i class="fe-settings noti-icon"></i>
+                </a>
+            </li>
 
 
-				<!-- Item -->
-				<div class="col-lg-3 col-md-6">
-					<div class="dashboard-stat color-3">
-						<div class="dashboard-stat-content">
-							<h4 th:text="${Total_User}"></h4>
-							<span>Total Users</span>
-						</div>
-						<div class="dashboard-stat-icon">
-							<i class="im im-icon-Add-UserStar"></i>
-						</div>
-					</div>
-				</div>
+        </ul>
 
-				<!-- Item -->
-				<div class="col-lg-3 col-md-6">
-					<div class="dashboard-stat color-4">
-						<div class="dashboard-stat-content">
-							<h4 th:text="${Total_Category}"></h4>
-							<span>Total Banners</span>
-						</div>
-						<div class="dashboard-stat-icon">
-							<i class="im im-icon-Box-withFolders"></i>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- Content / End -->
+        <!-- LOGO -->
+        <div class="logo-box">
+            <a th:href="@{/admin/home}" class="logo text-center">
+                        <span class="logo-lg">
+                            <img th:src="@{/assets/assets_admin/images/logo-light.png}" alt="" height="16">
+                            <!-- <span class="logo-lg-text-light">UBold</span> -->
+                        </span>
+                <span class="logo-sm">
+                            <!-- <span class="logo-sm-text-dark">U</span> -->
+                            <img th:src="@{/assets/assets_admin/images/logo-sm.png}" alt="" height="24">
+                        </span>
+            </a>
+        </div>
+
+        <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+            <li>
+                <button class="button-menu-mobile waves-effect waves-light">
+                    <i class="fe-menu"></i>
+                </button>
+            </li>
+
+            <li class="d-none d-sm-block">
+                <form class="app-search">
+                    <div class="app-search-box">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <div class="input-group-append">
+                                <button class="btn" type="submit">
+                                    <i class="fe-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </li>
+
+        </ul>
+    </div>
+    <!-- end Topbar -->
 
 
-		</div>
-		<!-- Dashboard / End -->
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="left-side-menu">
+
+        <div class="slimscroll-menu">
+
+            <!--- Sidemenu -->
+            <div id="sidebar-menu">
+
+                <ul class="metismenu" id="side-menu">
+
+                    <li class="menu-title">QUẢN LÝ</li>
+
+                    <li>
+                        <a th:href="@{/admin/home}">
+                            <i class="fe-airplay"></i>
+                            <span> Dashboard </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/admin/user}">
+                            <i class="fe-briefcase"></i>
+                            Quản lý film
+                        </a>
+
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/film}">
+                            <i class="fe-disc"></i>
+                            Quản lý loại film
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/admin/category}">
+                            <i class="fe-disc"></i>
+                            Quản lý loại blog
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/user}">
+                            <i class="fe-bar-chart-2"></i>
+                            Quản lý user
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+            <!-- End Sidebar -->
+
+            <div class="clearfix"></div>
+
+        </div>
+        <!-- Sidebar -left -->
+
+    </div>
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">SWP391_G1</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Dashboard</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card-box tilebox-one">
+                            <i class="fe-box float-right"></i>
+                            <h5 class="text-muted text-uppercase mb-3 mt-0">Số khách hàng hiện tại</h5>
+                            <h3 class="mb-3" data-plugin="counterup" th:text="${countCustomers}">0</h3>
+                        </div>
+                    </div>
 
 
-	</div>
-	<!-- Wrapper / End -->
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card-box tilebox-one">
+                            <i class="fe-layers float-right"></i>
+                            <h5 class="text-muted text-uppercase mb-3 mt-0">Số film hiện có</h5>
+                            <h3 class="mb-3"><span data-plugin="counterup" th:text="${countProducts}">0</span></h3>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card-box tilebox-one">
+                            <i class="fe-tag float-right"></i>
+                            <h5 class="text-muted text-uppercase mb-3 mt-0">Tổng số doanh thu</h5>
+                            <h3 class="mb-3"><span data-plugin="counterup" th:text="${countOrders}">0</span></h3>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card-box tilebox-one">
+                            <i class="fe-briefcase float-right"></i>
+                            <h5 class="text-muted text-uppercase mb-3 mt-0">Số loại film hiện tại</h5>
+                            <h3 class="mb-3" data-plugin="counterup" th:text="${countBlogs}">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card-box">
+                            <h4 class="header-title mb-3">Messages</h4>
+
+                            <div class="inbox-widget slimscroll" style="max-height: 370px;">
+                                <div th:each="chat : ${chats}">
+                                    <a th:href="@{/admin/chat/{customerId}(customerId=${chat.customerId})}">
+                                        <div class="inbox-item">
+                                            <div class="inbox-item-img"><img
+                                                    th:src="${chat.avatarCustomer}"
+                                                    class="rounded-circle bx-shadow-lg" alt=""></div>
+                                            <p class="inbox-item-author" th:text="${chat.fullName}"></p>
+                                            <p class="inbox-item-text" th:text="${chat.message}"></p>
+                                            <p class="inbox-item-date" th:text="${chat.createdDate}"></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card-box">
+                            <h4 class="header-title mb-3">Các bình luận mới nhất</h4>
+
+                            <div class="comment-list slimscroll" style="max-height: 370px;">
+                                <div th:each="feedback : ${feedbacks}">
+                                    <a th:href="@{/admin/product/detail/{productId}(productId=${feedback.productId})}">
+                                        <div class="comment-box-item">
+                                            <p class="commnet-item-date" th:text="${feedback.createdDate}"></p>
+                                            <h6 class="commnet-item-msg" th:text="${feedback.comment}"></h6>
+                                            <p class="commnet-item-user" th:text="${feedback.fullName}"></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div> <!-- end container-fluid -->
+
+        </div> <!-- end content -->
+
+
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        2017 - 2019 &copy; Abstack theme by <a href="">Coderthemes</a>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
 </div>
+<!-- END wrapper -->
 
-	<!-- Scripts
-================================================== -->
-	<script type="text/javascript" th:src="@{/assets/scripts/jquery-3.6.0.min.js}"></script>
-	<script type="text/javascript"
-			th:src="@{/assets/scripts/jquery-migrate-3.3.2.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/mmenu.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/chosen.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/slick.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/rangeslider.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/magnific-popup.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/waypoints.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/counterup.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/jquery-ui.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/tooltips.min.js}"></script>
-	<script type="text/javascript" th:src="@{/assets/scripts/custom.js}"></script>
+<!-- Vendor js -->
+<script th:src="@{/assets/assets_admin/js/vendor.min.js}"></script>
+
+<!-- Chart JS -->
+<script th:src="@{/assets/assets_admin/libs/chart-js/Chart.bundle.min.js}"></script>
+
+<!-- Init js -->
+<script th:src="@{/assets/assets_admin/js/pages/dashboard.init.js}"></script>
+
+<!-- App js -->
+<script th:src="@{/assets/assets_admin/js/app.min.js}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

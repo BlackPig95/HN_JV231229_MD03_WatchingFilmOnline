@@ -11,10 +11,6 @@ public class AdminController {
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
-        model.addAttribute("Total_Order", 10);  // Example attribute
-        model.addAttribute("Total_Product", 20);  // Example attribute
-        model.addAttribute("Total_User", 30);  // Example attribute
-        model.addAttribute("Total_Category", 40);  // Example attribute
         return "admin/dashboard";
     }
 }
