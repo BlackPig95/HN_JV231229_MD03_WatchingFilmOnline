@@ -17,7 +17,7 @@ public interface IFilmService
 
     List<Film> searchFilmRelative(String infoToSearch, String columnName);
 
-    Boolean deleteFilmById(int id);
+    Boolean deleteFilmById(long id);
 
     Integer countNumberOfFilms();
 }

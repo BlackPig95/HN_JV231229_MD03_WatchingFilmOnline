@@ -118,10 +118,12 @@ public class FilmManagerDaoImpl implements IFilmManageDao
         String actualQuery = prepareQuery.replace("columnName", columnName);
         try
         {
-            return session.createQuery(actualQuery + " and status = :status " +
-                            " and isFree == :isFree and filmCategory = :filmCategory", Film.class)
-                    .setParameter("infoToSearch", infoToSearch)
-                    .getResultList();
+//            return session.createQuery(actualQuery + " and status = :status " +
+//                            " and isFree == :isFree and filmCategory = :filmCategory", Film.class)
+//                    .setParameter("infoToSearch", infoToSearch)
+//                    .getResultList();
+            return session.createQuery("from Film where filmName like :info", Film.class)
+                    .setParameter("info", infoToSearch).getResultList();
         } catch (Exception e)
         {
             throw new RuntimeException(e);
@@ -138,6 +140,7 @@ public class FilmManagerDaoImpl implements IFilmManageDao
         try
         {
             session.beginTransaction();
+            episodeDao.deletePreviousEpisode(id);
             session.delete(getFilmById(id));
             session.getTransaction().commit();
             return true;

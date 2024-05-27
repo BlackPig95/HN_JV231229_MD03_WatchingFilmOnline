@@ -24,8 +24,9 @@
 <br/>
 <h1>Thêm thông tin mỗi tập phim</h1>
 <br/>
-<form th:action="@{/film/addEpisode}" th:object="${episodeListDto}" method="post" enctype="multipart/form-data">
+<form th:action="@{/film/editEpisode}" th:object="${episodeListDto}" method="post" enctype="multipart/form-data">
     <div th:each="e, episodeCount : ${episodeListDto.episodeDtoList}">
+        <input type="hidden" name="filmEpisodeId" th:value="*{episodeDtoList[__${episodeCount.index}__].filmEpisodeId}">
         <!--        ID của film để gắn với khóa ngoại trong bảng film-episode -->
         <input th:field="*{episodeDtoList[__${episodeCount.index}__].filmId}" type="text" style="display: none"
                readonly>

@@ -27,6 +27,8 @@ public class FilmEpisodeDaoImpl implements IFilmEpisodeDao
         try
         {
             session.beginTransaction();
+            //Xóa đi các phim cũ trước khi update
+            deletePreviousEpisode(filmEpisode.getFilm().getFilmId());
             if (filmEpisode.getFilmEpisodeId() == null)
             {
                 session.save(filmEpisode);
@@ -97,6 +99,26 @@ public class FilmEpisodeDaoImpl implements IFilmEpisodeDao
         } catch (Exception e)
         {
             throw new RuntimeException(e);
+        } finally
+        {
+            session.close();
+        }
+    }
+
+    @Override
+    public void deletePreviousEpisode(long filmId)
+    {
+        Session session = sessionFactory.openSession();
+        try
+        {
+            session.beginTransaction();
+            session.createQuery("delete from FilmEpisode where film.filmId = :id")
+                    .setParameter("id", filmId).executeUpdate();
+            session.getTransaction().commit();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            session.getTransaction().rollback();
         } finally
         {
             session.close();

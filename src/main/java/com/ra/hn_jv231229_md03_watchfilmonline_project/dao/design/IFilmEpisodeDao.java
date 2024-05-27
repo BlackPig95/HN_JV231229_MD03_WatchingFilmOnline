@@ -14,4 +14,6 @@ public interface IFilmEpisodeDao
     Boolean deleteEpisode(long id);
 
     String getFilmImageById(long id);
+
+    void deletePreviousEpisode(long id);
 }
