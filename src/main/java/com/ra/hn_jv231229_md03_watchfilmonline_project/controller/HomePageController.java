@@ -18,4 +18,10 @@ public class HomePageController
     {
         return "movie-details";
     }
+
+    @RequestMapping("/home")
+    public String home()
+    {
+        return "home";
+    }
 }
