@@ -78,11 +78,12 @@ public class FilmManagerService implements IFilmService
     @Override
     public List<Film> searchFilmRelative(String infoToSearch, String columnName)
     {
-        return filmManageDao.searchFilmRelative(infoToSearch, columnName);
+        String info = "%" + infoToSearch + "%";
+        return filmManageDao.searchFilmRelative(info, columnName);
     }
 
     @Override
-    public Boolean deleteFilmById(int id)
+    public Boolean deleteFilmById(long id)
     {
         return filmManageDao.deleteFilmById(id);
     }

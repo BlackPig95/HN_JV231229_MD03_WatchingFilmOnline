@@ -1,10 +1,13 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,7 +20,6 @@ public class Film
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long filmId;
     @Column(name = "film_name", unique = true)
-    @NotEmpty(message = "Tên phim không được để trống")
     private String filmName;
     @Column(name = "film_description")
     private String filmDescription;
@@ -25,7 +27,7 @@ public class Film
     private String filmImage;
 
     @Column(name = "release_date")
-    private String releaseDate;
+    private Date releaseDate;
     @Column(name = "director")
     private String director;
     @Column(name = "main_actor_name")
@@ -58,25 +60,6 @@ public class Film
     {
     }
 
-    public Film(Country country, String director, List<FilmEpisode> episodeList, FilmCategory filmCategory, String filmDescription, Long filmId, String filmImage, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, String releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode)
-    {
-        this.country = country;
-        this.director = director;
-        this.episodeList = episodeList;
-        this.filmCategory = filmCategory;
-        this.filmDescription = filmDescription;
-        this.filmId = filmId;
-        this.filmImage = filmImage;
-        this.filmName = filmName;
-        this.isFree = isFree;
-        this.language = language;
-        this.mainActorName = mainActorName;
-        this.mainActressName = mainActressName;
-        this.releaseDate = releaseDate;
-        this.seriesSingle = seriesSingle;
-        this.status = status;
-        this.totalEpisode = totalEpisode;
-    }
 
     public Country getCountry()
     {
@@ -188,12 +171,12 @@ public class Film
         this.mainActressName = mainActressName;
     }
 
-    public String getReleaseDate()
+    public @NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date getReleaseDate()
     {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate)
+    public void setReleaseDate(@NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date releaseDate)
     {
         this.releaseDate = releaseDate;
     }

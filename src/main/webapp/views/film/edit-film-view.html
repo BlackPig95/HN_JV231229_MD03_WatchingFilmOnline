@@ -24,21 +24,24 @@
 <br/>
 <h1>Thêm phim bộ</h1>
 <br/>
-<form th:action="@{/film/addFilm}" th:object="${filmModel}" method="post" enctype="multipart/form-data">
+<form th:action="@{/film/editFilm}" th:object="${filmModel}" method="post" enctype="multipart/form-data">
     <!--    Set form này là loại form add phim nhiều tập-->
-    <input type="hidden" name="seriesSingle" value="false">
+    <input type="hidden" name="filmId" th:value="${filmModel.filmId}">
     <div class="mb-3">
         <label class="form-label">Tên phim</label>
         <input type="text" class="form-control" th:field="*{filmName}">
+        <small th:errors="*{filmName}" class="text-danger"></small>
     </div>
     <div class="mb-3">
         <label class="form-label">Số tập phim</label>
         <input type="number" class="form-control" th:field="*{totalEpisode}">
+        <small th:errors="*{totalEpisode}" class="text-danger"></small>
     </div>
-    <select name="filmCategory" class="form-select" style="width: 100%">
+    <select name="categoryId" class="form-select" style="width: 100%">
         <option selected>Thể loại phim</option>
         <option value="1">One</option>
     </select><br/><br/>
+    <small th:errors="*{categoryId}" class="text-danger"></small>
     <div class="mb-3">
         <label class="form-label">Đạo diễn phim</label>
         <input type="text" class="form-control" th:field="*{director}">
@@ -47,31 +50,38 @@
         <label class="form-label">Mô tả phim</label>
         <textarea class="form-control" th:field="*{filmDescription}"></textarea>
     </div>
-    <select name="country" class="form-select" style="width: 100%">
+    <select name="countryId" class="form-select" style="width: 100%">
         <option selected>Quốc gia sản xuất</option>
         <option value="1">Mỹ</option>
-    </select><br/><br/>
+    </select>
+    <small th:errors="*{countryId}" class="text-danger"></small>
+    <br/><br/>
     <div class="mb-3">
         <label class="form-label">Ngôn ngữ trong phim</label>
         <input type="text" class="form-control" th:field="*{language}">
     </div>
+    <small th:errors="*{language}" class="text-danger"></small>
     <div class="mb-3">
         <label class="form-label">Nam diễn viên chính</label>
         <input type="text" class="form-control" th:field="*{mainActorName}">
     </div>
+    <small th:errors="*{mainActorName}" class="text-danger"></small>
     <div class="mb-3">
         <label class="form-label">Nữ diễn viên chính</label>
         <input type="text" class="form-control" th:field="*{mainActressName}">
     </div>
+    <small th:errors="*{mainActressName}" class="text-danger"></small>
     <div class="mb-3">
         <label class="form-label">Ngày khởi chiếu</label>
-        <input type="text" class="form-control" th:field="*{releaseDate}">
+        <input type="date" th:field="*{releaseDate}">
     </div>
+    <small th:errors="*{releaseDate}" class="text-danger"></small>
     <div class="mb-3">
         <label for="file" class="form-label">Ảnh minh họa</label>
         <!--  Truyền hình ảnh vào DTO để ép về String nên phải dùng tên trường của DTO-->
         <input class="form-control" type="file" id="file" name="fileImage">
     </div>
+    <small th:errors="*{fileImage}" class="text-danger"></small>
     <div class="form-check form-check-inline"
          style="display: flex; flex-direction: row; justify-content: start; gap: 25px">
         <span class="form-label" style="margin-right: 20px">Phân loại</span>
@@ -86,6 +96,7 @@
             <label class="form-check-label">Phim trả phí</label>
         </div>
     </div>
+    <small th:errors="*{free}" class="text-danger"></small>
     <div class="form-check form-check-inline"
          style="display: flex; flex-direction: row; justify-content: start; gap: 20px">
         <span class="form-label" style="margin-right: 20px">Trạng thái</span>
@@ -102,6 +113,7 @@
             <label class="form-check-label">Phim đã ngừng chiếu</label>
         </div>
     </div>
+    <small th:errors="*{status}" class="text-danger"></small>
     <button type="submit" class="btn btn-primary">Thêm phim</button>
 </form>
 <!-- Optional JavaScript -->

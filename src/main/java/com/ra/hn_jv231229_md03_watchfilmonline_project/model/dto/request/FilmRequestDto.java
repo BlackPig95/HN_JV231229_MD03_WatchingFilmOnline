@@ -3,29 +3,40 @@ package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmCategory;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 public class FilmRequestDto
 {
     private Long filmId;
+    @NotEmpty(message = "Tên phim không được để trống")
     private String filmName;
     private String filmDescription;
     private MultipartFile fileImage;
+    @NotNull(message = "Vui lòng chọn quốc gia")
     private Long countryId;
-    private String releaseDate;
+    @NotNull(message = "Vui lòng chọn ngày phim ra mắt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date releaseDate;
     private String director;
     private String mainActorName;
     private String mainActressName;
     private String language;
-    private String totalTime;
     private Boolean seriesSingle;
+    @Min(value = 1, message = "Số tập phim ít nhất là 1")
     private Integer totalEpisode;
     private Boolean isFree;
+    @Range(min = 1, max = 3)
     private Integer status; //Status 1 = Đang chiếu, 2 = Sắp chiếu, 3 = Ngừng chiếu
+    @NotNull(message = "Vui lòng chọn thể loại")
     private Long categoryId;
     private List<FilmEpisode> episodeList;
 
@@ -33,7 +44,7 @@ public class FilmRequestDto
     {
     }
 
-    public FilmRequestDto(Long categoryId, Long countryId, String director, List<FilmEpisode> episodeList, MultipartFile fileImage, String filmDescription, Long filmId, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, String releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode, String totalTime)
+    public FilmRequestDto(Long categoryId, Long countryId, String director, List<FilmEpisode> episodeList, MultipartFile fileImage, String filmDescription, Long filmId, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode)
     {
         this.categoryId = categoryId;
         this.countryId = countryId;
@@ -51,7 +62,6 @@ public class FilmRequestDto
         this.seriesSingle = seriesSingle;
         this.status = status;
         this.totalEpisode = totalEpisode;
-        this.totalTime = totalTime;
     }
 
     public String getDirector()
@@ -72,6 +82,16 @@ public class FilmRequestDto
     public void setFileImage(MultipartFile fileImage)
     {
         this.fileImage = fileImage;
+    }
+
+    public @NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date getReleaseDate()
+    {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(@NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date releaseDate)
+    {
+        this.releaseDate = releaseDate;
     }
 
     public Long getCategoryId()
@@ -164,15 +184,15 @@ public class FilmRequestDto
         this.mainActressName = mainActressName;
     }
 
-    public String getReleaseDate()
-    {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate)
-    {
-        this.releaseDate = releaseDate;
-    }
+//    public Date getReleaseDate()
+//    {
+//        return releaseDate;
+//    }
+//
+//    public void setReleaseDate(Date releaseDate)
+//    {
+//        this.releaseDate = releaseDate;
+//    }
 
     public Boolean getSeriesSingle()
     {
@@ -202,16 +222,6 @@ public class FilmRequestDto
     public void setTotalEpisode(Integer totalEpisode)
     {
         this.totalEpisode = totalEpisode;
-    }
-
-    public String getTotalTime()
-    {
-        return totalTime;
-    }
-
-    public void setTotalTime(String totalTime)
-    {
-        this.totalTime = totalTime;
     }
 
     public List<FilmEpisode> getEpisodeList()
