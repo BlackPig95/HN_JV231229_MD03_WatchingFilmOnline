@@ -13,8 +13,7 @@ import java.util.Locale;
 
 @Entity
 @Table(name = "film")
-public class Film
-{
+public class Film {
     @Id
     @Column(name = "film_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +26,8 @@ public class Film
     private String filmImage;
     @Column(name = "trailer_url")
     private String trailerUrl;
+    @Column(name = "view_count")
+    private Long viewCount;
     @Column(name = "release_date")
     private Date releaseDate;
     @Column(name = "director")
@@ -57,188 +58,161 @@ public class Film
     @OneToMany(mappedBy = "film", fetch = FetchType.LAZY)
     private List<FilmEpisode> episodeList;
 
-    public Film()
-    {
+    public Film() {
     }
-
-    public Film(Country country, String director, List<FilmEpisode> episodeList, FilmCategory filmCategory, String filmDescription, Long filmId, String filmImage, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode, String trailerUrl)
-    {
-        this.country = country;
-        this.director = director;
-        this.episodeList = episodeList;
-        this.filmCategory = filmCategory;
-        this.filmDescription = filmDescription;
+    public Film(Long filmId, String filmName, String filmDescription, String filmImage, Long viewCount, Date releaseDate, String director, String mainActorName, String mainActressName, String language, Boolean seriesSingle, Integer totalEpisode, Boolean isFree, Integer status, FilmCategory filmCategory, Country country, List<FilmEpisode> episodeList) {
         this.filmId = filmId;
-        this.filmImage = filmImage;
         this.filmName = filmName;
-        this.isFree = isFree;
-        this.language = language;
+        this.filmDescription = filmDescription;
+        this.filmImage = filmImage;
+        this.viewCount = viewCount;
+        this.releaseDate = releaseDate;
+        this.director = director;
         this.mainActorName = mainActorName;
         this.mainActressName = mainActressName;
-        this.releaseDate = releaseDate;
+        this.language = language;
         this.seriesSingle = seriesSingle;
-        this.status = status;
         this.totalEpisode = totalEpisode;
-        this.trailerUrl = trailerUrl;
+        this.isFree = isFree;
+        this.status = status;
+        this.filmCategory = filmCategory;
+        this.country = country;
+        this.episodeList = episodeList;
     }
 
-    public Country getCountry()
-    {
+    public Long getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public Country getCountry() {
         return country;
     }
 
-    public void setCountry(Country country)
-    {
+    public void setCountry(Country country) {
         this.country = country;
     }
 
-    public String getDirector()
-    {
+    public String getDirector() {
         return director;
     }
 
-    public void setDirector(String director)
-    {
+    public void setDirector(String director) {
         this.director = director;
     }
 
-    public FilmCategory getFilmCategory()
-    {
+    public FilmCategory getFilmCategory() {
         return filmCategory;
     }
 
-    public void setFilmCategory(FilmCategory filmCategory)
-    {
+    public void setFilmCategory(FilmCategory filmCategory) {
         this.filmCategory = filmCategory;
     }
 
-    public String getFilmDescription()
-    {
+    public String getFilmDescription() {
         return filmDescription;
     }
 
-    public void setFilmDescription(String filmDescription)
-    {
+    public void setFilmDescription(String filmDescription) {
         this.filmDescription = filmDescription;
     }
 
-    public Long getFilmId()
-    {
+    public Long getFilmId() {
         return filmId;
     }
 
-    public void setFilmId(Long filmId)
-    {
+    public void setFilmId(Long filmId) {
         this.filmId = filmId;
     }
 
-    public String getFilmImage()
-    {
+    public String getFilmImage() {
         return filmImage;
     }
 
-    public void setFilmImage(String filmImage)
-    {
+    public void setFilmImage(String filmImage) {
         this.filmImage = filmImage;
     }
 
-    public @NotNull String getFilmName()
-    {
+    public @NotNull String getFilmName() {
         return filmName;
     }
 
-    public void setFilmName(@NotNull String filmName)
-    {
+    public void setFilmName(@NotNull String filmName) {
         this.filmName = filmName;
     }
 
-    public Boolean getFree()
-    {
+    public Boolean getFree() {
         return isFree;
     }
 
-    public void setFree(Boolean free)
-    {
+    public void setFree(Boolean free) {
         isFree = free;
     }
 
-    public String getLanguage()
-    {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language)
-    {
+    public void setLanguage(String language) {
         this.language = language;
     }
 
-    public String getMainActorName()
-    {
+    public String getMainActorName() {
         return mainActorName;
     }
 
-    public void setMainActorName(String mainActorName)
-    {
+    public void setMainActorName(String mainActorName) {
         this.mainActorName = mainActorName;
     }
 
-    public String getMainActressName()
-    {
+    public String getMainActressName() {
         return mainActressName;
     }
 
-    public void setMainActressName(String mainActressName)
-    {
+    public void setMainActressName(String mainActressName) {
         this.mainActressName = mainActressName;
     }
 
-    public @NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date getReleaseDate()
-    {
+    public @NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(@NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date releaseDate)
-    {
+    public void setReleaseDate(@NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    public Boolean getSeriesSingle()
-    {
+    public Boolean getSeriesSingle() {
         return seriesSingle;
     }
 
-    public void setSeriesSingle(Boolean seriesSingle)
-    {
+    public void setSeriesSingle(Boolean seriesSingle) {
         this.seriesSingle = seriesSingle;
     }
 
-    public @Range(min = 1, max = 3) Integer getStatus()
-    {
+    public @Range(min = 1, max = 3) Integer getStatus() {
         return status;
     }
 
-    public void setStatus(@Range(min = 1, max = 3) Integer status)
-    {
+    public void setStatus(@Range(min = 1, max = 3) Integer status) {
         this.status = status;
     }
 
-    public Integer getTotalEpisode()
-    {
+    public Integer getTotalEpisode() {
         return totalEpisode;
     }
 
-    public void setTotalEpisode(Integer totalEpisode)
-    {
+    public void setTotalEpisode(Integer totalEpisode) {
         this.totalEpisode = totalEpisode;
     }
 
-    public List<FilmEpisode> getEpisodeList()
-    {
+    public List<FilmEpisode> getEpisodeList() {
         return episodeList;
     }
 
-    public void setEpisodeList(List<FilmEpisode> episodeList)
-    {
+    public void setEpisodeList(List<FilmEpisode> episodeList) {
         this.episodeList = episodeList;
     }
 

@@ -234,4 +234,19 @@ public class FilmManagerDaoImpl implements IFilmManageDao
             session.close();
         }
     }
+
+    @Override
+    public List<Film> getTopRate(Boolean seriesSingle) {
+        Session session = sessionFactory.openSession();
+        try {
+            List list = session.createQuery("from Film where seriesSingle=:seriesSingle", Film.class)
+                    .setParameter("seriesSingle", seriesSingle)
+                    .list();
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
 }

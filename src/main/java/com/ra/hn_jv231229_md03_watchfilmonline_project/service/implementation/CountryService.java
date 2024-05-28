@@ -12,8 +12,8 @@ public class CountryService implements ICountryService {
     @Autowired
     private ICountryDao countryDao;
     @Override
-    public List<Country> findAll(String searchName,String order,Integer page) {
-        return countryDao.findAll(searchName, order,page);
+    public List<Country> displayWithPaginationAndOrder(String searchName,String order,Integer page) {
+        return countryDao.displayWithPaginationAndOrder(searchName, order,page);
     }
 
     @Override
@@ -34,5 +34,10 @@ public class CountryService implements ICountryService {
     @Override
     public Long countCountry() {
         return countryDao.countCountry();
+    }
+
+    @Override
+    public List<Country> findAll() {
+        return countryDao.findAll();
     }
 }

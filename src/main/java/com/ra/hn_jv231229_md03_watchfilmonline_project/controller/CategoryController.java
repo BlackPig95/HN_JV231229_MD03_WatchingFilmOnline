@@ -68,16 +68,6 @@ public class CategoryController {
         return "redirect:/listCategory";
     }
 
-//    @GetMapping("/sort")
-//    public String sort(Model model,
-//                       @RequestParam(name = "page", defaultValue = "1") int currentPage,
-//                       @RequestParam(name = "size", defaultValue = "5") int size) {
-//        List<FilmCategory> categories = categoryService.findAllSortedAlphabetically(currentPage - 1, size);
-//        model.addAttribute("categories", categories);
-//        model.addAttribute("totalPages", (int)Math.ceil((double) categoryService.countAllFilmCategory()/size));
-//        model.addAttribute("currentPage", currentPage);
-//        return "/category/listFilmCategory";
-//    }
 
 
 
