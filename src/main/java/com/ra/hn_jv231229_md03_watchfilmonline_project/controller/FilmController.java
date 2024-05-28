@@ -1,6 +1,7 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.controller;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.EpisodeListDto;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmAdvanceSearchDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmEpisodeDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmRequestDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
@@ -9,7 +10,6 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICategoryS
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICountryService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmEpisodeService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;
-import jdk.jpackage.internal.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -185,7 +185,7 @@ public class FilmController
     @GetMapping("/search")
     public String searchFilm()
     {
-        return "film/search-film";
+        return "film/search-film-view";
     }
 
     @PostMapping("/addEpisode")
@@ -218,17 +218,38 @@ public class FilmController
     @GetMapping("/searchFilmName")
     public String listFilmByName(@RequestParam("infoToSearch") String infoToSearch, Model model)
     {
-        List<Film> filmsFound = filmService.searchFilmRelative(infoToSearch, "filmName");
+//        List<Film> filmsFound = filmService.searchFilmRelative(infoToSearch, "filmName");
+        Long cateId = null;
+        Long countryId = null;
+        Boolean seriresSingle = null;
+        Integer status = null;
+        List<Film> filmsFound = filmService.searchFilmRelative("filmName", infoToSearch, cateId, countryId, seriresSingle, status);
         model.addAttribute("filmsFound", filmsFound);
-        return "film/search-film";
+        return "film/search-film-view";
     }
 
     @GetMapping("/advanceSearch")
     public String advanceSearch(Model model)
     {
-        model.addAttribute("filmSearch", new Film());
+        model.addAttribute("filmSearch", new FilmAdvanceSearchDto());
         model.addAttribute("categoryList", categoryService.findAll(0, 1000));
         return "film/advance-search";
+    }
+
+    @PostMapping("/doAdvanceSearch")
+    public String doAdvanceSearch(@ModelAttribute("filmSearch") FilmAdvanceSearchDto filmSearch, @RequestParam("columnName") String columnName, @RequestParam("infoToSearch") String infoToSearch, Model model)
+    {
+        Long cateId = filmSearch.getCategoryId();
+        Long countryId = filmSearch.getCountryId();
+
+        Boolean isFree = filmSearch.getFree();
+        Integer status = filmSearch.getStatus();
+
+        List<Film> filmsFound = filmService.searchFilmRelative(columnName, infoToSearch, cateId, countryId, isFree, status);
+//        model.addAttribute("filmSearch", new Film());
+        model.addAttribute("categoryList", categoryService.findAll(0, 1000));
+        model.addAttribute("filmsFound", filmsFound);
+        return "film/search-film-view";
     }
 
     private FilmRequestDto setAttributeDto(Long filmId, Film film)

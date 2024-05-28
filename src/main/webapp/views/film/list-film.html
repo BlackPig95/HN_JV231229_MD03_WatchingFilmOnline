@@ -62,6 +62,7 @@
         <th scope="col">Id</th>
         <th style="width: 15%" scope="col">Tên phim</th>
         <th>Ảnh minh họa</th>
+        <th>Thể loại</th>
         <th scope="col">Mô tả</th>
         <th style="width: 7%" scope="col">Phân loại</th>
         <th style="width: 5%" scope="col">Số tập</th>
@@ -74,6 +75,7 @@
         <td th:text="${film.filmId}"></td>
         <td th:text="${film.filmName}"></td>
         <td><img th:src="${film.filmImage}" alt="Ảnh minh họa" style="width: 100px; height: 100px"></td>
+        <td th:text="${film.filmCategory.categoryName}"></td>
         <td th:text="${film.filmDescription}"></td>
         <td th:text="${film.free?'Miễn phí':'Trả phí'}"></td>
         <td th:text="${film.totalEpisode}"></td>

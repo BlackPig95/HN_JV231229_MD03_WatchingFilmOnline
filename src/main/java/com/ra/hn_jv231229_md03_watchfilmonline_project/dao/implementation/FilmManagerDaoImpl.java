@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -59,7 +60,7 @@ public class FilmManagerDaoImpl implements IFilmManageDao
         Session session = sessionFactory.openSession();
         try
         {
-            return session.createQuery("from Film", Film.class)
+            return session.createQuery("from Film order by filmName desc ", Film.class)
                     .setFirstResult(currentPage)
                     .setMaxResults(size)
                     .getResultList();
@@ -110,19 +111,66 @@ public class FilmManagerDaoImpl implements IFilmManageDao
     //Dùng cho việc tìm kiếm tương đối theo các trường có dạng dữ liệu String
     //Sẽ nối thêm wildcard % vào infoToSearch từ bên service
     @Override
-    public List<Film> searchFilmRelative(String infoToSearch, String columnName)
+    public List<Film> searchFilmRelative(String columnName, String infoToSearch, Long cateId, Long countryId, Boolean isFree, Integer status)
     {
         Session session = sessionFactory.openSession();
-        //Dùng 1 câu query cho nhiều cột khác nhau
-        String prepareQuery = "from Film where columnName like :infoToSearch";
-        //Thay tên cột cần tìm kiếm vào câu query
-        String actualQuery = prepareQuery.replace("columnName", columnName);
+        String prepareQuery = "from Film where filmName like :infoToSearch ";
+        switch (columnName)
+        {
+            case "director":
+                prepareQuery = "from Film where director like :infoToSearch ";
+                break;
+            case "mainActorName":
+                prepareQuery = "from Film where mainActorName like :infoToSearch ";
+                break;
+            case "mainActressName":
+                prepareQuery = "from Film where mainActressName like :infoToSearch ";
+                break;
+            case "language":
+                prepareQuery = "from Film where language like :infoToSearch ";
+                break;
+        }
         try
         {
-//            Query query = session.createQuery(actualQuery + " and status = :status " +
-//                            " and isFree == :isFree and filmCategory = :filmCategory", Film.class);
-            return session.createQuery("from Film where filmName like :info", Film.class)
-                    .setParameter("info", infoToSearch).getResultList();
+            //Dựa trên các trường được truyền vào để tạo câu query tương ứng
+            if (cateId != null)
+            {
+                prepareQuery += " and filmCategory.categoryId = :cateId ";
+            }
+            if (countryId != null)
+            {
+                prepareQuery += " and country.countryId = :countryId ";
+            }
+            if (isFree != null)
+            {
+                prepareQuery += " and isFree = :isFree ";
+            }
+            if (status != null)
+            {
+                prepareQuery += " and status = :status ";
+            }
+            TypedQuery<Film> query = session.createQuery(prepareQuery, Film.class)
+                    .setParameter("infoToSearch", infoToSearch);
+            if (cateId != null)
+            {
+                query.setParameter("cateId", cateId);
+            }
+            if (countryId != null)
+            {
+                query.setParameter("countryId", countryId);
+            }
+            if (isFree != null)
+            {
+                query.setParameter("isFree", isFree);
+            }
+            if (status != null)
+            {
+                query.setParameter("status", status);
+            }
+//            return session.createQuery("from Film where filmName like :info", Film.class)
+//                    .setParameter("info", infoToSearch).getResultList();
+            List<Film> list = query.getResultList();
+            return list;
         } catch (Exception e)
         {
             throw new RuntimeException(e);

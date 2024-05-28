@@ -32,24 +32,23 @@
 
 <body>
 <h1>Tìm kiếm nâng cao</h1>
-<form th:action="@{/film/searchFilmName}" role="search" th:object="${filmSearch}"
+<form th:action="@{/film/doAdvanceSearch}" role="search" th:object="${filmSearch}" method="post"
       style="background-color: #9cc3fd; color: black; font-weight: bold">
-    <select name="categoryId" style="width: fit-content">
-        <option selected>Tìm theo</option>
-        <option name="filmName">Tên phim</option>
-        <option name="director">Tên đạo diễn</option>
-        <option name="mainActorName">Tên diễn viên nam chính</option>
-        <option name="mainActressName">Tên diễn viên nữ chính</option>
-        <option name="language">Ngôn ngữ trong phim</option>
+    <select name="columnName" style="width: fit-content">
+        <option value="filmName" selected>Tìm theo</option>
+        <option value="filmName">Tên phim</option>
+        <option value="director">Tên đạo diễn</option>
+        <option value="mainActorName">Tên diễn viên nam chính</option>
+        <option value="mainActressName">Tên diễn viên nữ chính</option>
+        <option value="language">Ngôn ngữ trong phim</option>
     </select>
     <input name="infoToSearch" type="text" placeholder="Nhập..."><br/>
-    <select th:object="${categoryList}" name="categoryId" style="width: fit-content">
-        <option selected>Thể loại phim</option>
-        <option th:each="c : ${categoryList}" th:value="${c.categoryId}" th:text="${c.categoryName}"
-                th:if="${c.status}"></option>
+    <select th:field="*{categoryId}" style="width: fit-content">
+        <option selected th:value="null">Thể loại phim</option>
+        <option th:each="c : ${categoryList}" th:value="${c.categoryId}" th:text="${c.categoryName}"></option>
     </select><br/>
-    <select name="countryId" style="width: fit-content">
-        <option selected>Quốc gia sản xuất</option>
+    <select th:field="*{countryId}" style="width: fit-content">
+        <option selected th:value="null">Quốc gia sản xuất</option>
         <option value="1">Mỹ</option>
     </select><br/><br/>
     <div class="form-check form-check-inline"

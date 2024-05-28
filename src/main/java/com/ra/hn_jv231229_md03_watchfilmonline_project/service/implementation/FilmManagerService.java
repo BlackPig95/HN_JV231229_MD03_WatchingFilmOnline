@@ -85,14 +85,15 @@ public class FilmManagerService implements IFilmService
     }
 
     @Override
-    public List<Film> searchFilmRelative(String infoToSearch, String columnName)
+    public List<Film> searchFilmRelative(String columnName, String infoToSearch, Long cateId, Long countryId, Boolean isFree, Integer status)
     {
         String info = null;
-        if (infoToSearch != null)
+        if (infoToSearch == null)
         {
-            info = "%" + infoToSearch + "%";
+            infoToSearch = "";
         }
-        return filmManageDao.searchFilmRelative(info, columnName);
+        info = "%" + infoToSearch + "%";
+        return filmManageDao.searchFilmRelative(columnName, info, cateId, countryId, isFree, status);
     }
 
     @Override
