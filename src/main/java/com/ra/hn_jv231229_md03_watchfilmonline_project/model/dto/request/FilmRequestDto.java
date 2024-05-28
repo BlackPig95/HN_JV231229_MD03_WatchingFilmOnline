@@ -21,6 +21,7 @@ public class FilmRequestDto
     private String filmName;
     private String filmDescription;
     private MultipartFile fileImage;
+    private String trailerUrl;
     @NotNull(message = "Vui lòng chọn quốc gia")
     private Long countryId;
     @NotNull(message = "Vui lòng chọn ngày phim ra mắt")
@@ -44,7 +45,7 @@ public class FilmRequestDto
     {
     }
 
-    public FilmRequestDto(Long categoryId, Long countryId, String director, List<FilmEpisode> episodeList, MultipartFile fileImage, String filmDescription, Long filmId, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode)
+    public FilmRequestDto(Long categoryId, Long countryId, String director, List<FilmEpisode> episodeList, MultipartFile fileImage, String filmDescription, Long filmId, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode, String trailerUrl)
     {
         this.categoryId = categoryId;
         this.countryId = countryId;
@@ -62,6 +63,7 @@ public class FilmRequestDto
         this.seriesSingle = seriesSingle;
         this.status = status;
         this.totalEpisode = totalEpisode;
+        this.trailerUrl = trailerUrl;
     }
 
     public String getDirector()
@@ -232,5 +234,15 @@ public class FilmRequestDto
     public void setEpisodeList(List<FilmEpisode> episodeList)
     {
         this.episodeList = episodeList;
+    }
+
+    public String getTrailerUrl()
+    {
+        return trailerUrl;
+    }
+
+    public void setTrailerUrl(String trailerUrl)
+    {
+        this.trailerUrl = trailerUrl;
     }
 }

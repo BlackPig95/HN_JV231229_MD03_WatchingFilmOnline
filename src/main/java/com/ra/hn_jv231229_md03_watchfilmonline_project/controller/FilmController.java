@@ -4,6 +4,9 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.Episode
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmEpisodeDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmRequestDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICategoryService;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICountryService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmEpisodeService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;
 import jdk.jpackage.internal.Log;
@@ -23,12 +26,16 @@ public class FilmController
 {
     private final IFilmService filmService;
     private final IFilmEpisodeService episodeService;
+    private final ICategoryService categoryService;
+    private final ICountryService countryService;
 
     @Autowired
-    public FilmController(IFilmService filmService, IFilmEpisodeService episodeService)
+    public FilmController(IFilmService filmService, IFilmEpisodeService episodeService, ICategoryService categoryService, ICountryService countryService)
     {
         this.filmService = filmService;
         this.episodeService = episodeService;
+        this.categoryService = categoryService;
+        this.countryService = countryService;
     }
 
     @GetMapping("/list")
@@ -47,6 +54,8 @@ public class FilmController
     public String initAdd(Model model)
     {
         model.addAttribute("filmModel", new FilmRequestDto());
+        model.addAttribute("categoryList", categoryService.findAll(0, 1000));
+//        model.addAttribute("countryList", countryService.findAll());
         return "film/add-film-view";
     }
 
@@ -69,6 +78,7 @@ public class FilmController
 //        filmRequestDto.setTotalEpisode(film.getTotalEpisode());
 //        film.setCountry();
 //        film.setFilmCategory();
+        model.addAttribute("categoryList", categoryService.findAll(0, 1000));
         model.addAttribute("filmModel", setAttributeDto(filmId, film));
         return "film/edit-film-view";
     }
@@ -79,6 +89,8 @@ public class FilmController
         if (result.hasErrors())
         {
             model.addAttribute("filmModel", filmRequestDto);
+//        model.addAttribute("countryList", countryService.findAll());
+            model.addAttribute("categoryList", categoryService.findAll(0, 1000));
             return "film/add-film-view";
         }
         EpisodeListDto episodeListDto = new EpisodeListDto();
@@ -116,8 +128,11 @@ public class FilmController
         if (result.hasErrors())
         {
             model.addAttribute("filmModel", filmRequestDto);
+            model.addAttribute("categoryList", categoryService.findAll(0, 1000));
+//        model.addAttribute("countryList", countryService.findAll());
             return "film/edit-film-view";
         }
+        //Tạo ra object giữ list các episodeDto
         EpisodeListDto episodeListDto = new EpisodeListDto();
         //Nếu là phim lẻ thì set số tập về 1. Không thì lấy số tập đã nhập ở trang trước đó
         if (filmRequestDto.getTotalEpisode() > 1)
@@ -128,19 +143,39 @@ public class FilmController
             filmRequestDto.setSeriesSingle(false);
         }
 //        List<FilmEpisode> episodeList = new ArrayList<>();
+        //Tạo ra list để gán vào object episodeListDto
         List<FilmEpisodeDto> episodeDtoList = new ArrayList<>();
         //Wrapper class
 //        filmRequestDto.setEpisodeList(episodeList);
+        //Gán list vào trong object
         episodeListDto.setEpisodeDtoList(episodeDtoList);
         //Vừa save vừa lấy Id của film này trong database
         filmRequestDto.setFilmId(filmService.saveFilm(filmRequestDto));
-        for (int i = 0; i < filmRequestDto.getTotalEpisode(); i++)
-        {
+        if (filmRequestDto.getTotalEpisode() != episodeService.getEpisodeListByFilmId(filmRequestDto.getFilmId()).size())
+        { //Nếu số tập có sự thay đổi => Tạo ra các episode mới
+            for (int i = 0; i < filmRequestDto.getTotalEpisode(); i++)
+            {
 //            episodeList.add(new FilmEpisode());
-            FilmEpisodeDto episodeDto = new FilmEpisodeDto();
-            episodeDto.setFilmId(filmRequestDto.getFilmId());
-            episodeDto.setEpisodeNumber(i + 1);
-            episodeDtoList.add(episodeDto);
+                FilmEpisodeDto episodeDto = new FilmEpisodeDto();
+                episodeDto.setFilmId(filmRequestDto.getFilmId());
+                episodeDto.setEpisodeNumber(i + 1);
+                episodeDtoList.add(episodeDto);
+            }
+            //Trước khi thêm các tập mới thì xóa đi các tập phim cũ
+            episodeService.deletePreviousEpisode(filmRequestDto.getFilmId());
+        } else
+        {
+            //Nếu không thì hiển thị lại thông tin các tập cũ
+            for (FilmEpisode fe : episodeService.getEpisodeListByFilmId(filmRequestDto.getFilmId()))
+            {
+                FilmEpisodeDto episodeDto = new FilmEpisodeDto();
+                episodeDto.setFilmId(filmRequestDto.getFilmId());
+                episodeDto.setEpisodeNumber(fe.getEpisodeNumber());
+                episodeDto.setEpisodeTime(fe.getEpisodeTime());
+                episodeDto.setFilmEpisodeUrl(fe.getFilmEpisodeUrl());
+                episodeDto.setFilmEpisodeId(fe.getFilmEpisodeId());
+                episodeDtoList.add(episodeDto);
+            }
         }
         model.addAttribute("episodeListDto", episodeListDto);
 //        model.addAttribute("newFilm", filmRequestDto);
@@ -188,6 +223,14 @@ public class FilmController
         return "film/search-film";
     }
 
+    @GetMapping("/advanceSearch")
+    public String advanceSearch(Model model)
+    {
+        model.addAttribute("filmSearch", new Film());
+        model.addAttribute("categoryList", categoryService.findAll(0, 1000));
+        return "film/advance-search";
+    }
+
     private FilmRequestDto setAttributeDto(Long filmId, Film film)
     {
         FilmRequestDto filmRequestDto = new FilmRequestDto();
@@ -203,6 +246,10 @@ public class FilmController
         filmRequestDto.setSeriesSingle(film.getSeriesSingle());
         filmRequestDto.setStatus(film.getStatus());
         filmRequestDto.setTotalEpisode(film.getTotalEpisode());
+        filmRequestDto.setTrailerUrl(film.getTrailerUrl());
+        filmRequestDto.setCategoryId(film.getFilmCategory().getCategoryId());
+//        filmRequestDto.setCountryId(film.getCountry().getCountryId());
+        filmRequestDto.setEpisodeList(episodeService.getEpisodeListByFilmId(filmId));
         return filmRequestDto;
     }
 }

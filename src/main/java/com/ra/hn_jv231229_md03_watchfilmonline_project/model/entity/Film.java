@@ -25,7 +25,8 @@ public class Film
     private String filmDescription;
     @Column(name = "film_image")
     private String filmImage;
-
+    @Column(name = "trailer_url")
+    private String trailerUrl;
     @Column(name = "release_date")
     private Date releaseDate;
     @Column(name = "director")
@@ -60,6 +61,26 @@ public class Film
     {
     }
 
+    public Film(Country country, String director, List<FilmEpisode> episodeList, FilmCategory filmCategory, String filmDescription, Long filmId, String filmImage, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode, String trailerUrl)
+    {
+        this.country = country;
+        this.director = director;
+        this.episodeList = episodeList;
+        this.filmCategory = filmCategory;
+        this.filmDescription = filmDescription;
+        this.filmId = filmId;
+        this.filmImage = filmImage;
+        this.filmName = filmName;
+        this.isFree = isFree;
+        this.language = language;
+        this.mainActorName = mainActorName;
+        this.mainActressName = mainActressName;
+        this.releaseDate = releaseDate;
+        this.seriesSingle = seriesSingle;
+        this.status = status;
+        this.totalEpisode = totalEpisode;
+        this.trailerUrl = trailerUrl;
+    }
 
     public Country getCountry()
     {
@@ -219,5 +240,15 @@ public class Film
     public void setEpisodeList(List<FilmEpisode> episodeList)
     {
         this.episodeList = episodeList;
+    }
+
+    public String getTrailerUrl()
+    {
+        return trailerUrl;
+    }
+
+    public void setTrailerUrl(String trailerUrl)
+    {
+        this.trailerUrl = trailerUrl;
     }
 }

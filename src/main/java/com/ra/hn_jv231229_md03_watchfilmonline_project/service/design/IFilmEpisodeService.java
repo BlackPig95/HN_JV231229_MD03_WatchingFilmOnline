@@ -9,7 +9,9 @@ public interface IFilmEpisodeService
 {
     Boolean saveEpisode(FilmEpisodeDto filmEpisodeDto);
 
-    List<FilmEpisode> getEpisodeListByFilmId(int filmId);
+    List<FilmEpisode> getEpisodeListByFilmId(Long filmId);
 
     Boolean deleteEpisode(int id);
+
+    void deletePreviousEpisode(long filmId);
 }

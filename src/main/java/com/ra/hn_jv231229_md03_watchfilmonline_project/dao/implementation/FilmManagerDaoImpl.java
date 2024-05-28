@@ -6,6 +6,7 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -118,10 +119,8 @@ public class FilmManagerDaoImpl implements IFilmManageDao
         String actualQuery = prepareQuery.replace("columnName", columnName);
         try
         {
-//            return session.createQuery(actualQuery + " and status = :status " +
-//                            " and isFree == :isFree and filmCategory = :filmCategory", Film.class)
-//                    .setParameter("infoToSearch", infoToSearch)
-//                    .getResultList();
+//            Query query = session.createQuery(actualQuery + " and status = :status " +
+//                            " and isFree == :isFree and filmCategory = :filmCategory", Film.class);
             return session.createQuery("from Film where filmName like :info", Film.class)
                     .setParameter("info", infoToSearch).getResultList();
         } catch (Exception e)

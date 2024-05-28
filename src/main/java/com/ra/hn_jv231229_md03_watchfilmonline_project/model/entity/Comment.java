@@ -11,10 +11,12 @@ public class Comment
     private Integer stars;
     @Column(name = "content")
     private String content;
+
+    @MapsId("filmId")
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id")
     private Film film;
-
+    @MapsId("userId")
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;

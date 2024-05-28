@@ -38,7 +38,8 @@
         <!--        Thêm th:action để chỉ định đến controller tìm kiếm theo tên-->
         <form th:action="@{/film/searchFilmName}" class="d-flex" role="search">
             <!--            Điều hướng đến trang tìm kiếm có các lựa chọn cụ thể hơn-->
-            <a style="text-decoration: none; width: auto; text-wrap: nowrap; margin-right: 50px"
+            <a th:href="@{/film/advanceSearch}"
+               style="text-decoration: none; width: auto; text-wrap: nowrap; margin-right: 50px"
                class="p-3 mb-2 bg-primary text-white border border-primary text-bg-primary rounded">Tìm kiếm nâng
                 cao</a>
             <input type="text" name="infoToSearch" class="form-control me-2" placeholder="Tìm phim">
