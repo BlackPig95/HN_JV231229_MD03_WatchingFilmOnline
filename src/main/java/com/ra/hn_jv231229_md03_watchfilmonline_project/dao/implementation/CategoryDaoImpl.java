@@ -141,18 +141,18 @@ public class CategoryDaoImpl implements ICategoryDao {
         }
     }
 
-    @Override
-    public List<FilmCategory> findALlNoPhanTrang() {
-        Session session = sessionFactory.openSession();
-        try {
-            List list = session.createQuery("from FilmCategory ").list();
-            return list;
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            session.close();
-        }
-        return null;
-    }
+//    @Override
+//    public List<FilmCategory> findALlNoPhanTrang() {
+//        Session session = sessionFactory.openSession();
+//        try {
+//            List list = session.createQuery("from FilmCategory ").list();
+//            return list;
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }finally {
+//            session.close();
+//        }
+//        return null;
+//    }
 
 }

@@ -40,13 +40,13 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="category.html">
-                        <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Category</span>
+                    <a class="sidebar-link" href="#">
+                        <i class="align-middle" data-feather="square"></i> <span class="align-middle">Comment</span>
                     </a>
                 </li>
                 <li class="sidebar-item active">
                     <a class="sidebar-link" href="#">
-                        <i class="align-middle" data-feather="square"></i> <span class="align-middle">CategoryFilm</span>
+                        <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Product</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -248,57 +248,64 @@
                         <h3 class="card-title">Film Category Table</h3>
                         <nav class="navbar navbar-expand-lg bg-light">
                             <div class="container-fluid">
-                                <a class="navbar-brand" th:href="@{/listCategory?page=1&sort=true}">
+                                <a class="navbar-brand" th:href="@{/comments/sorted}">
                                     <button type="button" class="btn btn-primary">Sort Alphabetically</button>
                                 </a>
-                                <a class="navbar-brand" th:href="@{/listCategory/addFilmCategory}">
-                                    <button type="button" class="btn btn-success">+ Add new Category</button>
+                                <a class="navbar-brand" th:href="@{/comments/add}">
+                                    <button type="button" class="btn btn-success">+ Add new Comment</button>
                                 </a>
-                                <form class="d-flex" role="search" th:action="@{/listCategory}" method="get">
-                                    <input class="form-control me-2 fst-italic" type="search" placeholder="Enter category's name..."
-                                           aria-label="Search" name="query" th:value="${query}">
+                                <form class="d-flex" role="search" th:action="@{/comments/search}" method="get">
+                                    <input class="form-control me-2 fst-italic" type="search" placeholder="Enter comment content..."
+                                           aria-label="Search" name="content">
                                     <button class="btn btn-outline-success" type="submit">Search</button>
                                 </form>
                             </div>
                         </nav>
                     </div>
+
+                    <!-- /.card-header -->
                     <div class="card-body">
-                        <table class="table table-bordered table-striped text-center">
+                        <table id="example1" class="table table-bordered table-striped text-center">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th colspan="2">Action</th>
+                                <th>No.</th>
+                                <th>Stars</th>
+                                <th>Content</th>
+                                <th>Film</th>
+                                <th>User</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="category : ${categories}">
-                                <td th:text="${category.categoryId}"></td>
-                                <td th:text="${category.categoryName}"></td>
-                                <td th:text="${category.description}"></td>
-                                <td th:text="${category.status} ? 'Active' : 'Inactive'"></td>
-                                <td><a th:href="@{'/listCategory/' + ${category.categoryId} + '/edit'}">Edit</a></td>
-                                <td><a th:href="@{'/listCategory/' + ${category.categoryId} + '/delete'}" onclick="return confirm('Muon xoa ko?');">Delete</a></td>
+                            <tr th:each="comment : ${comments}">
+                                <td th:text="${comment.commentId}"></td>
+                                <td th:text="${comment.stars}"></td>
+                                <td th:text="${comment.content}"></td>
+                                <td th:text="${comment.film.filmName}"></td>
+                                <td th:text="${comment.user.userName}"></td>
+                                <td>
+                                    <a th:href="@{'/comments/'+${comment.commentId}+'/delete'}">Delete</a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-
                     <div class="d-flex justify-content-center">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:each="i : ${#numbers.sequence(1, totalPages)}"
-                                    th:class="${currentPage == i ? 'page-item active' : 'page-item'}">
-                                    <a class="page-link" th:href="@{'/listCategory?page=' + ${i} + '&sort=' + ${sort} + '&query=' + ${#strings.defaultString(query, '')}}" th:text="${i}"></a>
+                                    th:class="${page == i ? 'page-item active' : 'page-item'}">
+                                    <a class="page-link" th:href="@{'/comments?page=' + ${i}}" th:text="${i}"></a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
+                    <!-- /.card-body -->
                 </div>
             </div>
         </main>
+
+
 
 
 
@@ -333,9 +340,9 @@
         </footer>
     </div>
 </div>
-<script th:src="/assets/js/upload.js"></script>
-<script th:src="/assets/js/product.js"></script>
-<script th:src="/assets/js/app.js"></script>
+<!--<script th:src="/assets/js/upload.js"></script>-->
+<script th:src="@{/assets/js/product.js}"></script>
+<script th:src="@{/assets/js/app.js}"></script>
 
 </body>
 

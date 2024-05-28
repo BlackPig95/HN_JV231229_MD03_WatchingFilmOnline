@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class UserDaoImpl implements IUserDao
@@ -36,5 +37,32 @@ public class UserDaoImpl implements IUserDao
         Session session = this.sessionFactory.openSession();
         session.save(user);
     }
+
+    @Override
+    public User findById(Long id) {
+        Session session = sessionFactory.openSession();
+        try {
+            return session.find(User.class,id);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        Session session = sessionFactory.openSession();
+        try {
+            List list = session.createQuery("from  User ").list();
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return null;
+    }
+
 
 }
