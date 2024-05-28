@@ -19,7 +19,7 @@ public class CountryDaoImpl implements ICountryDao {
     @Autowired
     private SessionFactory sessionFactory;
     @Override
-    public List<Country> findAll(String searchName,String order ,Integer page) {
+    public List<Country> displayWithPaginationAndOrder(String searchName,String order ,Integer page) {
         Session session = sessionFactory.openSession();
         List<Country> list = null;
         try {
@@ -107,6 +107,20 @@ public class CountryDaoImpl implements ICountryDao {
         Session session = sessionFactory.openSession();
         Long count = session.createQuery("select count(*) from Country", Long.class).uniqueResult();
         return count;
+    }
+
+    @Override
+    public List<Country> findAll() {
+        Session session = sessionFactory.openSession();
+        try {
+            List<Country> list = session.createQuery("from Country", Country.class).list();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return null;
     }
 }
 
