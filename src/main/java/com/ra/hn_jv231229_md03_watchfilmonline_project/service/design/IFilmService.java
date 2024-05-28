@@ -20,6 +20,5 @@ public interface IFilmService
     Boolean deleteFilmById(long id);
 
     Integer countNumberOfFilms();
-
     List<Film> getTopRate(Boolean seriesSingle);
 }

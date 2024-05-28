@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class UserDaoImpl implements IUserDao
@@ -39,6 +40,31 @@ public class UserDaoImpl implements IUserDao
     }
 
     @Override
+
+    public User findById(Long id) {
+        Session session = sessionFactory.openSession();
+        try {
+            return session.find(User.class,id);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        Session session = sessionFactory.openSession();
+        try {
+            List list = session.createQuery("from  User ").list();
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {session.close();
+        }
+        return null;
+    }
+
     public void update(User user) {
             Session session = this.sessionFactory.openSession();
             try {
@@ -52,19 +78,4 @@ public class UserDaoImpl implements IUserDao
                 session.close();
             }
     }
-
-    @Override
-    public User findById(Long id) {
-        Session session = this.sessionFactory.openSession();
-        try {
-            User user = (User) session.get(User.class, id);
-            return user;
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return null;
-    }
-
 }
