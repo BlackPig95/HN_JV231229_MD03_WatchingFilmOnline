@@ -47,9 +47,10 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:1028/watch_film_online?createDatabaseIfNotExist=true");
+
+        dataSource.setUrl("jdbc:mysql://localhost:3306/watch_film_online?createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
-        dataSource.setPassword("123456");
+        dataSource.setPassword("26092002");
         return dataSource;
     }
 
@@ -157,5 +158,13 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600);
+    }
+    @Bean
+    public Storage storage() throws IOException {
+        InputStream inputStream = new ClassPathResource("firebase-config.json").getInputStream();
+        return StorageOptions.newBuilder()
+                .setCredentials(GoogleCredentials.fromStream(inputStream))
+                .build()
+                .getService();
     }
 }

@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -39,6 +40,7 @@ public class UserDaoImpl implements IUserDao
     }
 
     @Override
+
     public User findById(Long id) {
         Session session = sessionFactory.openSession();
         try {
@@ -58,11 +60,22 @@ public class UserDaoImpl implements IUserDao
             return list;
         }catch (Exception e){
             e.printStackTrace();
-        }finally {
-            session.close();
+        }finally {session.close();
         }
         return null;
     }
 
-
+    public void update(User user) {
+            Session session = this.sessionFactory.openSession();
+            try {
+                session.getTransaction();
+                session.update(user);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                session.getTransaction().rollback();
+                e.printStackTrace();
+            } finally {
+                session.close();
+            }
+    }
 }

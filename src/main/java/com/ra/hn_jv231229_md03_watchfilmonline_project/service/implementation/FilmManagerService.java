@@ -8,7 +8,13 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.util.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class FilmManagerService implements IFilmService
@@ -93,4 +99,12 @@ public class FilmManagerService implements IFilmService
     {
         return filmManageDao.countNumberOfFilms();
     }
+
+
+    @Override
+    public List<Film> getTopRate(Boolean seriesSingle) {
+        List<Film> list = filmManageDao.getTopRate(seriesSingle).stream().sorted(Comparator.comparingLong(Film::getViewCount).reversed()).limit(4).collect(Collectors.toList());
+        return list;
+    }
+
 }
