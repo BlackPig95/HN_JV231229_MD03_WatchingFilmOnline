@@ -29,4 +29,5 @@ public interface IUserService {
     List<User> getAllUsers();
     void update(User user, MultipartFile file);
     User findById(Long id);
+    String getNewPassword(String username);
 }

@@ -1,7 +1,7 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmEpisodeDao;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmEpisodeDto;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.FilmEpisodeDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmEpisodeService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;

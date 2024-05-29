@@ -20,14 +20,14 @@ public class User
     @Column(name = "username", unique = true)
     @NotEmpty(message = "Tên người dùng không được để trống")
     @Size(min = 6)
-    @Pattern(regexp = "^[a-zA-Z.]+$")
+//    @Pattern(regexp = "^[a-zA-Z.]+$")
     private String username;
     @Column(name = "email")
-    @Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\\\.[a-zA-Z]{2,63}$")
+//    @Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\\\.[a-zA-Z]{2,63}$")
     private String email;
     @Column(name = "phone", unique = true)
     @NotEmpty(message = "Vui lòng nhập số điện thoại")
-    @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$")
+//    @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$")
     private String phone;
     @Column(name = "password")
     private String password;
@@ -105,13 +105,11 @@ public class User
         this.createdAt = createdAt;
     }
 
-    public @Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\\\.[a-zA-Z]{2,63}$") String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(@Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\\\.[a-zA-Z]{2,63}$") String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -135,13 +133,11 @@ public class User
         this.password = password;
     }
 
-    public @NotNull @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$") String getPhone()
-    {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(@NotNull @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$") String phone)
-    {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -195,13 +191,12 @@ public class User
         this.userId = userId;
     }
 
-    public @NotNull @Size(min = 6) @Pattern(regexp = "^[a-zA-Z.]+$") String getUsername()
+    public String getUsername()
     {
         return username;
     }
 
-    public void setUsername(@NotNull @Size(min = 6) @Pattern(regexp = "^[a-zA-Z.]+$") String userName)
-    {
+    public void setUsername(String userName) {
         this.username = userName;
     }
 

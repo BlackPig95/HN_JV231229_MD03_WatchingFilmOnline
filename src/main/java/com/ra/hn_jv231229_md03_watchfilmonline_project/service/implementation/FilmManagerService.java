@@ -3,7 +3,7 @@ package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.ICategoryDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.ICountryDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmManageDao;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmRequestDto;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.FilmRequestDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICategoryService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICountryService;
