@@ -16,6 +16,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -47,9 +48,9 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3307/watch_film_online?createDatabaseIfNotExist=true");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/watch_film_online?createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
-        dataSource.setPassword("Strongpass@");
+        dataSource.setPassword("Anhton312");
         return dataSource;
     }
 

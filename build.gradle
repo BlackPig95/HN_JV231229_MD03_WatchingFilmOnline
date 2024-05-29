@@ -22,6 +22,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+    implementation 'org.projectlombok:lombok:1.18.28'
     compileOnly('javax.servlet:javax.servlet-api:4.0.1')
     // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
     implementation group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.1.2.RELEASE'
@@ -43,6 +44,9 @@ dependencies {
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
     // https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
     implementation 'com.google.firebase:firebase-admin:8.1.0'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '0.11.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.17.0'
+
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

@@ -1,4 +1,4 @@
-package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request;
+package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto;
 
 import java.util.List;
 

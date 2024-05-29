@@ -1,9 +1,9 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.constant.UserRole;
-import org.hibernate.annotations.Check;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-import javax.annotation.RegEx;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
@@ -21,7 +21,7 @@ public class User
     @NotEmpty(message = "Tên người dùng không được để trống")
     @Size(min = 6)
     @Pattern(regexp = "^[a-zA-Z.]+$")
-    private String userName;
+    private String username;
     @Column(name = "email")
     @Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\\\.[a-zA-Z]{2,63}$")
     private String email;
@@ -36,7 +36,7 @@ public class User
     private UserRole userRole;
     @Column(name = "fullname")
     @NotEmpty(message = "Vui lòng nhập tên của bạn")
-    private String fullName;
+    private String fullname;
     @Column(name = "wallet_balance")
     @Min(0)
     private Long wallet_balance;
@@ -49,33 +49,38 @@ public class User
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "film_favorite", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "film_id"))
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Film> filmSet;
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "history", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "film_episode_id"))
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<FilmEpisode> filmEpisodeSet;
 
     public User()
     {
     }
 
-    public User(String avatar, Date createdAt, String email, Set<FilmEpisode> filmEpisodeSet, Set<Film> filmSet, String fullName, String password, String phone, Boolean status, Date updatedAt, Long userId, String userName, UserRole userRole, Long wallet_balance)
+    public User(String avatar, Date createdAt, String email, Set<FilmEpisode> filmEpisodeSet, Set<Film> filmSet, String fullname, String password, String phone, Boolean status, Date updatedAt, Long userId, String username, UserRole userRole, Long wallet_balance)
     {
         this.avatar = avatar;
         this.createdAt = createdAt;
         this.email = email;
         this.filmEpisodeSet = filmEpisodeSet;
         this.filmSet = filmSet;
-        this.fullName = fullName;
+        this.fullname = fullname;
         this.password = password;
         this.phone = phone;
         this.status = status;
         this.updatedAt = updatedAt;
         this.userId = userId;
-        this.userName = userName;
+        this.username = username;
         this.userRole = userRole;
         this.wallet_balance = wallet_balance;
     }
@@ -110,14 +115,14 @@ public class User
         this.email = email;
     }
 
-    public @NotNull String getFullName()
+    public @NotNull String getFullname()
     {
-        return fullName;
+        return fullname;
     }
 
-    public void setFullName(@NotNull String fullName)
+    public void setFullname(@NotNull String fullName)
     {
-        this.fullName = fullName;
+        this.fullname = fullName;
     }
 
     public String getPassword()
@@ -190,14 +195,14 @@ public class User
         this.userId = userId;
     }
 
-    public @NotNull @Size(min = 6) @Pattern(regexp = "^[a-zA-Z.]+$") String getUserName()
+    public @NotNull @Size(min = 6) @Pattern(regexp = "^[a-zA-Z.]+$") String getUsername()
     {
-        return userName;
+        return username;
     }
 
-    public void setUserName(@NotNull @Size(min = 6) @Pattern(regexp = "^[a-zA-Z.]+$") String userName)
+    public void setUsername(@NotNull @Size(min = 6) @Pattern(regexp = "^[a-zA-Z.]+$") String userName)
     {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public UserRole getUserRole()
@@ -218,5 +223,23 @@ public class User
     public void setWallet_balance(@Min(0) Long wallet_balance)
     {
         this.wallet_balance = wallet_balance;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                ", fullName='" + fullname + '\'' +
+                ", wallet_balance=" + wallet_balance +
+                ", status=" + status +
+                ", avatar='" + avatar + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }
