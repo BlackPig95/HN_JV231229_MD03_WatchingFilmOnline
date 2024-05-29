@@ -60,7 +60,6 @@ public class UserService implements IUserService
     }
 
     @Override
-
     public void updateUserRole(UserUpdateRoleRequest request) {
         userDao.updateRole(request);
     }
@@ -75,7 +74,6 @@ public class UserService implements IUserService
         response.setData(pageUser);
         return response;
     }
-
 
     @Override
     public List<User> getAllUsers() {

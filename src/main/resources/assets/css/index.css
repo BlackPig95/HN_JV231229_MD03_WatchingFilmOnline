@@ -420,6 +420,7 @@ body.active {
     z-index: 4;
 }
 
+.header
 .header.active {
     background: var(--eerie-black);
     padding-block: 20px;
