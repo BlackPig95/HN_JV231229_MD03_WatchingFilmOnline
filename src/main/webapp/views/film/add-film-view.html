@@ -56,7 +56,7 @@
     </div>
     <select name="countryId" class="form-select" style="width: 100%">
         <option selected>Quốc gia sản xuất</option>
-        <option value="1">Mỹ</option>
+        <option th:each="c : ${countryList}" th:value="${c.countryId}" th:text="${c.countryName}"></option>
     </select>
     <small th:errors="*{countryId}" class="text-danger"></small>
     <br/><br/>
