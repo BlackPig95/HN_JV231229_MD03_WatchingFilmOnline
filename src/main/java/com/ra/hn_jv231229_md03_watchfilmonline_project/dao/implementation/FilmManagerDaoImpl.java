@@ -253,4 +253,18 @@ public class FilmManagerDaoImpl implements IFilmManageDao
             session.close();
         }
     }
+
+    @Override
+    public List<Film> findAll() {
+        Session session = sessionFactory.openSession();
+        try {
+            List list = session.createQuery("from Film ", Film.class).list();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return null;
+    }
 }

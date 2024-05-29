@@ -22,6 +22,6 @@ public interface IFilmService
     Integer countNumberOfFilms();
 
     List<Film> getTopRate(Boolean seriesSingle);
-
     List<Film> sortFilmList(int currentPage, int size, String columnName, Boolean isAscending);
+    List<Film> findAll();
 }

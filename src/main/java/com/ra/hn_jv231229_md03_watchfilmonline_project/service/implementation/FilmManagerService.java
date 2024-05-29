@@ -158,4 +158,8 @@ public class FilmManagerService implements IFilmService
                 return filmList;
         }
     }
+    public List<Film> findAll() {
+        return filmManageDao.findAll();
+    }
+
 }

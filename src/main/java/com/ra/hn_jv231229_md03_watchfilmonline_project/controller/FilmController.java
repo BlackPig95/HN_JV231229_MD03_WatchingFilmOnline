@@ -53,6 +53,13 @@ public class FilmController
         model.addAttribute("totalPages", (int) Math.ceil((double) filmService.countNumberOfFilms() / size));
         model.addAttribute("columnName", columnName);
         model.addAttribute("isAscending", isAscending);
+    public String listFilm(Model model, @RequestParam(defaultValue = "1") int currentPage)
+    {
+        int size = 5;
+        //Index trong hql bắt đầu từ 0 => Lấy currentPage -1. Nhân với size để ra index bắt đầu
+        model.addAttribute("listFilm", filmService.getAllFilms((currentPage - 1) * size, size));
+        //Tổng số phim hiện có / size => Số trang cần hiển thị. Ép kiểu về Int vì math.ceil trả về double
+        model.addAttribute("totalPages", (int) Math.ceil((double) filmService.countNumberOfFilms() / size));
         model.addAttribute("currentPage", currentPage);
         return "film/list-film";
     }
@@ -73,6 +80,8 @@ public class FilmController
         model.addAttribute("categoryList", categoryService.findAll(0, 1000));
         model.addAttribute("filmModel", setAttributeDto(filmId, film));
         model.addAttribute("countryList", countryService.findAll());
+        model.addAttribute("categoryList", categoryService.findAll(0, 1000));
+        model.addAttribute("filmModel", setAttributeDto(filmId, film));
         return "film/edit-film-view";
     }
 
