@@ -1,15 +1,29 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design;
 
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.UserDTO;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserFilterRequest;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateRoleRequest;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateStatusRequest;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.util.Page;
+
+import java.util.List;
+import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface IUserDao
 {
+    public List<User> getAll();
     public User authenticate(String username, String password);
 
     public void register(User user);
+
+    Page<UserDTO> getAllByFilter(UserFilterRequest filterRequest, int page, int size);
+
+    void updateStatus(UserUpdateStatusRequest request);
+    void updateRole(UserUpdateRoleRequest request);
     User findById(Long id);
     List<User> getAllUsers();
     void update(User user);
