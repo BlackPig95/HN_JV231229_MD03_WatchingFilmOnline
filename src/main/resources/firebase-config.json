@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "md03-watch-film-online",
+  "private_key_id": "386598340cf7c3fce1bc036c60e4b1c636654274",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDeuQGFMPoQyPrV\nrRyzFnS+pYnWm1gHV5zJPIJ+OyuzAGBZjYiZhRZf6LXn/gb7ZS+H3vQMpHfuqzu/\neQ5baucZg/zhgwrhYSQ9HBfgl/R6bg5deQyl+kwSQyJ6zYKYccFTIO8mS4MTXBA2\nOwKQ16lHuF71OUf/LhOjjzrYTET83RiUSsno1EBTz9ItGBMOjX69++V7GH4Q+leT\nCn2N1CTqbOcZZ1PDPIzhLUmnQ7VnIp3svrE6DtFZ2Qpa5D64ybCMaE0fLdhKUoDQ\n5WYzc4keGHj/sMpZcE4j9sAtb3dtHL5VI8swu0OwGsJe9kTWCy8JnwzF22YGvA6T\n2CUc6qZfAgMBAAECggEADxR3sIz1ttfkzpLqCTYmsWyD6K6b8eNSD6Neh9gkcqTp\nNnxew1uU0umZZ3EhB+R8qLZvz8CoXis54GenO96rxw5+EMbOoHPzVYU8GKOGlMOJ\nisqnZerh5lqlUFXvLGMyCRmHF7taefUXI+owQkkCgoNOlUv2PqY1WN2vHkthCxMi\nP9W+cpV/65btyzRcBco6mAPJoreStw0Pkpm7myVToKPqGFcP0+T2TNsEBw0m4Is6\nioi/IwOUZviUhNe50tOxEz0WScJ8CPGiVTYD0xN/ZOYAZfV+oYV4pTp7vPE/vue5\nCpFJz+pRQ1NWMPd1c2SpHHGs/lo2hF9kJ4m/rNxAAQKBgQDzBoPoz3L/62Ra/uKM\nNcyiyTC4o0xD0PmCzuqwiZSCQBie1ijSviV3RJqPYkW3EsmOF0nSqBG26Gur+Ptk\n+vlFfl//JkY3DTHk25zO4sC/70mpKvLl5A1veujmxhqKF+cga92Vii3dL2e/q/Hl\nN8yZViYrXV2rQXdEqhEuBMqtyQKBgQDqnQIOKDqlRKPY51DNVovp+wp27eHCoxfV\nZqoO45RSUjOptaOSO+QI5DCF17F/YrAdWPWK0Jnn/Pxl6m8U0zAxbJmZ4o1zCn4c\ny0N0VEakss3kEGbbvv7mCwcGNLyAtWTZx3KSgRVVGaonX8SeYG4ryorMLP+aPJ7C\nIPmgQFwm5wKBgQCVTsNsHUfCA5S8cywsiEEZIhJU3b7VS2Z//zAhFeWvwEFgFKMw\nFrJd/EAZJ389YsWCDrzEN43qmhDMr0OEXs0W7PV9hL5OxESLHoHQeW+CfDj9Pe3N\nX7cBbrn4Tm2vuc++E4cngKV85ssO70zGTuncqxj4O3x44terz/COHVOIQQKBgQCZ\nwF1pc7nDNzF9Y1JTzyUQKMHZ4Nlz2bgz1P0bls9MB6ztyiixG+i8Xvbhr9IV3lH2\nWadI2p4SJ3wtOi6j4icSLM6Yx5zVSIoPSrIhGV3Wb4t4q7sMxaV8krt+uK7UVowK\nIKgYFNorFA+rkBplhGKO9kRxvAeiR5nvNPcCq0r4/wKBgCeR2mSKneoX50mAHsat\nY/jBMCYpbBYpj43QBWd6B7dU1MlpK5BGiwCgwe+j9+2R2HQHoTbAED2xFkCoDhJ7\nnGjwgl0z+m2mp9+AdRDdfd8bFoLPxlee393aRL5+ATSxnVtqmThdIxrzqRV/DN2s\ntCVm+KW35/xMQ4ErDaN9TQTS\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-cj5d8@md03-watch-film-online.iam.gserviceaccount.com",
+  "client_id": "116569357593904921762",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-cj5d8%40md03-watch-film-online.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

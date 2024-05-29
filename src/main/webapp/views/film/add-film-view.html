@@ -36,11 +36,16 @@
         <input type="number" class="form-control" th:field="*{totalEpisode}">
         <small th:errors="*{totalEpisode}" class="text-danger"></small>
     </div>
-    <select name="categoryId" class="form-select" style="width: 100%">
+    <select th:object="${categoryList}" name="categoryId" class="form-select" style="width: 100%">
         <option selected>Thể loại phim</option>
-        <option value="1">One</option>
+        <option th:each="c : ${categoryList}" th:value="${c.categoryId}" th:text="${c.categoryName}"
+                th:if="${c.status}"></option>
     </select><br/><br/>
     <small th:errors="*{categoryId}" class="text-danger"></small>
+    <div class="mb-3">
+        <label class="form-label">Đường dẫn trailer</label>
+        <input type="text" class="form-control" th:field="*{trailerUrl}">
+    </div>
     <div class="mb-3">
         <label class="form-label">Đạo diễn phim</label>
         <input type="text" class="form-control" th:field="*{director}">

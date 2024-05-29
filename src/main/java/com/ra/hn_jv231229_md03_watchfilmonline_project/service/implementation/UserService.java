@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
+import java.util.List;
+
 @Service
 public class UserService implements IUserService {
     @Autowired
@@ -33,6 +35,10 @@ public class UserService implements IUserService {
     }
 
     @Override
+
+    public List<User> getAllUsers() {
+       return userDao.getAllUsers();
+@Override
     public void update(User user, MultipartFile file) {
         user.setUpdatedAt(new Date());
         if (file.getSize() > 0 && file != null) {
@@ -46,5 +52,6 @@ public class UserService implements IUserService {
     @Override
     public User findById(Long id) {
         return userDao.findById(id);
+
     }
 }

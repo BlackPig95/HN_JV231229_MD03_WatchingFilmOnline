@@ -37,4 +37,11 @@ public class    HomePageController
     {
         return "home";
     }
+    @GetMapping("/category_film")
+    public String categoryFilm(){
+        return "category/category_film";
+    }
+
+
+
 }

@@ -24,6 +24,8 @@ public class Film {
     private String filmDescription;
     @Column(name = "film_image")
     private String filmImage;
+    @Column(name = "trailer_url")
+    private String trailerUrl;
     @Column(name = "view_count")
     private Long viewCount;
     @Column(name = "release_date")
@@ -58,7 +60,6 @@ public class Film {
 
     public Film() {
     }
-
     public Film(Long filmId, String filmName, String filmDescription, String filmImage, Long viewCount, Date releaseDate, String director, String mainActorName, String mainActressName, String language, Boolean seriesSingle, Integer totalEpisode, Boolean isFree, Integer status, FilmCategory filmCategory, Country country, List<FilmEpisode> episodeList) {
         this.filmId = filmId;
         this.filmName = filmName;
@@ -213,5 +214,15 @@ public class Film {
 
     public void setEpisodeList(List<FilmEpisode> episodeList) {
         this.episodeList = episodeList;
+    }
+
+    public String getTrailerUrl()
+    {
+        return trailerUrl;
+    }
+
+    public void setTrailerUrl(String trailerUrl)
+    {
+        this.trailerUrl = trailerUrl;
     }
 }

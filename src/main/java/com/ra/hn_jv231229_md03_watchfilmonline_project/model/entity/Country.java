@@ -19,36 +19,44 @@ public class Country
     @OneToMany(mappedBy = "country")
     private List<Film> filmList;
 
-    public Country() {
+    public Country()
+    {
     }
 
-    public Country(Long countryId, String countryName, List<Film> filmList) {
+    public Country(Long countryId, String countryName, List<Film> filmList)
+    {
         this.countryId = countryId;
         this.countryName = countryName;
         this.filmList = filmList;
     }
 
-    public Long getCountryId() {
+    public Long getCountryId()
+    {
         return countryId;
     }
 
-    public void setCountryId(Long countryId) {
+    public void setCountryId(Long countryId)
+    {
         this.countryId = countryId;
     }
 
-    public @NotNull(message = "Tên quốc gia không được để trống") String getCountryName() {
+    public @NotNull(message = "Tên quốc gia không được để trống") String getCountryName()
+    {
         return countryName;
     }
 
-    public void setCountryName(@NotNull(message = "Tên quốc gia không được để trống") String countryName) {
+    public void setCountryName(@NotNull(message = "Tên quốc gia không được để trống") String countryName)
+    {
         this.countryName = countryName;
     }
 
-    public List<Film> getFilmList() {
+    public List<Film> getFilmList()
+    {
         return filmList;
     }
 
-    public void setFilmList(List<Film> filmList) {
+    public void setFilmList(List<Film> filmList)
+    {
         this.filmList = filmList;
     }
 }
