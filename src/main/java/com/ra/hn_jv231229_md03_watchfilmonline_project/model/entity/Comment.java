@@ -7,6 +7,7 @@ public class Comment
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long commentId;
     @Column(name = "stars")
     private Integer stars;
@@ -19,10 +20,12 @@ public class Comment
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    public Comment() {
+    public Comment()
+    {
     }
 
-    public Comment(Long commentId, Integer stars, String content, Film film, User user) {
+    public Comment(Long commentId, Integer stars, String content, Film film, User user)
+    {
         this.commentId = commentId;
         this.stars = stars;
         this.content = content;
@@ -30,43 +33,53 @@ public class Comment
         this.user = user;
     }
 
-    public Long getCommentId() {
+    public Long getCommentId()
+    {
         return commentId;
     }
 
-    public void setCommentId(Long commentId) {
+    public void setCommentId(Long commentId)
+    {
         this.commentId = commentId;
     }
 
-    public Integer getStars() {
+    public Integer getStars()
+    {
         return stars;
     }
 
-    public void setStars(Integer stars) {
+    public void setStars(Integer stars)
+    {
         this.stars = stars;
     }
 
-    public String getContent() {
+    public String getContent()
+    {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(String content)
+    {
         this.content = content;
     }
 
-    public Film getFilm() {
+    public Film getFilm()
+    {
         return film;
     }
 
-    public void setFilm(Film film) {
+    public void setFilm(Film film)
+    {
         this.film = film;
     }
 
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(User user)
+    {
         this.user = user;
     }
 }
