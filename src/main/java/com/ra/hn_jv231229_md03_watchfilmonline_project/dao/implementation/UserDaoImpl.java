@@ -2,7 +2,7 @@ package com.ra.hn_jv231229_md03_watchfilmonline_project.dao.implementation;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IUserDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.constant.UserRole;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.UserDTO;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDTO;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.mapper.UserMapper;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserFilterRequest;
@@ -30,8 +30,91 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Repository
-public class UserDaoImpl implements IUserDao {
-	private final SessionFactory sessionFactory;
+public class UserDaoImpl implements IUserDao
+{
+    private final SessionFactory sessionFactory;
+
+   
+
+    @Override
+
+    @Transactional
+    public Page<UserDTO> getAllByFilter(UserFilterRequest filterRequest, int page, int size)
+    {
+        try (Session session = sessionFactory.openSession())
+        {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+            Root<User> root = criteriaQuery.from(User.class);
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (filterRequest.getUsername() != null && !filterRequest.getUsername().isEmpty())
+            {
+                predicates.add(criteriaBuilder.like(root.get("username"), "%" + filterRequest.getUsername() + "%"));
+            }
+            if (filterRequest.getStatus() != null)
+            {
+                predicates.add(criteriaBuilder.equal(root.get("status"), filterRequest.getStatus()));
+            }
+            if (filterRequest.getEmail() != null && !filterRequest.getEmail().isEmpty())
+            {
+                predicates.add(criteriaBuilder.like(root.get("email"), "%" + filterRequest.getEmail() + "%"));
+            }
+            if (filterRequest.getPhone() != null && !filterRequest.getPhone().isEmpty())
+            {
+                predicates.add(criteriaBuilder.like(root.get("phone"), "%" + filterRequest.getPhone() + "%"));
+            }
+
+            criteriaQuery.where(predicates.toArray(new Predicate[0]));
+
+            Query<User> query = session.createQuery(criteriaQuery);
+            query.setFirstResult(page * size);
+            query.setMaxResults(size);
+
+            List<User> users = query.getResultList();
+            List<UserDTO> userDTOs = users.stream()
+                    .map(UserMapper::toUserDTO)
+                    .collect(Collectors.toList());
+            System.out.println(userDTOs);
+            long totalCount = getTotalCount(session, criteriaQuery);
+            return new Page<>(userDTOs, page, size, totalCount);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateStatus(UserUpdateStatusRequest request)
+    {
+        String hql = "UPDATE User u SET u.status = :newStatus WHERE u.id = :userId";
+        Session session = this.sessionFactory.openSession();
+        try
+        {
+            session.beginTransaction();
+            int updatedEntities = session.createQuery(hql)
+                    .setParameter("newStatus", request.getNewStatus())
+                    .setParameter("userId", request.getUserId())
+                    .executeUpdate();
+            if (updatedEntities == 0)
+            {
+                System.out.println(("ERROR"));
+            }
+            session.getTransaction().commit();
+
+        } catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        } finally
+        {
+            session.close();
+        }
+    }
+
+
 	
 	@Autowired
 	public UserDaoImpl(SessionFactory sessionFactory) {
@@ -62,72 +145,6 @@ public class UserDaoImpl implements IUserDao {
 	public void register(User user) {
 		Session session = this.sessionFactory.openSession();
 		session.save(user);
-	}
-	
-	@Override
-	
-	@Transactional
-	public Page<UserDTO> getAllByFilter(UserFilterRequest filterRequest, int page, int size) {
-		try (Session session = sessionFactory.openSession()) {
-			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-			CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-			Root<User> root = criteriaQuery.from(User.class);
-			
-			List<Predicate> predicates = new ArrayList<>();
-			
-			if (filterRequest.getUsername() != null && !filterRequest.getUsername().isEmpty()) {
-				predicates.add(criteriaBuilder.like(root.get("username"), "%" + filterRequest.getUsername() + "%"));
-			}
-			if (filterRequest.getStatus() != null) {
-				predicates.add(criteriaBuilder.equal(root.get("status"), filterRequest.getStatus()));
-			}
-			if (filterRequest.getEmail() != null && !filterRequest.getEmail().isEmpty()) {
-				predicates.add(criteriaBuilder.like(root.get("email"), "%" + filterRequest.getEmail() + "%"));
-			}
-			if (filterRequest.getPhone() != null && !filterRequest.getPhone().isEmpty()) {
-				predicates.add(criteriaBuilder.like(root.get("phone"), "%" + filterRequest.getPhone() + "%"));
-			}
-			
-			criteriaQuery.where(predicates.toArray(new Predicate[0]));
-			
-			Query<User> query = session.createQuery(criteriaQuery);
-			query.setFirstResult(page * size);
-			query.setMaxResults(size);
-			
-			List<User> users = query.getResultList();
-			List<UserDTO> userDTOs = users.stream()
-					  .map(UserMapper::toUserDTO)
-					  .collect(Collectors.toList());
-			System.out.println(userDTOs);
-			long totalCount = getTotalCount(session, criteriaQuery);
-			return new Page<>(userDTOs, page, size, totalCount);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	@Override
-	@Transactional
-	public void updateStatus(UserUpdateStatusRequest request) {
-		String hql = "UPDATE User u SET u.status = :newStatus WHERE u.id = :userId";
-		Session session = this.sessionFactory.openSession();
-		try {
-			session.beginTransaction();
-			int updatedEntities = session.createQuery(hql)
-					  .setParameter("newStatus", request.getNewStatus())
-					  .setParameter("userId", request.getUserId())
-					  .executeUpdate();
-			if (updatedEntities == 0) {
-				System.out.println(("ERROR"));
-			}
-			session.getTransaction().commit();
-			
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-		} finally {
-			session.close();
-		}
 	}
 	
 	@Override
@@ -217,3 +234,4 @@ public class UserDaoImpl implements IUserDao {
 		return null;
 	}
 }
+

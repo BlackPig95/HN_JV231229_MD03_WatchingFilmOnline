@@ -27,7 +27,7 @@
 <form th:action="@{/film/editFilm}" th:object="${filmModel}" method="post" enctype="multipart/form-data">
     <!--    Gửi lại Id của film đang sửa-->
     <input type="hidden" name="filmId" th:value="${filmModel.filmId}">
-  
+
     <div class="mb-3">
         <label class="form-label">Tên phim</label>
         <input type="text" class="form-control" th:field="*{filmName}">
@@ -57,8 +57,9 @@
         <textarea class="form-control" th:field="*{filmDescription}"></textarea>
     </div>
     <select name="countryId" class="form-select" style="width: 100%">
-        <option selected>Quốc gia sản xuất</option>
-        <option value="1">Mỹ</option>
+        <option>Quốc gia sản xuất</option>
+        <option th:each="coun : ${countryList}" th:value="${coun.countryId}" th:text="${coun.countryName}"
+                th:selected="${coun.countryId == filmModel.countryId}"></option>
     </select>
     <small th:errors="*{countryId}" class="text-danger"></small>
     <br/><br/>

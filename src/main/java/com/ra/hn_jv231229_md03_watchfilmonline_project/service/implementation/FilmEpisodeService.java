@@ -1,12 +1,11 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmEpisodeDao;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.FilmEpisodeDto;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmEpisodeDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmEpisodeService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.util.FileUploadService;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,5 +67,11 @@ public class FilmEpisodeService implements IFilmEpisodeService
     public void deletePreviousEpisode(long filmId)
     {
         filmEpisodeDao.deletePreviousEpisode(filmId);
+    }
+
+    @Override
+    public FilmEpisode getEpisodeById(Long episodeId)
+    {
+        return filmEpisodeDao.getEpisodeById(episodeId);
     }
 }
