@@ -26,14 +26,16 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class UserService implements IUserService {
+public class UserService implements IUserService
+{
     @Autowired
     private FileUploadService fileUploadService;
     @Autowired
     private IUserDao userDao;
 
     @Autowired
-    public UserService(IUserDao userDao) {
+    public UserService(IUserDao userDao)
+    {
         this.userDao = userDao;
     }
 
@@ -41,14 +43,14 @@ public class UserService implements IUserService {
     public List<User> getAll() {
         return userDao.getAll();
     }
-
-    @Override
-    public User authenticate(String username, String password) {
+    public User authenticate(String username, String password)
+    {
         return userDao.authenticate(username, password);
     }
 
     @Override
-    public void register(User user) {
+    public void register(User user)
+    {
         userDao.register(user);
     }
 
@@ -58,6 +60,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+
     public void updateUserRole(UserUpdateRoleRequest request) {
         userDao.updateRole(request);
     }
@@ -78,19 +81,22 @@ public class UserService implements IUserService {
     public List<User> getAllUsers() {
        return userDao.getAllUsers();
     }
-    @Override
+     @Override
     public void update(User user, MultipartFile file) {
         user.setUpdatedAt(new Date());
-        if (file.getSize() > 0 && file != null) {
+        if (file.getSize() > 0 && file != null)
+        {
             user.setAvatar(fileUploadService.uploadFileToServer(file));
-        } else {
+        } else
+        {
             user.setAvatar(findById(user.getUserId()).getAvatar());
         }
         userDao.update(user);
     }
 
     @Override
-    public User findById(Long id) {
+    public User findById(Long id)
+    {
         return userDao.findById(id);
     }
 }
