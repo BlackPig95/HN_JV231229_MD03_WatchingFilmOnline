@@ -22,11 +22,12 @@
 </head>
 <body>
 <br/>
-<h1>Thêm phim bộ</h1>
+<h1>Sửa thông tin phim</h1>
 <br/>
 <form th:action="@{/film/editFilm}" th:object="${filmModel}" method="post" enctype="multipart/form-data">
-    <!--    Set form này là loại form add phim nhiều tập-->
+    <!--    Gửi lại Id của film đang sửa-->
     <input type="hidden" name="filmId" th:value="${filmModel.filmId}">
+
     <div class="mb-3">
         <label class="form-label">Tên phim</label>
         <input type="text" class="form-control" th:field="*{filmName}">
@@ -37,11 +38,16 @@
         <input type="number" class="form-control" th:field="*{totalEpisode}">
         <small th:errors="*{totalEpisode}" class="text-danger"></small>
     </div>
-    <select name="categoryId" class="form-select" style="width: 100%">
+    <select th:object="${categoryList}" name="categoryId" class="form-select" style="width: 100%">
         <option selected>Thể loại phim</option>
-        <option value="1">One</option>
+        <option th:each="c : ${categoryList}" th:value="${c.categoryId}" th:text="${c.categoryName}"
+                th:if="${c.status}" th:selected="${c.categoryId == filmModel.categoryId}"></option>
     </select><br/><br/>
     <small th:errors="*{categoryId}" class="text-danger"></small>
+    <div class="mb-3">
+        <label class="form-label">Đường dẫn trailer</label>
+        <input type="text" class="form-control" th:field="*{trailerUrl}">
+    </div>
     <div class="mb-3">
         <label class="form-label">Đạo diễn phim</label>
         <input type="text" class="form-control" th:field="*{director}">
@@ -51,8 +57,9 @@
         <textarea class="form-control" th:field="*{filmDescription}"></textarea>
     </div>
     <select name="countryId" class="form-select" style="width: 100%">
-        <option selected>Quốc gia sản xuất</option>
-        <option value="1">Mỹ</option>
+        <option>Quốc gia sản xuất</option>
+        <option th:each="coun : ${countryList}" th:value="${coun.countryId}" th:text="${coun.countryName}"
+                th:selected="${coun.countryId == filmModel.countryId}"></option>
     </select>
     <small th:errors="*{countryId}" class="text-danger"></small>
     <br/><br/>
@@ -114,7 +121,7 @@
         </div>
     </div>
     <small th:errors="*{status}" class="text-danger"></small>
-    <button type="submit" class="btn btn-primary">Thêm phim</button>
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
 </form>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

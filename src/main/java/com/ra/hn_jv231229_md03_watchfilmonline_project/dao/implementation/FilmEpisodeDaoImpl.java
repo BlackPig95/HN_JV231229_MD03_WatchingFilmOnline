@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -27,8 +28,6 @@ public class FilmEpisodeDaoImpl implements IFilmEpisodeDao
         try
         {
             session.beginTransaction();
-            //Xóa đi các phim cũ trước khi update
-            deletePreviousEpisode(filmEpisode.getFilm().getFilmId());
             if (filmEpisode.getFilmEpisodeId() == null)
             {
                 session.save(filmEpisode);
@@ -50,12 +49,29 @@ public class FilmEpisodeDaoImpl implements IFilmEpisodeDao
     }
 
     @Override
+    public FilmEpisode getEpisodeById(Long episodeId)
+    {
+        Session session = sessionFactory.openSession();
+        try
+        {
+            return session.get(FilmEpisode.class, episodeId);
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        } finally
+        {
+            session.close();
+        }
+    }
+
+    @Override
+    @Transactional
     public List<FilmEpisode> getEpisodeListByFilmId(long filmId)
     {
         Session session = sessionFactory.openSession();
         try
         {
-            return session.createQuery("from FilmEpisode where film.filmId = :filmId", FilmEpisode.class)
+            return session.createQuery("from FilmEpisode fe join fetch fe.film where fe.film.filmId = :filmId", FilmEpisode.class)
                     .setParameter("filmId", filmId)
                     .getResultList();
         } catch (Exception e)

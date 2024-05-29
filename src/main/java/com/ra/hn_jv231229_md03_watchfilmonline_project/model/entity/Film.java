@@ -25,7 +25,10 @@ public class Film
     private String filmDescription;
     @Column(name = "film_image")
     private String filmImage;
-
+    @Column(name = "trailer_url")
+    private String trailerUrl;
+    @Column(name = "view_count")
+    private Long viewCount = 0l;
     @Column(name = "release_date")
     private Date releaseDate;
     @Column(name = "director")
@@ -53,13 +56,43 @@ public class Film
     @JoinColumn(name = "country_id", referencedColumnName = "country_id")
     private Country country;
 
-    @OneToMany(mappedBy = "film", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
     private List<FilmEpisode> episodeList;
 
     public Film()
     {
     }
 
+    public Film(Long filmId, String filmName, String filmDescription, String filmImage, Long viewCount, Date releaseDate, String director, String mainActorName, String mainActressName, String language, Boolean seriesSingle, Integer totalEpisode, Boolean isFree, Integer status, FilmCategory filmCategory, Country country, List<FilmEpisode> episodeList)
+    {
+        this.filmId = filmId;
+        this.filmName = filmName;
+        this.filmDescription = filmDescription;
+        this.filmImage = filmImage;
+        this.viewCount = viewCount;
+        this.releaseDate = releaseDate;
+        this.director = director;
+        this.mainActorName = mainActorName;
+        this.mainActressName = mainActressName;
+        this.language = language;
+        this.seriesSingle = seriesSingle;
+        this.totalEpisode = totalEpisode;
+        this.isFree = isFree;
+        this.status = status;
+        this.filmCategory = filmCategory;
+        this.country = country;
+        this.episodeList = episodeList;
+    }
+
+    public Long getViewCount()
+    {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount)
+    {
+        this.viewCount = viewCount;
+    }
 
     public Country getCountry()
     {
@@ -219,5 +252,15 @@ public class Film
     public void setEpisodeList(List<FilmEpisode> episodeList)
     {
         this.episodeList = episodeList;
+    }
+
+    public String getTrailerUrl()
+    {
+        return trailerUrl;
+    }
+
+    public void setTrailerUrl(String trailerUrl)
+    {
+        this.trailerUrl = trailerUrl;
     }
 }

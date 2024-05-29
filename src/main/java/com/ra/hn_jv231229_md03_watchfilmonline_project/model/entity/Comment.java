@@ -5,8 +5,10 @@ import javax.persistence.*;
 @Entity
 public class Comment
 {
-    @EmbeddedId
-    private CommentCompositeKey commentCompositeKey;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
+    private Long commentId;
     @Column(name = "stars")
     private Integer stars;
     @Column(name = "content")
@@ -14,7 +16,6 @@ public class Comment
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id")
     private Film film;
-
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
@@ -23,23 +24,33 @@ public class Comment
     {
     }
 
-    public Comment(CommentCompositeKey commentCompositeKey, String content, Film film, Integer stars, User user)
+    public Comment(Long commentId, Integer stars, String content, Film film, User user)
     {
-        this.commentCompositeKey = commentCompositeKey;
+        this.commentId = commentId;
+        this.stars = stars;
         this.content = content;
         this.film = film;
-        this.stars = stars;
         this.user = user;
     }
 
-    public CommentCompositeKey getCommentCompositeKey()
+    public Long getCommentId()
     {
-        return commentCompositeKey;
+        return commentId;
     }
 
-    public void setCommentCompositeKey(CommentCompositeKey commentCompositeKey)
+    public void setCommentId(Long commentId)
     {
-        this.commentCompositeKey = commentCompositeKey;
+        this.commentId = commentId;
+    }
+
+    public Integer getStars()
+    {
+        return stars;
+    }
+
+    public void setStars(Integer stars)
+    {
+        this.stars = stars;
     }
 
     public String getContent()
@@ -60,16 +71,6 @@ public class Comment
     public void setFilm(Film film)
     {
         this.film = film;
-    }
-
-    public Integer getStars()
-    {
-        return stars;
-    }
-
-    public void setStars(Integer stars)
-    {
-        this.stars = stars;
     }
 
     public User getUser()

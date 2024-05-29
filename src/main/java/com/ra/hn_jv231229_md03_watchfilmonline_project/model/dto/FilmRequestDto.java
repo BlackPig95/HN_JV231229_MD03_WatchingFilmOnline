@@ -1,13 +1,10 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto;
 
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmCategory;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -21,6 +18,7 @@ public class FilmRequestDto
     private String filmName;
     private String filmDescription;
     private MultipartFile fileImage;
+    private String trailerUrl;
     @NotNull(message = "Vui lòng chọn quốc gia")
     private Long countryId;
     @NotNull(message = "Vui lòng chọn ngày phim ra mắt")
@@ -44,7 +42,7 @@ public class FilmRequestDto
     {
     }
 
-    public FilmRequestDto(Long categoryId, Long countryId, String director, List<FilmEpisode> episodeList, MultipartFile fileImage, String filmDescription, Long filmId, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode)
+    public FilmRequestDto(Long categoryId, Long countryId, String director, List<FilmEpisode> episodeList, MultipartFile fileImage, String filmDescription, Long filmId, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode, String trailerUrl)
     {
         this.categoryId = categoryId;
         this.countryId = countryId;
@@ -62,6 +60,7 @@ public class FilmRequestDto
         this.seriesSingle = seriesSingle;
         this.status = status;
         this.totalEpisode = totalEpisode;
+        this.trailerUrl = trailerUrl;
     }
 
     public String getDirector()
@@ -232,5 +231,15 @@ public class FilmRequestDto
     public void setEpisodeList(List<FilmEpisode> episodeList)
     {
         this.episodeList = episodeList;
+    }
+
+    public String getTrailerUrl()
+    {
+        return trailerUrl;
+    }
+
+    public void setTrailerUrl(String trailerUrl)
+    {
+        this.trailerUrl = trailerUrl;
     }
 }
