@@ -16,4 +16,5 @@ public interface ICommentDao {
     Long countAllComment();
     // Sắp xếp bình luận
     List<Comment> findAllSorted();
+    Double averageRating();
 }

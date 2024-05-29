@@ -263,4 +263,17 @@ public class FilmManagerDaoImpl implements IFilmManageDao
         }
         return null;
     }
+
+    @Override
+    public Long countView() {
+        Session session = sessionFactory.openSession();
+        try {
+            Long count = (Long) session.createQuery("select count(viewCount) from Film").uniqueResult();
+            return count;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
 }

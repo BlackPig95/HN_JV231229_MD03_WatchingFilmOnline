@@ -1,6 +1,7 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IBannerDao;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.BannerDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Banner;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IBannerService;
@@ -20,6 +21,7 @@ public class BannerService implements IBannerService {
     private IFilmService filmService;
     @Autowired
     private FileUploadService fileUploadService;
+
     @Override
     public List<Banner> findAll() {
         return bannerDao.findAll();
@@ -50,12 +52,13 @@ public class BannerService implements IBannerService {
     }
 
     @Override
-    public void update(Long bannerId, Long filmId, MultipartFile file) {
-    Banner banner = findById(bannerId);
-    banner.setFilm(filmService.getFilmById(filmId));
-    if (file!=null && file.getSize()>0) {
-        banner.setBannerImage(fileUploadService.uploadFileToServer(file));
-    }
-    bannerDao.update(banner);
+    public void update(BannerDto bannerDto) {
+        MultipartFile file = bannerDto.getBannerImageFile();
+        Banner banner = findById(bannerDto.getBannerId());
+        banner.setFilm(bannerDto.getFilm());
+        if (file != null && file.getSize() > 0) {
+            banner.setBannerImage(fileUploadService.uploadFileToServer(file));
+        }
+        bannerDao.update(banner);
     }
 }

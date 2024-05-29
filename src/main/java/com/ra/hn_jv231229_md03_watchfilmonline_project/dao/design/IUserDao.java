@@ -13,4 +13,5 @@ public interface IUserDao
     User findById(Long id);
     List<User> getAllUsers();
     void update(User user);
+    Long countUser();
 }

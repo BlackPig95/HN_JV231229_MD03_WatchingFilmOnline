@@ -126,4 +126,9 @@ public class FilmManagerService implements IFilmService
         return filmManageDao.findAll();
     }
 
+    @Override
+    public Long countView() {
+        return filmManageDao.countView();
+    }
+
 }

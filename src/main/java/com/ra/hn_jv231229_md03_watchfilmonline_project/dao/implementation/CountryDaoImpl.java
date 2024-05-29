@@ -19,7 +19,7 @@ public class CountryDaoImpl implements ICountryDao {
     @Autowired
     private SessionFactory sessionFactory;
     @Override
-    public List<Country> displayWithPaginationAndOrder(String searchName,String order ,Integer page) {
+    public List<Country> displayWithPaginationAndOrder(String searchName ,Integer page) {
         Session session = sessionFactory.openSession();
         List<Country> list = null;
         try {
@@ -33,15 +33,7 @@ public class CountryDaoImpl implements ICountryDao {
                         .setMaxResults(5)
                         .list();
             }
-            if(order != null && !order.isEmpty()) {
-                if(order.equals("id")){
-                    list =  list.stream().sorted(Comparator.comparingLong(Country::getCountryId)).collect(Collectors.toList());
-                } else if (order.equals("name")){
-                    list = list.stream().sorted(Comparator.comparing(Country::getCountryName)).collect(Collectors.toList());
-                } else if (order.equals("film")){
-                    list = list.stream().sorted((o1, o2) -> o1.getFilmList().size()-o2.getFilmList().size()).collect(Collectors.toList());
-                }
-            }
+
             list.forEach(country -> country.setFilmList(session.createQuery("from Film where country.countryId=:country_id", Film.class)
                     .setParameter("country_id",country.getCountryId())
                     .list()));

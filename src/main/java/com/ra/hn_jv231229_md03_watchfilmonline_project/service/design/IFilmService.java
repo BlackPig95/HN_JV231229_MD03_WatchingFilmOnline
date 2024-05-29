@@ -24,4 +24,6 @@ public interface IFilmService
     List<Film> getTopRate(Boolean seriesSingle);
 
     List<Film> findAll();
+    Long countView();
+
 }
