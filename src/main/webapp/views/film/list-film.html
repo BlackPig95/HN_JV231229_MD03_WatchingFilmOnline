@@ -36,25 +36,25 @@
     <div class="container-fluid">
         <h1>Quản lý phim</h1>
         <!--        Thêm th:action để chỉ định đến controller tìm kiếm theo tên-->
-        <form class="d-flex" role="search">
+        <form th:action="@{/film/searchFilmName}" class="d-flex" role="search">
             <!--            Điều hướng đến trang tìm kiếm có các lựa chọn cụ thể hơn-->
-            <a style="text-decoration: none; width: auto; text-wrap: nowrap; margin-right: 50px"
+            <a th:href="@{/film/advanceSearch}"
+               style="text-decoration: none; width: auto; text-wrap: nowrap; margin-right: 50px"
                class="p-3 mb-2 bg-primary text-white border border-primary text-bg-primary rounded">Tìm kiếm nâng
                 cao</a>
-            <input class="form-control me-2" type="search" placeholder="Tìm phim">
+            <input type="text" name="infoToSearch" class="form-control me-2" placeholder="Tìm phim">
             <button class="btn btn-outline-success" type="submit">Tìm</button>
         </form>
     </div>
 </nav>
 <br/><br/>
-<a th:href="@{/film/initAddSingle}" style="text-decoration: none"
+<!--<a th:href="@{/film/initAddSingle}" style="text-decoration: none"-->
+<!--   class="p-3 mb-2 bg-primary text-white border border-primary text-bg-primary rounded">Thêm-->
+<!--    phim-->
+<!--    lẻ</a>-->
+<a th:href="@{/film/initAdd}" style="text-decoration: none"
    class="p-3 mb-2 bg-primary text-white border border-primary text-bg-primary rounded">Thêm
-    phim
-    lẻ</a>
-<a th:href="@{/film/initAddSeries}" style="text-decoration: none"
-   class="p-3 mb-2 bg-primary text-white border border-primary text-bg-primary rounded">Thêm
-    phim
-    bộ</a><br/><br/>
+    phim mới</a><br/><br/>
 <h3>Danh sách phim hiện có</h3>
 <table style="text-align: center" class="table table-bordered table-striped table-light table-hover table-responsive">
     <thead>
@@ -62,6 +62,7 @@
         <th scope="col">Id</th>
         <th style="width: 15%" scope="col">Tên phim</th>
         <th>Ảnh minh họa</th>
+        <th>Thể loại</th>
         <th scope="col">Mô tả</th>
         <th style="width: 7%" scope="col">Phân loại</th>
         <th style="width: 5%" scope="col">Số tập</th>
@@ -74,6 +75,7 @@
         <td th:text="${film.filmId}"></td>
         <td th:text="${film.filmName}"></td>
         <td><img th:src="${film.filmImage}" alt="Ảnh minh họa" style="width: 100px; height: 100px"></td>
+        <td th:text="${film.filmCategory.categoryName}"></td>
         <td th:text="${film.filmDescription}"></td>
         <td th:text="${film.free?'Miễn phí':'Trả phí'}"></td>
         <td th:text="${film.totalEpisode}"></td>
@@ -82,8 +84,8 @@
             <td th:case="2">Phim sắp chiếu</td>
             <td th:case="3">Đã ngừng chiếu</td>
         </th:block>
-        <td><a th:href="@{/film/list}">Xem chi tiết</a></td>
-        <td><a th:href="@{/film/list}">Xóa phim</a></td>
+        <td><a th:href="@{/film/initEdit/{id}(id=${film.filmId})}">Xem chi tiết và sửa</a></td>
+        <td><a th:href="@{/film/deleteFilm/{id}(id=${film.filmId})}">Xóa phim</a></td>
     </tr>
     </tbody>
 </table>

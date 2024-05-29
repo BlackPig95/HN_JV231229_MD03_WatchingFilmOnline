@@ -3,6 +3,7 @@ package com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "film_category")
@@ -19,16 +20,19 @@ public class FilmCategory
     private String description;
     @Column(name = "status")
     private Boolean status = true;
+    @OneToMany(mappedBy = "filmCategory")
+    private List<Film> filmList;
 
     public FilmCategory()
     {
     }
 
-    public FilmCategory(Long categoryId, String categoryName, String description, Boolean status)
+    public FilmCategory(Long categoryId, String categoryName, String description, List<Film> filmList, Boolean status)
     {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.description = description;
+        this.filmList = filmList;
         this.status = status;
     }
 
@@ -70,5 +74,15 @@ public class FilmCategory
     public void setStatus(Boolean status)
     {
         this.status = status;
+    }
+
+    public List<Film> getFilmList()
+    {
+        return filmList;
+    }
+
+    public void setFilmList(List<Film> filmList)
+    {
+        this.filmList = filmList;
     }
 }

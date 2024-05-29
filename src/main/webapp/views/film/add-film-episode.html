@@ -27,9 +27,11 @@
 <form th:action="@{/film/addEpisode}" th:object="${episodeListDto}" method="post" enctype="multipart/form-data">
     <div th:each="e, episodeCount : ${episodeListDto.episodeDtoList}">
         <!--        ID của film để gắn với khóa ngoại trong bảng film-episode -->
-        <input th:field="*{episodeDtoList[__${episodeCount.index}__].filmId}" type="text" readonly>
+        <input th:field="*{episodeDtoList[__${episodeCount.index}__].filmId}" type="text" style="display: none"
+               readonly>
         <!--        episode-number -->
-        <input th:field="*{episodeDtoList[__${episodeCount.index}__].episodeNumber}" type="text" readonly>
+        <input th:field="*{episodeDtoList[__${episodeCount.index}__].episodeNumber}" type="text" style="display: none"
+               readonly>
         <div class="mb-3">
             <label class="form-label" th:text="${'Đường dẫn tập '+ episodeCount.count}"></label>
             <!--            Episode url-->
@@ -43,7 +45,7 @@
                    th:field="*{episodeDtoList[__${episodeCount.index}__].filmEpisodeImage}">
         </div>
         <div class="mb-3">
-            <label class="form-label">Thời lượng</label>
+            <label class="form-label">Thời lượng (tính theo số phút)</label>
             <input th:field="*{episodeDtoList[__${episodeCount.index}__].episodeTime}" type="number"
                    class="form-control">
         </div>

@@ -15,9 +15,10 @@ public interface IFilmService
 
     List<Film> getFilmByStatus(int status);
 
-    List<Film> searchFilmRelative(String infoToSearch, String columnName);
+    List<Film> searchFilmRelative(String columnName, String infoToSearch, Long cateId, Long countryId, Boolean isFree, Integer status);
 
-    Boolean deleteFilmById(int id);
+    Boolean deleteFilmById(long id);
 
     Integer countNumberOfFilms();
+    List<Film> getTopRate(Boolean seriesSingle);
 }

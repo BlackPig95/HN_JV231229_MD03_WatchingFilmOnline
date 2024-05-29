@@ -5,8 +5,9 @@ import javax.persistence.*;
 @Entity
 public class Comment
 {
-    @EmbeddedId
-    private CommentCompositeKey commentCompositeKey;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long commentId;
     @Column(name = "stars")
     private Integer stars;
     @Column(name = "content")
@@ -14,71 +15,58 @@ public class Comment
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id")
     private Film film;
-
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    public Comment()
-    {
+    public Comment() {
     }
 
-    public Comment(CommentCompositeKey commentCompositeKey, String content, Film film, Integer stars, User user)
-    {
-        this.commentCompositeKey = commentCompositeKey;
+    public Comment(Long commentId, Integer stars, String content, Film film, User user) {
+        this.commentId = commentId;
+        this.stars = stars;
         this.content = content;
         this.film = film;
-        this.stars = stars;
         this.user = user;
     }
 
-    public CommentCompositeKey getCommentCompositeKey()
-    {
-        return commentCompositeKey;
+    public Long getCommentId() {
+        return commentId;
     }
 
-    public void setCommentCompositeKey(CommentCompositeKey commentCompositeKey)
-    {
-        this.commentCompositeKey = commentCompositeKey;
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
     }
 
-    public String getContent()
-    {
-        return content;
-    }
-
-    public void setContent(String content)
-    {
-        this.content = content;
-    }
-
-    public Film getFilm()
-    {
-        return film;
-    }
-
-    public void setFilm(Film film)
-    {
-        this.film = film;
-    }
-
-    public Integer getStars()
-    {
+    public Integer getStars() {
         return stars;
     }
 
-    public void setStars(Integer stars)
-    {
+    public void setStars(Integer stars) {
         this.stars = stars;
     }
 
-    public User getUser()
-    {
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Film getFilm() {
+        return film;
+    }
+
+    public void setFilm(Film film) {
+        this.film = film;
+    }
+
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User user)
-    {
+    public void setUser(User user) {
         this.user = user;
     }
 }
