@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,6 +23,11 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class UserDaoImpl implements IUserDao {
@@ -59,6 +65,7 @@ public class UserDaoImpl implements IUserDao {
     }
 
     @Override
+
     @Transactional
     public Page<UserDTO> getAllByFilter(UserFilterRequest filterRequest, int page, int size) {
         try (Session session = sessionFactory.openSession()) {
@@ -140,10 +147,19 @@ public class UserDaoImpl implements IUserDao {
             session.getTransaction().commit();
         }catch (Exception ex) {
             System.out.println(ex.getMessage());
+
+
+    public User findById(Long id) {
+        Session session = sessionFactory.openSession();
+        try {
+            return session.find(User.class,id);
+        }catch (Exception e){
+            throw new RuntimeException(e);
         }finally {
             session.close();
         }
     }
+
 
     private long getTotalCount(Session session, CriteriaQuery<User> criteriaQuery) {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -151,6 +167,33 @@ public class UserDaoImpl implements IUserDao {
         countQuery.select(criteriaBuilder.count(countQuery.from(User.class)));
         countQuery.where(criteriaQuery.getRestriction());
         return session.createQuery(countQuery).getSingleResult();
+
+    @Override
+    public List<User> getAllUsers() {
+        Session session = sessionFactory.openSession();
+        try {
+            List list = session.createQuery("from  User ").list();
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {session.close();
+        }
+        return null;
+    }
+
+    public void update(User user) {
+            Session session = this.sessionFactory.openSession();
+            try {
+                session.getTransaction();
+                session.update(user);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                session.getTransaction().rollback();
+                e.printStackTrace();
+            } finally {
+                session.close();
+            }
+
     }
 }
 

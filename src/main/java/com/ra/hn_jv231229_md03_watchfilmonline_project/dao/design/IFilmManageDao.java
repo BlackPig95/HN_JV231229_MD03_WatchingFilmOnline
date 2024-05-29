@@ -14,12 +14,13 @@ public interface IFilmManageDao
 
     List<Film> getFilmByStatus(int status);
 
-    List<Film> searchFilmRelative(String infoToSearch, String columnName);
+    List<Film> searchFilmRelative(String columnName, String infoToSearch, Long cateId, Long countryId, Boolean isFree, Integer status);
 
     Boolean deleteFilmById(long id);
 
     Integer countNumberOfFilms();
 
     String getFilmImageById(long id);
+    List<Film> getTopRate(Boolean seriesSingle);
 
 }

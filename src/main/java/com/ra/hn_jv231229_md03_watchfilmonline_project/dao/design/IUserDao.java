@@ -9,6 +9,9 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.util.Page;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface IUserDao
 {
@@ -21,4 +24,7 @@ public interface IUserDao
 
     void updateStatus(UserUpdateStatusRequest request);
     void updateRole(UserUpdateRoleRequest request);
+    User findById(Long id);
+    List<User> getAllUsers();
+    void update(User user);
 }

@@ -27,8 +27,6 @@ public class FilmEpisodeDaoImpl implements IFilmEpisodeDao
         try
         {
             session.beginTransaction();
-            //Xóa đi các phim cũ trước khi update
-            deletePreviousEpisode(filmEpisode.getFilm().getFilmId());
             if (filmEpisode.getFilmEpisodeId() == null)
             {
                 session.save(filmEpisode);

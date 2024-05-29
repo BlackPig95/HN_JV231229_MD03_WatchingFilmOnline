@@ -30,5 +30,5 @@ public interface ICategoryService {
     Long countAllFilmCategory();
     long countSearch(String query);
 
-    List<FilmCategory> findALlNoPhanTrang();
+//    List<FilmCategory> findALlNoPhanTrang();
 }

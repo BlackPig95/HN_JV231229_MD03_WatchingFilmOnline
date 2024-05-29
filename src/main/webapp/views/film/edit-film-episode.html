@@ -33,6 +33,9 @@
         <!--        episode-number -->
         <input th:field="*{episodeDtoList[__${episodeCount.index}__].episodeNumber}" type="text" style="display: none"
                readonly>
+        <!--        FilmEpisode ID-->
+        <input th:field="*{episodeDtoList[__${episodeCount.index}__].filmEpisodeId}" type="text" style="display: none"
+               readonly>
         <div class="mb-3">
             <label class="form-label" th:text="${'Đường dẫn tập '+ episodeCount.count}"></label>
             <!--            Episode url-->
