@@ -37,8 +37,9 @@ public class UserService implements IUserService {
     @Override
 
     public List<User> getAllUsers() {
-       return userDao.getAllUsers();
-@Override
+        return userDao.getAllUsers();
+    }
+     @Override
     public void update(User user, MultipartFile file) {
         user.setUpdatedAt(new Date());
         if (file.getSize() > 0 && file != null) {

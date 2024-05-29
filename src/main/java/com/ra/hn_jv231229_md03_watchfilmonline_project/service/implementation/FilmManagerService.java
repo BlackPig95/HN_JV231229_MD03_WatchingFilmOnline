@@ -121,4 +121,9 @@ public class FilmManagerService implements IFilmService
         return list;
     }
 
+    @Override
+    public List<Film> findAll() {
+        return filmManageDao.findAll();
+    }
+
 }
