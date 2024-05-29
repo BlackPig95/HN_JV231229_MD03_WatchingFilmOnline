@@ -35,16 +35,19 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.ra.hn_jv231229_md03_watchfilmonline_project")
-public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
+public class AppConfig implements WebMvcConfigurer, ApplicationContextAware
+{
     private ApplicationContext applicationContext;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+    {
         this.applicationContext = applicationContext;
     }
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource()
+    {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/watch_film_online?createDatabaseIfNotExist=true");
@@ -54,7 +57,8 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     }
 
     @Bean
-    public SpringResourceTemplateResolver templateResolver() {
+    public SpringResourceTemplateResolver templateResolver()
+    {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
         templateResolver.setPrefix("/views/");
@@ -65,14 +69,16 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     }
 
     @Bean
-    public SpringTemplateEngine templateEngine() {
+    public SpringTemplateEngine templateEngine()
+    {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         return templateEngine;
     }
 
     @Bean
-    public ThymeleafViewResolver viewResolver() {
+    public ThymeleafViewResolver viewResolver()
+    {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setCharacterEncoding("UTF-8");
@@ -80,9 +86,9 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     }
 
 
-
     @Bean
-    public LocalSessionFactoryBean sessionFactoryBean() {
+    public LocalSessionFactoryBean sessionFactoryBean()
+    {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource());
         sessionFactoryBean.setPackagesToScan("com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity");
@@ -97,14 +103,16 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
 
 
     @Bean
-    public HibernateTransactionManager transactionManager() {
+    public HibernateTransactionManager transactionManager()
+    {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactoryBean().getObject());
         return transactionManager;
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(InterceptorRegistry registry)
+    {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/placeholder/**");
@@ -112,12 +120,14 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     }
 
     @Bean
-    public CommonsMultipartResolver multipartResolver() {
+    public CommonsMultipartResolver multipartResolver()
+    {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
         commonsMultipartResolver.setMaxUploadSizePerFile(50 * 1024 * 1024);
         commonsMultipartResolver.setMaxUploadSize(200 * 1024 * 1024);
         return commonsMultipartResolver;
     }
+
     //Setup kho chứa trên firebase
     @Bean
     public Storage storage() throws IOException
@@ -129,28 +139,31 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
                 .getService();
     }
 
-
     @Bean
-    public MessageSource messageSource() {
+    public MessageSource messageSource()
+    {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("message");
         return messageSource;
     }
 
     @Bean
-    public LocaleResolver localeResolver() {
+    public LocaleResolver localeResolver()
+    {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
         localeResolver.setDefaultLocale(new Locale("en"));
         return localeResolver;
     }
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(ResourceHandlerRegistry registry)
+    {
         registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
     }
 
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(CorsRegistry registry)
+    {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:8080/HN_JV231229_MD03_WatchFilmOnline_Project")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
@@ -158,5 +171,4 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
                 .allowCredentials(true)
                 .maxAge(3600);
     }
-
 }

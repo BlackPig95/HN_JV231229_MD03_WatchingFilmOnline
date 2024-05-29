@@ -55,7 +55,7 @@ public class FilmManagerService implements IFilmService
         film.setStatus(filmRequestDto.getStatus());
         film.setTotalEpisode(filmRequestDto.getTotalEpisode());
         film.setFilmCategory(categoryDao.findById(filmRequestDto.getCategoryId()));
-//        film.setCountry(countryDao.findById(filmRequestDto.getCountryId()));
+        film.setCountry(countryDao.findById(filmRequestDto.getCountryId()));
         if (filmRequestDto.getFilmId() == null)
         {
             film.setFilmImage(fileUploadService.uploadFileToServer(filmRequestDto.getFileImage()));
@@ -116,12 +116,48 @@ public class FilmManagerService implements IFilmService
 
 
     @Override
-    public List<Film> getTopRate(Boolean seriesSingle) {
+    public List<Film> getTopRate(Boolean seriesSingle)
+    {
         List<Film> list = filmManageDao.getTopRate(seriesSingle).stream().sorted(Comparator.comparingLong(Film::getViewCount).reversed()).limit(4).collect(Collectors.toList());
         return list;
     }
 
     @Override
+    public List<Film> sortFilmList(int currentPage, int size, String columnName, Boolean isAscending)
+    {
+        //Lấy ra toàn bộ list để sort trước để khi đổi page không bị loạn thứ tự
+        List<Film> filmList = getAllFilms(0, 1000);
+        switch (columnName)
+        {
+            case "filmName":
+                if (isAscending)
+                {//Sắp xếp tăng dần, lấy ra sublist với start và end index
+                    return filmList.stream().sorted(Comparator.comparing(Film::getFilmName)).collect(Collectors.toList()).
+                            subList(currentPage, Math.min((currentPage + size), filmList.size()));
+                }
+                //Sắp xếp giảm dần, lấy ra sublist với start và end index
+                return filmList.stream().sorted(Comparator.comparing(Film::getFilmName).reversed()).collect(Collectors.toList())
+                        .subList(currentPage, Math.min((currentPage + size), filmList.size()));
+            case "filmId":
+                if (isAscending)
+                {
+                    return filmList.stream().sorted(Comparator.comparing(Film::getFilmId)).collect(Collectors.toList())
+                            .subList(currentPage, Math.min((currentPage + size), filmList.size()));
+                }
+                return filmList.stream().sorted(Comparator.comparing(Film::getFilmId).reversed()).collect(Collectors.toList())
+                        .subList(currentPage, Math.min((currentPage + size), filmList.size()));
+            case "categoryName":
+                if (isAscending)
+                {
+                    return filmList.stream().sorted(Comparator.comparing(f -> f.getFilmCategory().getCategoryName())).collect(Collectors.toList())
+                            .subList(currentPage, Math.min((currentPage + size), filmList.size()));
+                }
+                return filmList.stream().sorted((f1, f2) -> f2.getFilmCategory().getCategoryName().compareTo(f1.getFilmCategory().getCategoryName()))
+                        .collect(Collectors.toList()).subList(currentPage, Math.min((currentPage + size), filmList.size()));
+            default:
+                return filmList;
+        }
+    }
     public List<Film> findAll() {
         return filmManageDao.findAll();
     }

@@ -60,7 +60,7 @@ public class FilmManagerDaoImpl implements IFilmManageDao
         Session session = sessionFactory.openSession();
         try
         {
-            return session.createQuery("from Film order by filmName desc ", Film.class)
+            return session.createQuery("from Film ", Film.class)
                     .setFirstResult(currentPage)
                     .setMaxResults(size)
                     .getResultList();
@@ -236,16 +236,20 @@ public class FilmManagerDaoImpl implements IFilmManageDao
     }
 
     @Override
-    public List<Film> getTopRate(Boolean seriesSingle) {
+    public List<Film> getTopRate(Boolean seriesSingle)
+    {
         Session session = sessionFactory.openSession();
-        try {
+        try
+        {
             List list = session.createQuery("from Film where seriesSingle=:seriesSingle", Film.class)
                     .setParameter("seriesSingle", seriesSingle)
                     .list();
             return list;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
-        } finally {
+        } finally
+        {
             session.close();
         }
     }
