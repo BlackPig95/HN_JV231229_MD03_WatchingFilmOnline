@@ -192,7 +192,7 @@ public class FilmManagerService implements IFilmService
         filmResponse.setTrailerUrl(film.getTrailerUrl());
         filmResponse.setFilmCategory(film.getFilmCategory());
         filmResponse.setCountry(film.getCountry());
-//        filmResponse.setEpisodeList(episodeDao.getEpisodeListByFilmId(film.getFilmId()));
+        filmResponse.setEpisodeList(episodeDao.getEpisodeListByFilmId(film.getFilmId()));
         int sumTime = 0;
         for (FilmEpisode episode : episodeDao.getEpisodeListByFilmId(film.getFilmId()))
         {

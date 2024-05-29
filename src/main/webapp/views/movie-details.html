@@ -215,28 +215,29 @@
                             <ion-icon name="play"></ion-icon>
                             <span><a>Xem ngay</a></span>
                         </button>
-
                     </div>
                 </div>
                 <div class="details-actions">
-                    <button th:each="episode : ${detailFilm.episodeList}" class="btn btn-primary"
-                            style="width: fit-content">
-                        <ion-icon name="play"></ion-icon>
-                        <span>
+                    <form th:each="episode : ${detailFilm.episodeList}"
+                          th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}">
+                        <input type="hidden" name="filmId" th:value="${detailFilm.filmId}">
+                        <button class="btn btn-primary" style="width: fit-content">
+                            <ion-icon name="play"></ion-icon>
+                            <span>
                             <a style="text-decoration: none; color: blue;"
-                               th:href="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}"
                                th:text="${'Tập '+episode.episodeNumber}"></a>
                         </span>
-                    </button>
+                        </button>
+                    </form>
 
                 </div>
             </div>
             <div style="width: 100%; margin-top: 50px; padding: 50px">
                 <th:block th:if="${episodeToPlay != null}">
                     <iframe style="margin-left: auto;" width="90%" height="600"
-                            id="film-play"
                             th:src="${episodeToPlay.filmEpisodeUrl}"
-                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </th:block>
             </div>

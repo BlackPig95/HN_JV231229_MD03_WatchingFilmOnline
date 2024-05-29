@@ -1,9 +1,9 @@
-package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto;
+package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
-public class UserDTO {
+public class UserDTO
+{
     private Long userId;
     private String userName;
     private String email;
@@ -12,7 +12,8 @@ public class UserDTO {
     private Date createdAt;
     private Boolean status;
 
-    public UserDTO(Long userId, String userName, String email, String phone, String role, Date createdAt, Boolean status) {
+    public UserDTO(Long userId, String userName, String email, String phone, String role, Date createdAt, Boolean status)
+    {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
@@ -22,64 +23,79 @@ public class UserDTO {
         this.status = status;
     }
 
-    public Long getUserId() {
+    public Long getUserId()
+    {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Long userId)
+    {
         this.userId = userId;
     }
 
-    public String getUserName() {
+    public String getUserName()
+    {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setUserName(String userName)
+    {
         this.userName = userName;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getPhone() {
+    public String getPhone()
+    {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(String phone)
+    {
         this.phone = phone;
     }
 
-    public Date getCreatedAt() {
+    public Date getCreatedAt()
+    {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Date createdAt)
+    {
         this.createdAt = createdAt;
     }
 
-    public Boolean getStatus() {
+    public Boolean getStatus()
+    {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Boolean status)
+    {
         this.status = status;
     }
 
-    public String getRole() {
+    public String getRole()
+    {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(String role)
+    {
         this.role = role;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "UserDTO{" +
                 "userId=" + userId +
                 ", userName='" + userName + '\'' +

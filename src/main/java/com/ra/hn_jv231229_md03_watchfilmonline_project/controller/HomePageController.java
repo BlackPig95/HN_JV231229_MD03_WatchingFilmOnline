@@ -1,17 +1,17 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.controller;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmManageDao;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmEpisodeDto;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmRequestDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.response.FilmDetailResponseDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmEpisodeService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,10 +66,21 @@ public class HomePageController
     }
 
     @GetMapping("/play-episode/{idEpisode}")
-    public String playEpisode(@PathVariable("idEpisode") Long idEpisode, Model model)
+    public String playEpisode(@PathVariable("idEpisode") Long idEpisode
+            , @RequestParam("filmId") Long filmId
+            , Model model)
     {
         model.addAttribute("idEpisode", idEpisode);
-        model.addAttribute("episodeToPlay", episodeService.getEpisodeById(idEpisode));
+        FilmEpisodeDto filmEpisodeDto = new FilmEpisodeDto();
+        FilmEpisode episodeToPlay = episodeService.getEpisodeById(idEpisode);
+        filmEpisodeDto.setFilmId(episodeToPlay.getFilmEpisodeId());
+        filmEpisodeDto.setEpisodeTime(episodeToPlay.getEpisodeTime());
+        filmEpisodeDto.setEpisodeNumber(episodeToPlay.getEpisodeNumber());
+        filmEpisodeDto.setFilmEpisodeUrl(episodeToPlay.getFilmEpisodeUrl());
+        filmEpisodeDto.setFilmCurrentTime(episodeToPlay.getFilmCurrentTime());
+        filmEpisodeDto.setFilmId(idEpisode);
+        model.addAttribute("episodeToPlay", filmEpisodeDto);
+        model.addAttribute("detailFilm", filmService.getResponseFilm(filmService.getFilmById(filmId)));
         return "movie-details";
     }
 }
