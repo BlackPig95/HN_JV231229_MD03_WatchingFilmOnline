@@ -2,6 +2,7 @@ package com.ra.hn_jv231229_md03_watchfilmonline_project.controller;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmManageDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +16,12 @@ import java.util.List;
 public class    HomePageController
 {
     @Autowired
-    private IFilmManageDao filmManageDao;
+    private IFilmService filmService;
     @RequestMapping("/")
     public String index(Model model)
     {
-        List<Film> seriesFilm = filmManageDao.getTopRate(true);
-        List<Film> singleFilm = filmManageDao.getTopRate(false);
+        List<Film> seriesFilm = filmService.getTopRate(true);
+        List<Film> singleFilm = filmService.getTopRate(false);
         model.addAttribute("seriesFilm", seriesFilm);
         model.addAttribute("singleFilm", singleFilm);
         return "index";
