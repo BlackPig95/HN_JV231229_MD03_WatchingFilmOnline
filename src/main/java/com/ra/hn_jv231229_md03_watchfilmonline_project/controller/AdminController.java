@@ -37,6 +37,7 @@ public class AdminController
     @GetMapping("/dashboard")
     public String dashboard(Model model)
     {
+        model.addAttribute("countUser",userService.countUser());
         model.addAttribute("countAllFilmCategories", categoryService.countAllFilmCategories());
         model.addAttribute("averageRating", commentService.averageRating());
         model.addAttribute("countView", filmService.countView());
@@ -54,9 +55,8 @@ public class AdminController
         return "banner/list-banner";
     }
 
-    @GetMapping("/banner/add")
-    public String add(Model model, @RequestParam("filmId") Long filmId, @RequestParam("file") MultipartFile file)
-    {
+    @PostMapping("/banner/add")
+    public String add(Model model, @RequestParam("filmId") Long filmId,@RequestParam("file") MultipartFile file) {
         bannerService.save(filmId, file);
         return "redirect:/admin/banner";
     }

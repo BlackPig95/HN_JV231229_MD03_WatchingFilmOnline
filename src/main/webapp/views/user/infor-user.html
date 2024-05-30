@@ -15,6 +15,11 @@
         <div class="card-header text-center">
             <h1>Thông Tin Cá Nhân</h1>
         </div>
+        <div class="row mt-4">
+            <div class="col text-center">
+                <a th:href="@{/user/edit}" class="btn btn-primary">Cập nhật thông tin</a>
+            </div>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4 text-center mb-4">
@@ -47,7 +52,9 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Họ tên:</div>
-                        <div class="col-sm-8" id="fullName" th:text="${user.fullname}"></div>
+
+                        <div class="col-sm-8" id="fullName" th:text="${user.fullname}"> </div>
+
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Số dư ví:</div>
@@ -65,11 +72,7 @@
                         <div class="col-sm-4 font-weight-bold">Ngày cập nhật:</div>
                         <div class="col-sm-8" id="updatedAt" th:text="${user.updatedAt}"></div>
                     </div>
-                    <div class="row mt-4">
-                        <div class="col text-center">
-                            <a th:href="@{/user/edit}" class="btn btn-primary">Cập nhật thông tin</a>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

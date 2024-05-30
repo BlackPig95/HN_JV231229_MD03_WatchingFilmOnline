@@ -42,10 +42,11 @@
             <label for="filmName">Phim</label>
             <select class="form-control" id="filmName" name="filmId">
                 <option
-                        th:selected="${film.filmId==banner.film.filmId}"
+
                         th:each="film : ${films}"
                         th:value="${film.filmId}"
                         th:text="${film.filmName}"
+                        th:selected="${film.filmId==bannerDto.film.filmId}"
                 ></option>
             </select>
         </div>

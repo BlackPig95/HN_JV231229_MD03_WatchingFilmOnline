@@ -277,7 +277,7 @@ public class FilmManagerDaoImpl implements IFilmManageDao
     public Long countView() {
         Session session = sessionFactory.openSession();
         try {
-            Long count = (Long) session.createQuery("select count(viewCount) from Film").uniqueResult();
+            Long count = (Long) session.createQuery("select sum(viewCount) from Film").uniqueResult();
             return count;
         } catch (Exception e) {
             throw new RuntimeException(e);
