@@ -24,10 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class HomePageController
@@ -53,6 +50,8 @@ public class HomePageController
     @RequestMapping("/")
     public String index(Model model)
     {
+        List<Film> recommendFilm=filmService.getRecommendFilm();
+        Collections.shuffle(recommendFilm);
         List<Film> seriesFilm = filmService.getTopRate(true);
         List<Film> singleFilm = filmService.getTopRate(false);
         List<Film> allFilms = filmService.findAll();
@@ -81,12 +80,12 @@ public class HomePageController
         model.addAttribute("seriesFilm", responseSeriesList);
         model.addAttribute("singleFilm", responseSingleList);
         model.addAttribute("filmList", responseFilmList);
-        
         User user = (User) session.getAttribute("user");
         if (user != null)
         {
             model.addAttribute("username", user.getUsername());
         }
+        model.addAttribute("recommendFilm", recommendFilm);
         return "index";
     }
 
