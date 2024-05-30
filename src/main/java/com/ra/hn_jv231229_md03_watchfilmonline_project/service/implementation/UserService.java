@@ -1,5 +1,4 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
-
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IUserDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.constant.UserRole;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDTO;
@@ -9,9 +8,9 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateR
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateStatusRequest;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.response.BaseResponse;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IUserService;
-
 import com.ra.hn_jv231229_md03_watchfilmonline_project.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Service
@@ -88,9 +90,11 @@ public class UserService implements IUserService
         return userDao.getAllUsers();
     }
 
-    @Override
-    public void update(User user, MultipartFile file)
-    {
+     @Override
+    public void update(UserDTO userDto) throws ParseException {
+        MultipartFile file = userDto.getFileAvatar();
+        User user = findById(userDto.getUserId());
+
         user.setUpdatedAt(new Date());
         if (file.getSize() > 0 && file != null)
         {
@@ -107,7 +111,7 @@ public class UserService implements IUserService
     {
         return userDao.findById(id);
     }
-	
+
 	@Override
 	public String getNewPassword(String username) {
 		User user = userDao.findByUsername(username);
@@ -127,4 +131,8 @@ public class UserService implements IUserService
 		}
 		return str.toString();
 	}
+    @Override
+    public Long countUser() {
+        return userDao.countUser();
+    }
 }

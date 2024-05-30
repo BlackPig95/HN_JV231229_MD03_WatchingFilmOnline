@@ -30,4 +30,5 @@ public interface ICategoryDao {
     Long countSearch(String query);
 
 //    List<FilmCategory> findALlNoPhanTrang();
+    Long countAllFilmCategories();
 }

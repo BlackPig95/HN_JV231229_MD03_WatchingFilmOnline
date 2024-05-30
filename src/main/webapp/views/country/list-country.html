@@ -140,14 +140,25 @@
     </div>
 
     <h2 class="mb-3">Danh Sách Quốc Gia</h2>
-    <div class="form-container">
-        <a th:href="@{/admin/country?order=id}">
+    <div class="form-container" th:if="${directionCheck}">
+        <a th:href="@{/admin/country?order=id&direction=asc}">
             <button class="btn btn-primary mr-2">Sắp xếp theo ID</button>
         </a>
-        <a th:href="@{/admin/country?order=name}">
+        <a th:href="@{/admin/country?order=name&direction=asc}">
             <button class="btn btn-primary">Sắp xếp theo Tên Quốc Gia</button>
         </a>
-        <a th:href="@{/admin/country?order=film}">
+        <a th:href="@{/admin/country?order=film&direction=asc}">
+            <button class="btn btn-primary">Sắp xếp theo Số lượng phim</button>
+        </a>
+    </div>
+    <div class="form-container" th:if="${!directionCheck}">
+        <a th:href="@{/admin/country?order=id&direction=desc}">
+            <button class="btn btn-primary mr-2">Sắp xếp theo ID</button>
+        </a>
+        <a th:href="@{/admin/country?order=name&direction=desc}">
+            <button class="btn btn-primary">Sắp xếp theo Tên Quốc Gia</button>
+        </a>
+        <a th:href="@{/admin/country?order=film&direction=desc}">
             <button class="btn btn-primary">Sắp xếp theo Số lượng phim</button>
         </a>
     </div>

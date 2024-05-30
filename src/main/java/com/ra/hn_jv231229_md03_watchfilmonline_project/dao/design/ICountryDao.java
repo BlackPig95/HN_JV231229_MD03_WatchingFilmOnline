@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ICountryDao {
-    List<Country> displayWithPaginationAndOrder(String searchName,String order,Integer page);
+    List<Country> displayWithPaginationAndOrder(String searchName,Integer page);
     Country findById(Long id);
     void save(Country country);
     void delete(Long id);

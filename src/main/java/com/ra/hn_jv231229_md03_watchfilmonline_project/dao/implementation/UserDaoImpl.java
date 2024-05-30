@@ -33,9 +33,12 @@ import java.util.List;
 public class UserDaoImpl implements IUserDao
 {
     private final SessionFactory sessionFactory;
-
+    
+	@Autowired
+	public UserDaoImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
    
-
     @Override
 
     @Transactional
@@ -114,12 +117,6 @@ public class UserDaoImpl implements IUserDao
         }
     }
 
-
-	
-	@Autowired
-	public UserDaoImpl(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 	
 	@Override
 	@Transactional
@@ -233,5 +230,34 @@ public class UserDaoImpl implements IUserDao
 		}
 		return null;
 	}
+    @Override
+    public User findById(Long id)
+    {
+        Session session = sessionFactory.openSession();
+        try
+        {
+            return session.find(User.class, id);
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        } finally
+        {
+            session.close();
+        }
+    }
+
+    @Override
+    public Long countUser() {
+        Session session = sessionFactory.openSession();
+        try {
+            Long count = (Long) session.createQuery("select count(*) from User").uniqueResult();
+            return count;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return 0L;
+    }
 }
 
