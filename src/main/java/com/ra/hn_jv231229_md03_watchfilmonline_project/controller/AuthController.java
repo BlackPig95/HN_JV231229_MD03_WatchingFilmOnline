@@ -29,11 +29,9 @@ public class AuthController {
 	
 	@GetMapping("/register")
 	public String registerPage(Model model) {
-		User user = new User();
-		model.addAttribute("user", user);
+		model.addAttribute("user", new User());
 		return "register";
 	}
-	
 	
 	@PostMapping("/signin")
 	public String signin(HttpSession session, @RequestParam String username, @RequestParam String password, Model model) {
@@ -76,7 +74,7 @@ public class AuthController {
 			model.addAttribute("newPassword", newPassword);
 		} else {
 			model.addAttribute("user", "");
-			model.addAttribute("error","username not found");
+			model.addAttribute("error", "username not found");
 		}
 		return "forgetPassword";
 	}

@@ -53,8 +53,8 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/watch_film_online?createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
-        dataSource.setPassword("Blackpigsql666");
-//        dataSource.setPassword("123456");
+//        dataSource.setPassword("Blackpigsql666");
+        dataSource.setPassword("123456");
         return dataSource;
     }
 
@@ -119,6 +119,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/placeholder/**");
         registry.addInterceptor(localeChangeInterceptor);
+        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/admin/**");
     }
 
     @Bean
@@ -173,4 +174,5 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware
                 .allowCredentials(true)
                 .maxAge(3600);
     }
+    
 }

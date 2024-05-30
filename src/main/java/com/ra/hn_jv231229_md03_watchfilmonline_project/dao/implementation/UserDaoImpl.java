@@ -2,7 +2,7 @@ package com.ra.hn_jv231229_md03_watchfilmonline_project.dao.implementation;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IUserDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.constant.UserRole;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDTO;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.mapper.UserMapper;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserFilterRequest;
@@ -42,7 +42,7 @@ public class UserDaoImpl implements IUserDao
     @Override
 
     @Transactional
-    public Page<UserDTO> getAllByFilter(UserFilterRequest filterRequest, int page, int size)
+    public Page<UserDto> getAllByFilter(UserFilterRequest filterRequest, int page, int size)
     {
         try (Session session = sessionFactory.openSession())
         {
@@ -76,7 +76,7 @@ public class UserDaoImpl implements IUserDao
             query.setMaxResults(size);
 
             List<User> users = query.getResultList();
-            List<UserDTO> userDTOs = users.stream()
+            List<UserDto> userDTOs = users.stream()
                     .map(UserMapper::toUserDTO)
                     .collect(Collectors.toList());
             System.out.println(userDTOs);
@@ -163,17 +163,6 @@ public class UserDaoImpl implements IUserDao
 			System.out.println(ex.getMessage());
 			
 			
-		}
-	}
-	
-	public User findById(Long id) {
-		Session session = sessionFactory.openSession();
-		try {
-			return session.find(User.class, id);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-			session.close();
 		}
 	}
 	

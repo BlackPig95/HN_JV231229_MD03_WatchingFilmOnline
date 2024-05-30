@@ -1,7 +1,7 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IUserDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.constant.UserRole;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDTO;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserFilterRequest;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateRoleRequest;
@@ -73,11 +73,11 @@ public class UserService implements IUserService
     }
 
     @Override
-    public BaseResponse<Page<UserDTO>> getAllByFilter(UserFilterRequest filterRequest, int page, int size)
+    public BaseResponse<Page<UserDto>> getAllByFilter(UserFilterRequest filterRequest, int page, int size)
     {
-        Page<UserDTO> pageUser = userDao.getAllByFilter(filterRequest, page, size);
+        Page<UserDto> pageUser = userDao.getAllByFilter(filterRequest, page, size);
 
-        BaseResponse<Page<UserDTO>> response = new BaseResponse<>();
+        BaseResponse<Page<UserDto>> response = new BaseResponse<>();
         response.setCode(200);
         response.setMessage("success");
         response.setData(pageUser);
@@ -91,7 +91,7 @@ public class UserService implements IUserService
     }
 
      @Override
-    public void update(UserDTO userDto) throws ParseException {
+    public void update(UserDto userDto) throws ParseException {
         MultipartFile file = userDto.getFileAvatar();
         User user = findById(userDto.getUserId());
 

@@ -1,6 +1,6 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design;
 
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDTO;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserFilterRequest;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateRoleRequest;
@@ -17,7 +17,7 @@ public interface IUserDao
 
     public void register(User user);
 
-    Page<UserDTO> getAllByFilter(UserFilterRequest filterRequest, int page, int size);
+    Page<UserDto> getAllByFilter(UserFilterRequest filterRequest, int page, int size);
 
     void updateStatus(UserUpdateStatusRequest request);
 

@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
-public class UserDTO
+public class UserDto
 {
     private Long userId;
     private String userName;
@@ -14,8 +14,12 @@ public class UserDTO
     private Date createdAt;
     private Boolean status;
     private MultipartFile fileAvatar;
-
-    public UserDTO(Long userId, String userName, String email, String phone, String role, Date createdAt, Boolean status, MultipartFile fileAvatar) {
+    
+    
+    public UserDto() {
+    }
+    
+    public UserDto(Long userId, String userName, String email, String phone, String role, Date createdAt, Boolean status, MultipartFile fileAvatar) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
@@ -25,7 +29,17 @@ public class UserDTO
         this.status = status;
         this.fileAvatar = fileAvatar;
     }
-
+    
+    public UserDto(Long userId, String username, String email, String phone, String name, Date createdAt, Boolean status) {
+        this.userId = userId;
+        this.userName = username;
+        this.email = email;
+        this.phone = phone;
+        this.role = name;
+        this.createdAt = createdAt;
+        this.status = status;
+    }
+    
     public MultipartFile getFileAvatar() {
         return fileAvatar;
     }
