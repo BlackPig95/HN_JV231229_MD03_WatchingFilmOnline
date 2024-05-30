@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Repository
 public class FilmFavoriteDaoImpl implements IFavoriteFilmDao {
@@ -59,7 +61,7 @@ public class FilmFavoriteDaoImpl implements IFavoriteFilmDao {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            user.getFilmSet().remove(film);
+            user.setFilmSet(user.getFilmSet().stream().filter(item -> !Objects.equals(item.getFilmId(), film.getFilmId())).collect(Collectors.toSet()));
             userDao.update(user);
             session.getTransaction().commit();
         }catch (Exception e){
