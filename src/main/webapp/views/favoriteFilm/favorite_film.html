@@ -13,16 +13,27 @@
     <link rel="shortcut icon" th:href="@{/assets/images/favicon.svg}" type="image/svg+xml">
 
     <!--
-      - custom css link
-    -->
-    <link rel="stylesheet" th:href="@{/assets/css/index.css}">
-
-    <!--
       - google font link
     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- third party css -->
+    <link th:href="@{/assets/assets_admin/libs/datatables/dataTables.bootstrap4.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/libs/datatables/buttons.bootstrap4.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/libs/datatables/responsive.bootstrap4.css}" rel="stylesheet" type="text/css"/>
+
+    <!--	&lt;!&ndash; App css &ndash;&gt;-->
+    <link th:href="@{/assets/assets_admin/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/css/icons.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/css/app.min.css}" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" th:href="@{/assets/css/index.css}">
+    <!--
+    - custom css link
+  -->
+    <link rel="stylesheet" th:href="@{/assets/css/index.css}">
+
 </head>
 
 <body id="top">
@@ -30,14 +41,13 @@
 <!--
   - #HEADER
 -->
-
 <header class="header" data-header>
     <div class="container">
 
         <div class="overlay" data-overlay></div>
 
-        <a href="../index.html" class="logo">
-            <img th:src="@{/assets/images/logo.svg}" alt="Filmlane logo">
+        <a href="./index.html" class="logo">
+            <img src="./assets/images/logo.svg" alt="Filmlane logo">
         </a>
 
         <div class="header-actions">
@@ -58,9 +68,38 @@
                     <option value="tu">TU</option>
                 </select>
             </div>
+            <a th:href="@{/login}" class="btn btn-primary" th:if="${username==null}">Sign in</a>
+            <th:block th:if="${username!=null}">
+                <p style="color: #fff" th:text="${username}"></p>
+                <a style="color: #fff;" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </th:block>
+            <th:block th:if="${username!=null}">
+                <li class="dropdown notification-list">
+                    <a style="font-size: 20px" class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light"
+                       data-toggle="dropdown"
+                       href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                        <a th:href="@{/user/addWallet}" style="display: flex;gap: 10px;align-items: center"
+                           class="dropdown-item notify-item">
+                            <i class="fa-solid fa-wallet"></i>
+                            <span class="currency" th:text="${session.user.wallet_balance}"></span>
+                        </a>
+                        <!-- item-->
+                        <a th:href="@{/user/viewUpdateAcc}" style="display: flex;gap: 10px"
+                           class="dropdown-item notify-item">
+                            <i style="font-size: 20px" class="fa-solid fa-circle-up"></i>
+                            <span>Update Account</span>
+                        </a>
+                        <!-- item-->
+                        <a th:href="@{/logout}" style="display: flex;gap: 10px" class="dropdown-item notify-item">
+                            <i class="fe-log-out"></i>
+                            <span>Logout</span>
+                        </a>
 
-            <button class="btn btn-primary">Sign in</button>
-
+                    </div>
+                </li>
+            </th:block>
         </div>
 
         <button class="menu-open-btn" data-menu-open-btn>
@@ -71,7 +110,7 @@
 
             <div class="navbar-top">
 
-                <a href="../index.html" class="logo">
+                <a href="./index.html" class="logo">
                     <img src="./assets/images/logo.svg" alt="Filmlane logo">
                 </a>
 
@@ -84,57 +123,23 @@
             <ul class="navbar-list">
 
                 <li>
-                    <a href="../index.html" class="navbar-link">Home</a>
+                    <a th:href="@{/}" class="navbar-link">Home</a>
                 </li>
 
                 <li>
-                    <a href="#" class="navbar-link">Movie</a>
+                    <a th:href="@{/all-movie}" class="navbar-link">Movie</a>
                 </li>
 
                 <li>
-                    <a href="#" class="navbar-link">Tv Show</a>
+                    <a th:href="@{/favorites/list}" class="navbar-link">Favorite</a>
                 </li>
 
                 <li>
-                    <a href="#" class="navbar-link">Web Series</a>
+                    <a th:href="@{/listCategory/user-category}" class="navbar-link">Categories</a>
                 </li>
 
                 <li>
-                    <a href="#" class="navbar-link">Pricing</a>
-                </li>
-
-            </ul>
-
-            <ul class="navbar-social-list">
-
-                <li>
-                    <a href="#" class="navbar-social-link">
-                        <ion-icon name="logo-twitter"></ion-icon>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" class="navbar-social-link">
-                        <ion-icon name="logo-facebook"></ion-icon>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" class="navbar-social-link">
-                        <ion-icon name="logo-pinterest"></ion-icon>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" class="navbar-social-link">
-                        <ion-icon name="logo-instagram"></ion-icon>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" class="navbar-social-link">
-                        <ion-icon name="logo-youtube"></ion-icon>
-                    </a>
+                    <a th:href="@{/user/history}" class="navbar-link">History</a>
                 </li>
 
             </ul>
@@ -143,6 +148,153 @@
 
     </div>
 </header>
+
+<!--<header class="header" data-header>-->
+<!--    <div class="container">-->
+
+<!--        <div class="overlay" data-overlay></div>-->
+
+<!--        <a href="../index.html" class="logo">-->
+<!--            <img th:src="@{/assets/images/logo.svg}" alt="Filmlane logo">-->
+<!--        </a>-->
+
+<!--        <div class="header-actions">-->
+
+<!--            <button class="search-btn">-->
+<!--                <ion-icon name="search-outline"></ion-icon>-->
+<!--            </button>-->
+
+<!--            <div class="lang-wrapper">-->
+<!--                <label for="language">-->
+<!--                    <ion-icon name="globe-outline"></ion-icon>-->
+<!--                </label>-->
+
+<!--                <select name="language" id="language">-->
+<!--                    <option value="en">EN</option>-->
+<!--                    <option value="au">AU</option>-->
+<!--                    <option value="ar">AR</option>-->
+<!--                    <option value="tu">TU</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <a th:href="@{/login}" class="btn btn-primary" th:if="${username==null}">Sign in</a>-->
+<!--        <th:block th:if="${username!=null}">-->
+<!--            <p style="color: #fff" th:text="${username}"></p>-->
+<!--            <a style="color: #fff;" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i></a>-->
+<!--        </th:block>-->
+<!--        <th:block th:if="${username!=null}">-->
+<!--            <li class="dropdown notification-list">-->
+<!--                <a style="font-size: 20px" class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light"-->
+<!--                   data-toggle="dropdown"-->
+<!--                   href="#" role="button" aria-haspopup="false" aria-expanded="false">-->
+<!--                </a>-->
+<!--                <div class="dropdown-menu dropdown-menu-right profile-dropdown ">-->
+<!--                    <a th:href="@{/user/addWallet}" style="display: flex;gap: 10px;align-items: center"-->
+<!--                       class="dropdown-item notify-item">-->
+<!--                        <i class="fa-solid fa-wallet"></i>-->
+<!--                        <span class="currency" th:text="${session.user.wallet_balance}"></span>-->
+<!--                    </a>-->
+<!--                    &lt;!&ndash; item&ndash;&gt;-->
+<!--                    <a th:href="@{/user/viewUpdateAcc}" style="display: flex;gap: 10px"-->
+<!--                       class="dropdown-item notify-item">-->
+<!--                        <i style="font-size: 20px" class="fa-solid fa-circle-up"></i>-->
+<!--                        <span>Update Account</span>-->
+<!--                    </a>-->
+<!--                    &lt;!&ndash; item&ndash;&gt;-->
+<!--                    <a th:href="@{/logout}" style="display: flex;gap: 10px" class="dropdown-item notify-item">-->
+<!--                        <i class="fe-log-out"></i>-->
+<!--                        <span>Logout</span>-->
+<!--                    </a>-->
+
+<!--                </div>-->
+<!--            </li>-->
+<!--        </th:block>-->
+<!--    </div>-->
+
+<!--            <button class="btn btn-primary">Sign in</button>-->
+
+<!--        </div>-->
+
+<!--        <button class="menu-open-btn" data-menu-open-btn>-->
+<!--            <ion-icon name="reorder-two"></ion-icon>-->
+<!--        </button>-->
+
+<!--        <nav class="navbar" data-navbar>-->
+
+<!--            <div class="navbar-top">-->
+
+<!--                <a href="../index.html" class="logo">-->
+<!--                    <img src="./assets/images/logo.svg" alt="Filmlane logo">-->
+<!--                </a>-->
+
+<!--                <button class="menu-close-btn" data-menu-close-btn>-->
+<!--                    <ion-icon name="close-outline"></ion-icon>-->
+<!--                </button>-->
+
+<!--            </div>-->
+
+<!--            <ul class="navbar-list">-->
+
+<!--                <li>-->
+<!--                    <a th:href="@{/signin}" class="navbar-link">Home</a>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <a th:href="@{/all-movie}" class="navbar-link">Movie</a>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <a th:href="@{/favorites/list}" class="navbar-link">Favorite</a>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <a th:href="@{/listCategory/user-category}" class="navbar-link">Categories</a>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <a th:href="@{/user/history}" class="navbar-link">History</a>-->
+<!--                </li>-->
+
+<!--            </ul>-->
+
+<!--            <ul class="navbar-social-list">-->
+
+<!--                <li>-->
+<!--                    <a href="#" class="navbar-social-link">-->
+<!--                        <ion-icon name="logo-twitter"></ion-icon>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <a href="#" class="navbar-social-link">-->
+<!--                        <ion-icon name="logo-facebook"></ion-icon>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <a href="#" class="navbar-social-link">-->
+<!--                        <ion-icon name="logo-pinterest"></ion-icon>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <a href="#" class="navbar-social-link">-->
+<!--                        <ion-icon name="logo-instagram"></ion-icon>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <a href="#" class="navbar-social-link">-->
+<!--                        <ion-icon name="logo-youtube"></ion-icon>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--            </ul>-->
+
+<!--        </nav>-->
+
+<!--    </div>-->
+<!--</header>-->
 
 
 <main>
@@ -176,23 +328,27 @@
                             <div class="date-time">
                                 <div>
                                     <ion-icon name="calendar-outline"></ion-icon>
-                                    <time th:datetime="${film.releaseDate}" th:text="${#dates.format(film.releaseDate, 'yyyy-MM-dd')}"></time>
+                                    <time th:datetime="${film.releaseDate}"
+                                          th:text="${#dates.format(film.releaseDate, 'yyyy-MM-dd')}"></time>
                                 </div>
                             </div>
                         </div>
                         <p class="storyline" th:text="${film.filmDescription}"></p>
+                        <!--                        <div class="details-actions">-->
+                        <!--                            <button class="btn btn-primary" style="width: 100%">-->
+                        <!--                                <ion-icon name="play"></ion-icon>-->
+                        <!--                                <span><a th:href="@{/watch/{id}(id=${film.filmId})}"-->
+                        <!--                                         style="text-decoration: none; color: white;">Xem ngay</a></span>-->
+                        <!--                            </button>-->
+                        <!--                        </div>-->
                         <div class="details-actions">
-                            <button class="btn btn-primary" style="width: 100%">
-                                <ion-icon name="play"></ion-icon>
-                                <span><a th:href="@{/watch/{id}(id=${film.filmId})}" style="text-decoration: none; color: white;">Xem ngay</a></span>
-                            </button>
-                        </div>
-                        <div class="details-actions">
-                            <form th:each="episode : ${film.episodeList}" th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}">
+                            <form th:each="episode : ${film.episodeList}"
+                                  th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}">
                                 <input type="hidden" name="filmId" th:value="${film.filmId}">
                                 <button class="btn btn-primary" style="width: fit-content">
                                     <ion-icon name="play"></ion-icon>
-                                    <span><a style="text-decoration: none; color: blue;" th:text="${'Tập ' + episode.episodeNumber}"></a></span>
+                                    <span><a style="text-decoration: none; color: blue;"
+                                             th:text="${'Tập ' + episode.episodeNumber}"></a></span>
                                 </button>
                             </form>
                         </div>
@@ -240,7 +396,7 @@
   - #FOOTER
 -->
 
-<footer class="footer">
+<footer class="footer" style="position: static">
 
     <div class="footer-top">
         <div class="container">
@@ -354,6 +510,27 @@
   - #GO TO TOP
 -->
 
+<script>
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(amount);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var elements = document.querySelectorAll(".currency");
+        elements.forEach(function (element) {
+            var value = parseFloat(element.textContent);
+            element.textContent = formatCurrency(value);
+        });
+    });
+    const nav = document.getElementById('header');
+    window.onscroll = function () {
+        if (document.body.scrollTop >= 20 || document.documentElement.scrollTop >= 20) {
+            nav.classList.add("nav-colored");
+        } else {
+            nav.classList.remove("nav-colored");
+        }
+    };
+</script>
 <a href="#top" class="go-top" data-go-top>
     <ion-icon name="chevron-up"></ion-icon>
 </a>
@@ -369,7 +546,44 @@
 -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
+<!-- Vendor js -->
+<script th:src="@{/assets/assets_admin/js/vendor.min.js}"></script>
+
+<!-- Required datatable js -->
+<script th:src="@{/assets/assets_admin/libs/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/dataTables.bootstrap4.min.js}"></script>
+<!-- Buttons examples -->
+<script th:src="@{/assets/assets_admin/libs/datatables/dataTables.buttons.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/jszip/jszip.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/buttons.html5.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/buttons.print.min.js}"></script>
+
+<!-- Responsive examples -->
+<script th:src="@{/assets/assets_admin/libs/datatables/dataTables.responsive.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/responsive.bootstrap4.min.js}"></script>
+
+<!-- Datatables init -->
+<script th:src="@{/assets/assets_admin/js/pages/datatables.init.js}"></script>
+
+<!-- App js -->
+<script th:src="@{/assets/assets_admin/js/app.min.js}"></script>
+<script>
+    const nav = document.getElementById('header');
+    window.onscroll = function () {
+        if (document.body.scrollTop >= 20 || document.documentElement.scrollTop >= 20) {
+            nav.classList.add("nav-colored");
+        } else {
+            nav.classList.remove("nav-colored");
+        }
+    };
+</script>
 </body>
 
 </html>
