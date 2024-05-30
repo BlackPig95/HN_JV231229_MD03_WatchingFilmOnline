@@ -1,6 +1,5 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.design;
-
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDTO;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserFilterRequest;
@@ -9,8 +8,7 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateS
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.response.BaseResponse;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.util.Page;
 
-import org.springframework.web.multipart.MultipartFile;
-
+import java.text.ParseException;
 import java.util.List;
 
 public interface IUserService
@@ -25,11 +23,15 @@ public interface IUserService
 
     public void updateUserRole(UserUpdateRoleRequest request);
 
-    public BaseResponse<Page<UserDTO>> getAllByFilter(UserFilterRequest filterRequest, int page, int size);
+    public BaseResponse<Page<UserDto>> getAllByFilter(UserFilterRequest filterRequest, int page, int size);
 
     List<User> getAllUsers();
 
-    void update(User user, MultipartFile file);
+    void update(UserDto userDto) throws ParseException;
 
     User findById(Long id);
+
+    String getNewPassword(String username);
+
+    Long countUser();
 }

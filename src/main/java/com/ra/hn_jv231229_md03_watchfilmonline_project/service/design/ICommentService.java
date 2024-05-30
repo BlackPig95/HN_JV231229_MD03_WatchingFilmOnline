@@ -13,4 +13,5 @@ public interface ICommentService {
     List<Comment> findAllSorted();
     Long countAllComment();
     List<Comment> findCommentByFilm(Long filmId);
+    Double averageRating();
 }

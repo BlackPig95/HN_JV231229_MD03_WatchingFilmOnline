@@ -26,4 +26,6 @@ public interface IFilmManageDao
 
     List<Film> findAll();
 
+    Long countView();
+
 }

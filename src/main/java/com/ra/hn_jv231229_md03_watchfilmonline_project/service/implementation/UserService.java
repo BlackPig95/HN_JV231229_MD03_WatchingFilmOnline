@@ -1,23 +1,25 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IUserDao;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDTO;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.constant.UserRole;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserFilterRequest;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateRoleRequest;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateStatusRequest;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.response.BaseResponse;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IUserService;
-
 import com.ra.hn_jv231229_md03_watchfilmonline_project.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 import com.ra.hn_jv231229_md03_watchfilmonline_project.util.FileUploadService;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
 import java.util.Date;
 
 @Service
@@ -48,6 +50,8 @@ public class UserService implements IUserService
     @Override
     public void register(User user)
     {
+        user.setUserRole(UserRole.FREE);
+        user.setWallet_balance(0L);
         userDao.register(user);
     }
 
@@ -64,11 +68,11 @@ public class UserService implements IUserService
     }
 
     @Override
-    public BaseResponse<Page<UserDTO>> getAllByFilter(UserFilterRequest filterRequest, int page, int size)
+    public BaseResponse<Page<UserDto>> getAllByFilter(UserFilterRequest filterRequest, int page, int size)
     {
-        Page<UserDTO> pageUser = userDao.getAllByFilter(filterRequest, page, size);
+        Page<UserDto> pageUser = userDao.getAllByFilter(filterRequest, page, size);
 
-        BaseResponse<Page<UserDTO>> response = new BaseResponse<>();
+        BaseResponse<Page<UserDto>> response = new BaseResponse<>();
         response.setCode(200);
         response.setMessage("success");
         response.setData(pageUser);
@@ -81,9 +85,12 @@ public class UserService implements IUserService
         return userDao.getAllUsers();
     }
 
-    @Override
-    public void update(User user, MultipartFile file)
-    {
+
+     @Override
+    public void update(UserDto userDto) throws ParseException {
+        MultipartFile file = userDto.getFileAvatar();
+        User user = findById(userDto.getUserId());
+
         user.setUpdatedAt(new Date());
         if (file.getSize() > 0 && file != null)
         {
@@ -99,5 +106,35 @@ public class UserService implements IUserService
     public User findById(Long id)
     {
         return userDao.findById(id);
+    }
+
+    @Override
+    public String getNewPassword(String username)
+    {
+        User user = userDao.findByUsername(username);
+        if (user != null)
+        {
+            String newPassword = getRandomPassword();
+            user.setPassword(newPassword);
+            userDao.update(user);
+            return newPassword;
+        }
+        return null;
+    }
+
+    public String getRandomPassword()
+    {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < 6; i++)
+        {
+            str.append(Math.round(Math.random() * 10));
+        }
+        return str.toString();
+    }
+
+    @Override
+    public Long countUser()
+    {
+        return userDao.countUser();
     }
 }

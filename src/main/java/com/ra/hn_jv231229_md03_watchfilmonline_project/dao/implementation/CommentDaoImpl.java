@@ -129,5 +129,17 @@ public class CommentDaoImpl implements ICommentDao {
         }
     }
 
+    @Override
+    public Double averageRating() {
+        Session session = sessionFactory.openSession();
+        try {
+            Double count = (Double) session.createQuery("select avg (stars) from Comment").uniqueResult();
+            return count == null ? 0 : count;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
 
 }

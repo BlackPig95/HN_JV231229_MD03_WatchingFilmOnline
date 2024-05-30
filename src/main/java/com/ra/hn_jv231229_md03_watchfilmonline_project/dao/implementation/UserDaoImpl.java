@@ -2,7 +2,7 @@ package com.ra.hn_jv231229_md03_watchfilmonline_project.dao.implementation;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IUserDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.constant.UserRole;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDTO;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.mapper.UserMapper;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserFilterRequest;
@@ -37,38 +37,9 @@ public class UserDaoImpl implements IUserDao
     }
 
     @Override
-    @Transactional
-    public User authenticate(String username, String password)
-    {
-        Session session = this.sessionFactory.openSession();
-        Query<User> query = session.createQuery("from User where username = :username and password = :password", User.class);
-        query.setParameter("username", username);
-        query.setParameter("password", password);
-        return query.uniqueResult();
-    }
-
-    @Override
-    @Transactional
-    public List<User> getAll()
-    {
-        Session session = this.sessionFactory.openSession();
-        CriteriaQuery<User> cq = session.getCriteriaBuilder().createQuery(User.class);
-        cq.select(cq.from(User.class));
-        return session.createQuery(cq).getResultList();
-    }
-
-    @Override
-    @Transactional
-    public void register(User user)
-    {
-        Session session = this.sessionFactory.openSession();
-        session.save(user);
-    }
-
-    @Override
 
     @Transactional
-    public Page<UserDTO> getAllByFilter(UserFilterRequest filterRequest, int page, int size)
+    public Page<UserDto> getAllByFilter(UserFilterRequest filterRequest, int page, int size)
     {
         try (Session session = sessionFactory.openSession())
         {
@@ -102,7 +73,8 @@ public class UserDaoImpl implements IUserDao
             query.setMaxResults(size);
 
             List<User> users = query.getResultList();
-            List<UserDTO> userDTOs = users.stream()
+            List<UserDto> userDTOs = users.stream()
+
                     .map(UserMapper::toUserDTO)
                     .collect(Collectors.toList());
             System.out.println(userDTOs);
@@ -142,32 +114,94 @@ public class UserDaoImpl implements IUserDao
             session.close();
         }
     }
+	
+	@Override
+	@Transactional
+	public User authenticate(String username, String password) {
+		Session session = this.sessionFactory.openSession();
+		Query<User> query = session.createQuery("from User where username = :username and password = :password", User.class);
+		query.setParameter("username", username);
+		query.setParameter("password", password);
+		return query.uniqueResult();
+	}
+	
+	@Override
+	@Transactional
+	public List<User> getAll() {
+		Session session = this.sessionFactory.openSession();
+		CriteriaQuery<User> cq = session.getCriteriaBuilder().createQuery(User.class);
+		cq.select(cq.from(User.class));
+		return session.createQuery(cq).getResultList();
+	}
+	
+	@Override
+	@Transactional
+	public void register(User user) {
+		Session session = this.sessionFactory.openSession();
+		session.save(user);
+	}
+	
+	@Override
+	@Transactional
+	public void updateRole(UserUpdateRoleRequest request) {
+		String hql = "UPDATE User u SET u.userRole = :newRole WHERE u.id = :userId";
+		Session session = this.sessionFactory.openSession();
+		try {
+			session.beginTransaction();
+			int updatedEntities = session.createQuery(hql)
+					  .setParameter("newRole", UserRole.valueOf(request.getNewRole()))
+					  .setParameter("userId", request.getUserId())
+					  .executeUpdate();
+			if (updatedEntities == 0) {
+				System.out.println(("ERROR"));
+			}
+			session.getTransaction().commit();
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+			
+			
+		}
+	}
+	
+	
+	private long getTotalCount(Session session, CriteriaQuery<User> criteriaQuery) {
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+		countQuery.select(criteriaBuilder.count(countQuery.from(User.class)));
+		countQuery.where(criteriaQuery.getRestriction());
+		return session.createQuery(countQuery).getSingleResult();
+	}
+	
+	@Override
+	public List<User> getAllUsers() {
+		Session session = sessionFactory.openSession();
+		try {
+			List list = session.createQuery("from  User ").list();
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+	
+	@Override
+	public void update(User user) {
+		Session session = this.sessionFactory.openSession();
+		try {
+			session.beginTransaction();
+			session.update(user);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+	}
 
-    @Override
-    @Transactional
-    public void updateRole(UserUpdateRoleRequest request)
-    {
-        String hql = "UPDATE User u SET u.userRole = :newRole WHERE u.id = :userId";
-        Session session = this.sessionFactory.openSession();
-        try
-        {
-            session.beginTransaction();
-            int updatedEntities = session.createQuery(hql)
-                    .setParameter("newRole", UserRole.valueOf(request.getNewRole()))
-                    .setParameter("userId", request.getUserId())
-                    .executeUpdate();
-            if (updatedEntities == 0)
-            {
-                System.out.println(("ERROR"));
-            }
-            session.getTransaction().commit();
-        } catch (Exception ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    @Override
     public User findById(Long id)
     {
         Session session = sessionFactory.openSession();
@@ -182,24 +216,16 @@ public class UserDaoImpl implements IUserDao
             session.close();
         }
     }
-
-    private long getTotalCount(Session session, CriteriaQuery<User> criteriaQuery)
-    {
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        countQuery.select(criteriaBuilder.count(countQuery.from(User.class)));
-        countQuery.where(criteriaQuery.getRestriction());
-        return session.createQuery(countQuery).getSingleResult();
-    }
-
+	 
     @Override
-    public List<User> getAllUsers()
+    public User findByUsername(String username)
     {
         Session session = sessionFactory.openSession();
         try
         {
-            List list = session.createQuery("from  User ").list();
-            return list;
+            return session.createQuery("select u from User u where u.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -211,24 +237,24 @@ public class UserDaoImpl implements IUserDao
     }
 
     @Override
-    public void update(User user)
+    public Long countUser()
     {
-        Session session = this.sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         try
         {
             session.beginTransaction();
             session.merge(user);
             session.getTransaction().commit();
+            Long count = (Long) session.createQuery("select count(*) from User").uniqueResult();
+            return count;
         } catch (Exception e)
         {
-            session.getTransaction().rollback();
             e.printStackTrace();
         } finally
         {
             session.close();
         }
-
+        return 0L;
     }
-
 }
 

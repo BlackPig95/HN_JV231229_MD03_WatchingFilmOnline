@@ -118,6 +118,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/placeholder/**");
         registry.addInterceptor(localeChangeInterceptor);
+        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/admin/**");
     }
 
     @Bean
@@ -172,4 +173,5 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware
                 .allowCredentials(true)
                 .maxAge(3600);
     }
+    
 }
