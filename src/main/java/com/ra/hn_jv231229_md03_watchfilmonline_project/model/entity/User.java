@@ -1,8 +1,13 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.constant.UserRole;
+
+import org.hibernate.annotations.Check;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -23,11 +28,12 @@ public class User
     @Pattern(regexp = "^[a-zA-Z.]+$")
     private String username;
     @Column(name = "email")
-    @Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\\\.[a-zA-Z]{2,63}$")
+    @Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$",message = "Định dạng email không hợp lệ")
+
     private String email;
     @Column(name = "phone", unique = true)
     @NotEmpty(message = "Vui lòng nhập số điện thoại")
-    @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$")
+    @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$",message = "Định dạng số điện thoại không hợp lệ")
     private String phone;
     @Column(name = "password")
     private String password;
@@ -45,7 +51,9 @@ public class User
     @Column(name = "avatar")
     private String avatar;
     @Column(name = "created_at")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt = new Date();
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "updated_at")
     private Date updatedAt;
 
@@ -105,17 +113,24 @@ public class User
         this.createdAt = createdAt;
     }
 
-    public @Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\\\.[a-zA-Z]{2,63}$") String getEmail()
-    {
+    public @Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$", message = "Định dạng email không hợp lệ") String getEmail() {
         return email;
     }
 
-    public void setEmail(@Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]*?[a-zA-Z0-9._-]?@[a-zA-Z0-9][a-zA-Z0-9._-]*?[a-zA-Z0-9]?\\\\.[a-zA-Z]{2,63}$") String email)
-    {
+    public void setEmail(@Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$", message = "Định dạng email không hợp lệ") String email) {
         this.email = email;
     }
 
-    public @NotNull String getFullname()
+
+    public @NotEmpty(message = "Vui lòng nhập số điện thoại") @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$", message = "Định dạng số điện thoại không hợp lệ") String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(@NotEmpty(message = "Vui lòng nhập số điện thoại") @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$", message = "Định dạng số điện thoại không hợp lệ") String phone) {
+        this.phone = phone;
+    }
+
+    public @NotNull String getFullName()
     {
         return fullname;
     }
@@ -135,15 +150,7 @@ public class User
         this.password = password;
     }
 
-    public @NotNull @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$") String getPhone()
-    {
-        return phone;
-    }
 
-    public void setPhone(@NotNull @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$") String phone)
-    {
-        this.phone = phone;
-    }
 
     public Boolean getStatus()
     {

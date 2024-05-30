@@ -1,10 +1,11 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.controller;
 
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.BannerDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Banner;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Country;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IBannerService;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.*;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +21,18 @@ public class AdminController {
     private IBannerService bannerService;
     @Autowired
     private IFilmService filmService;
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private ICategoryService categoryService;
+    @Autowired
+    private ICommentService commentService;
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
+        model.addAttribute("countUser", userService.countUser());
+        model.addAttribute("countAllFilmCategories",categoryService.countAllFilmCategories());
+        model.addAttribute("averageRating", commentService.averageRating());
+        model.addAttribute("countView", filmService.countView());
         return "admin/dashboard";
     }
     @GetMapping("/banner")
@@ -40,19 +51,26 @@ public class AdminController {
     }
     @GetMapping("/banner/initedit/{id}")
     public String initedit(Model model, @PathVariable Long id) {
-        model.addAttribute("banner", bannerService.findById(id));
+        Banner banner = bannerService.findById(id);
+        BannerDto bannerDto = new BannerDto();
+        bannerDto.setBannerId(banner.getBannerId());
+        bannerDto.setBannerImageUrl(banner.getBannerImage());
+        bannerDto.setFilm(banner.getFilm());
+        model.addAttribute("bannerDto", bannerDto);
         List<Film> films = filmService.findAll();
         model.addAttribute("films", films);
         return "banner/edit-banner";
     }
     @PostMapping("/banner/edit")
-    public String edit(@RequestParam("bannerId") Long bannerId, @RequestParam("file") MultipartFile file, @RequestParam("filmId") Long filmId) {
-        bannerService.update(bannerId, filmId, file);
+    public String edit(@ModelAttribute("bannerDto") BannerDto bannerDto, @RequestParam("filmId") Long filmId) {
+        bannerDto.setFilm(filmService.getFilmById(filmId));
+        bannerService.update(bannerDto);
         return "redirect:/admin/banner";
     }
     @GetMapping("/banner/delete/{id}")
     public String delete(@PathVariable Long id) {
-
+        bannerService.delete(id);
         return "redirect:/admin/banner";
     }
+
 }

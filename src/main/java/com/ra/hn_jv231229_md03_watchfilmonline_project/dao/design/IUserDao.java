@@ -28,4 +28,5 @@ public interface IUserDao
     List<User> getAllUsers();
 
     void update(User user);
+    Long countUser();
 }

@@ -1,5 +1,6 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.controller;
 
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation.UserService;
@@ -9,17 +10,16 @@ import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.Set;
 
 @Controller
-@Repository("/user")
+@Repository
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private HttpSession session;
@@ -34,15 +34,22 @@ public class UserController {
     @GetMapping("/edit")
     public String edit(Model model) {
         User user = (User) session.getAttribute("user");
-        model.addAttribute("user", user);
+        UserDto userDto = new UserDto();
+        userDto.setUserId(user.getUserId());
+        userDto.setEmail(user.getEmail());
+        userDto.setPhone(user.getPhone());
+        userDto.setFullName(user.getFullName());
+        userDto.setAvatarUrl(user.getAvatar());
+        model.addAttribute("userDto", userDto);
         return "user/edit-user";
     }
     @PostMapping("/edit")
-    public String edit(@Validated @ModelAttribute("user") User user, @RequestParam("avatar")MultipartFile file, BindingResult bindingResult) {
+    public String edit(@Validated @ModelAttribute("userDto") UserDto userDto, BindingResult bindingResult) throws ParseException {
         if (bindingResult.hasErrors()) {
             return "redirect:/user/edit";
         } else {
-            userService.update(user,file);
+            userService.update(userDto);
+            session.setAttribute("user", userService.findById(userDto.getUserId()));
             return "redirect:/user/infor";
         }
     }

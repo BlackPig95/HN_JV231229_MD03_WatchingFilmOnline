@@ -1,6 +1,9 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.controller;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmManageDao;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Banner;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IBannerService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmEpisodeDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmRequestDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.response.FilmDetailResponseDto;
@@ -23,17 +26,23 @@ public class HomePageController
     private final IFilmEpisodeService episodeService;
 
     @Autowired
+    private IBannerService bannerService;
+
+    @Autowired
     public HomePageController(IFilmService filmService, IFilmEpisodeService episodeService)
     {
         this.filmService = filmService;
         this.episodeService = episodeService;
     }
-
     @RequestMapping("/")
     public String index(Model model)
     {
         List<Film> seriesFilm = filmService.getTopRate(true);
         List<Film> singleFilm = filmService.getTopRate(false);
+
+        List<Banner> banners = bannerService.findAll();
+        model.addAttribute("banners", banners);
+
         List<Film> allFilms = filmService.findAll();
         List<FilmDetailResponseDto> responseFilmList = new ArrayList<>();
         for (Film film : allFilms)
