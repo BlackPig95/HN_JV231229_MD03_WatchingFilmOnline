@@ -1,6 +1,5 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.controller;
 
-import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IUserDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
