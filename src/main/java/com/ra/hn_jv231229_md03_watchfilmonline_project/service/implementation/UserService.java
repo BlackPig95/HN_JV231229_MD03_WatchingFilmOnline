@@ -1,6 +1,7 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IUserDao;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.constant.UserRole;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDTO;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserFilterRequest;
@@ -52,6 +53,8 @@ public class UserService implements IUserService
     @Override
     public void register(User user)
     {
+		 user.setUserRole(UserRole.FREE);
+		 user.setWallet_balance(0L);
         userDao.register(user);
     }
 
