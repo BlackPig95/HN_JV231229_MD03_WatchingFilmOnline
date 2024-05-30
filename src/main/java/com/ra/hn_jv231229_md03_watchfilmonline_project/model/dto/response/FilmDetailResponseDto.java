@@ -1,7 +1,11 @@
-package com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity;
+package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.response;
 
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Country;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmCategory;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -9,89 +13,66 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-@Entity
-@Table(name = "film")
-public class Film
+public class FilmDetailResponseDto
 {
-    @Id
-    @Column(name = "film_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long filmId;
-    @Column(name = "film_name", unique = true)
     private String filmName;
-    @Column(name = "film_description")
     private String filmDescription;
-    @Column(name = "film_image")
     private String filmImage;
-    @Column(name = "trailer_url")
     private String trailerUrl;
-    @Column(name = "view_count")
     private Long viewCount = 0l;
-    @Column(name = "release_date")
     private Date releaseDate;
-    @Column(name = "director")
     private String director;
-    @Column(name = "main_actor_name")
     private String mainActorName;
-    @Column(name = "main_actress_name")
     private String mainActressName;
-    @Column(name = "language")
     private String language;
-    @Column(name = "series_single")
     private Boolean seriesSingle;
-    @Column(name = "total_episode")
     private Integer totalEpisode;
-    @Column(name = "is_free")
     private Boolean isFree;
-    @Column(name = "status")
-    @Range(min = 1, max = 3)
     private Integer status; //Status 1 = Đang chiếu, 2 = Sắp chiếu, 3 = Ngừng chiếu
-
-    @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private FilmCategory filmCategory;
-    @ManyToOne
-    @JoinColumn(name = "country_id", referencedColumnName = "country_id")
     private Country country;
-
-    @OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
     private List<FilmEpisode> episodeList;
+    private Integer totalShowTime;
+    private Double stars;
 
-    public Film()
+    public FilmDetailResponseDto()
     {
     }
 
-    public Film(Long filmId, String filmName, String filmDescription, String filmImage, Long viewCount, Date releaseDate, String director, String mainActorName, String mainActressName, String language, Boolean seriesSingle, Integer totalEpisode, Boolean isFree, Integer status, FilmCategory filmCategory, Country country, List<FilmEpisode> episodeList)
+    public FilmDetailResponseDto(Country country, String director, List<FilmEpisode> episodeList, FilmCategory filmCategory, String filmDescription, Long filmId, String filmImage, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Double stars, Integer status, Integer totalEpisode, Integer totalShowTime, String trailerUrl, Long viewCount)
     {
-        this.filmId = filmId;
-        this.filmName = filmName;
-        this.filmDescription = filmDescription;
-        this.filmImage = filmImage;
-        this.viewCount = viewCount;
-        this.releaseDate = releaseDate;
+        this.country = country;
         this.director = director;
+        this.episodeList = episodeList;
+        this.filmCategory = filmCategory;
+        this.filmDescription = filmDescription;
+        this.filmId = filmId;
+        this.filmImage = filmImage;
+        this.filmName = filmName;
+        this.isFree = isFree;
+        this.language = language;
         this.mainActorName = mainActorName;
         this.mainActressName = mainActressName;
-        this.language = language;
+        this.releaseDate = releaseDate;
         this.seriesSingle = seriesSingle;
-        this.totalEpisode = totalEpisode;
-        this.isFree = isFree;
+        this.stars = stars;
         this.status = status;
-        this.filmCategory = filmCategory;
-        this.country = country;
-        this.episodeList = episodeList;
-    }
-
-    public Long getViewCount()
-    {
-        return viewCount;
-    }
-
-    public void setViewCount(Long viewCount)
-    {
+        this.totalEpisode = totalEpisode;
+        this.totalShowTime = totalShowTime;
+        this.trailerUrl = trailerUrl;
         this.viewCount = viewCount;
+    }
+
+    public Long getFilmId()
+    {
+        return filmId;
+    }
+
+    public void setFilmId(Long filmId)
+    {
+        this.filmId = filmId;
     }
 
     public Country getCountry()
@@ -114,6 +95,16 @@ public class Film
         this.director = director;
     }
 
+    public List<FilmEpisode> getEpisodeList()
+    {
+        return episodeList;
+    }
+
+    public void setEpisodeList(List<FilmEpisode> episodeList)
+    {
+        this.episodeList = episodeList;
+    }
+
     public FilmCategory getFilmCategory()
     {
         return filmCategory;
@@ -134,16 +125,6 @@ public class Film
         this.filmDescription = filmDescription;
     }
 
-    public Long getFilmId()
-    {
-        return filmId;
-    }
-
-    public void setFilmId(Long filmId)
-    {
-        this.filmId = filmId;
-    }
-
     public String getFilmImage()
     {
         return filmImage;
@@ -154,12 +135,12 @@ public class Film
         this.filmImage = filmImage;
     }
 
-    public @NotNull String getFilmName()
+    public String getFilmName()
     {
         return filmName;
     }
 
-    public void setFilmName(@NotNull String filmName)
+    public void setFilmName(String filmName)
     {
         this.filmName = filmName;
     }
@@ -204,12 +185,12 @@ public class Film
         this.mainActressName = mainActressName;
     }
 
-    public @NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date getReleaseDate()
+    public Date getReleaseDate()
     {
         return releaseDate;
     }
 
-    public void setReleaseDate(@NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date releaseDate)
+    public void setReleaseDate(Date releaseDate)
     {
         this.releaseDate = releaseDate;
     }
@@ -224,12 +205,12 @@ public class Film
         this.seriesSingle = seriesSingle;
     }
 
-    public @Range(min = 1, max = 3) Integer getStatus()
+    public Integer getStatus()
     {
         return status;
     }
 
-    public void setStatus(@Range(min = 1, max = 3) Integer status)
+    public void setStatus(Integer status)
     {
         this.status = status;
     }
@@ -244,16 +225,6 @@ public class Film
         this.totalEpisode = totalEpisode;
     }
 
-    public List<FilmEpisode> getEpisodeList()
-    {
-        return episodeList;
-    }
-
-    public void setEpisodeList(List<FilmEpisode> episodeList)
-    {
-        this.episodeList = episodeList;
-    }
-
     public String getTrailerUrl()
     {
         return trailerUrl;
@@ -262,5 +233,35 @@ public class Film
     public void setTrailerUrl(String trailerUrl)
     {
         this.trailerUrl = trailerUrl;
+    }
+
+    public Long getViewCount()
+    {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount)
+    {
+        this.viewCount = viewCount;
+    }
+
+    public Integer getTotalShowTime()
+    {
+        return totalShowTime;
+    }
+
+    public void setTotalShowTime(Integer totalShowTime)
+    {
+        this.totalShowTime = totalShowTime;
+    }
+
+    public Double getStars()
+    {
+        return stars;
+    }
+
+    public void setStars(Double stars)
+    {
+        this.stars = stars;
     }
 }

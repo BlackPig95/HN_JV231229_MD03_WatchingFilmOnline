@@ -59,6 +59,11 @@ public class CategoryServiceImpl implements ICategoryService {
         return categoryDao.countSearch(query);
     }
 
+    @Override
+    public Long countAllFilmCategories() {
+        return categoryDao.countAllFilmCategories();
+    }
+
 //    @Override
 //    public List<FilmCategory> findALlNoPhanTrang() {
 //        return categoryDao.findALlNoPhanTrang();

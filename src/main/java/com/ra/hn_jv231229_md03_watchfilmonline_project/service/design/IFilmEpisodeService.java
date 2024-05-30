@@ -14,4 +14,6 @@ public interface IFilmEpisodeService
     Boolean deleteEpisode(int id);
 
     void deletePreviousEpisode(long filmId);
+
+    FilmEpisode getEpisodeById(Long episodeId);
 }

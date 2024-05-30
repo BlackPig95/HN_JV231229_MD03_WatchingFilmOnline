@@ -65,6 +65,11 @@
                         <div class="col-sm-4 font-weight-bold">Ngày cập nhật:</div>
                         <div class="col-sm-8" id="updatedAt" th:text="${user.updatedAt}"></div>
                     </div>
+                    <div class="row mt-4">
+                        <div class="col text-center">
+                            <a th:href="@{/user/edit}" class="btn btn-primary">Cập nhật thông tin</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

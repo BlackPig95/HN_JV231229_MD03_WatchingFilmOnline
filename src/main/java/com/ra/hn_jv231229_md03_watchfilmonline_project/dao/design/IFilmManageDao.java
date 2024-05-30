@@ -21,6 +21,11 @@ public interface IFilmManageDao
     Integer countNumberOfFilms();
 
     String getFilmImageById(long id);
+
     List<Film> getTopRate(Boolean seriesSingle);
+
+    List<Film> findAll();
+
+    Long countView();
 
 }

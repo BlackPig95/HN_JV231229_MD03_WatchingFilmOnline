@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -11,18 +11,23 @@
       - favicon
     -->
     <link rel="shortcut icon" th:href="@{/assets/images/favicon.svg}" type="image/svg+xml">
-
-    <!--
-      - custom css link
-    -->
-    <link rel="stylesheet" th:href="@{/assets/css/index.css}">
-
     <!--
       - google font link
     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!--
+    - custom css link
+  -->
+    <link rel="stylesheet" th:href="@{/assets/css/index.css}">
+
 </head>
 
 <body id="top">
@@ -59,7 +64,11 @@
                 </select>
             </div>
 
-            <button class="btn btn-primary">Sign in</button>
+            <a th:href="@{/login}" class="btn btn-primary" th:if="${username==null}">Sign in</a>
+            <th:block th:if="${username!=null}">
+                <p style="color: #fff" th:text="${username}"></p>
+                <a style="color: #fff;" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </th:block>
 
         </div>
 
@@ -84,7 +93,7 @@
             <ul class="navbar-list">
 
                 <li>
-                    <a href="./index.html" class="navbar-link">Home</a>
+                    <a href="/index.html" class="navbar-link">Home</a>
                 </li>
 
                 <li>
@@ -152,59 +161,78 @@
           - #HERO
         -->
 
-        <section class="hero">
-            <div class="container">
+        <!--        <section class="hero">-->
+        <!--            <div class="container">-->
 
-                <div class="hero-content">
+        <!--                <div class="hero-content">-->
 
-                    <p class="hero-subtitle">Filmlane</p>
+        <!--                    <p class="hero-subtitle">Filmlane</p>-->
 
-                    <h1 class="h1 hero-title">
-                        Unlimited <strong>Movie</strong>, TVs Shows, & More.
-                    </h1>
+        <!--                    <h1 class="h1 hero-title">-->
+        <!--                        Unlimited <strong>Movie</strong>, TVs Shows, & More.-->
+        <!--                    </h1>-->
 
-                    <div class="meta-wrapper">
+        <!--                    <div class="meta-wrapper">-->
 
-                        <div class="badge-wrapper">
-                            <div class="badge badge-fill">PG 18</div>
+        <!--                        <div class="badge-wrapper">-->
+        <!--                            <div class="badge badge-fill">PG 18</div>-->
 
-                            <div class="badge badge-outline">HD</div>
-                        </div>
+        <!--                            <div class="badge badge-outline">HD</div>-->
+        <!--                        </div>-->
 
-                        <div class="ganre-wrapper">
-                            <a href="#">Romance,</a>
+        <!--                        <div class="ganre-wrapper">-->
+        <!--                            <a href="#">Romance,</a>-->
 
-                            <a href="#">Drama</a>
-                        </div>
+        <!--                            <a href="#">Drama</a>-->
+        <!--                        </div>-->
 
-                        <div class="date-time">
+        <!--                        <div class="date-time">-->
 
-                            <div>
-                                <ion-icon name="calendar-outline"></ion-icon>
+        <!--                            <div>-->
+        <!--                                <ion-icon name="calendar-outline"></ion-icon>-->
 
-                                <time datetime="2022">2022</time>
-                            </div>
+        <!--                                <time datetime="2022">2022</time>-->
+        <!--                            </div>-->
 
-                            <div>
-                                <ion-icon name="time-outline"></ion-icon>
+        <!--                            <div>-->
+        <!--                                <ion-icon name="time-outline"></ion-icon>-->
 
-                                <time datetime="PT128M">128 min</time>
-                            </div>
+        <!--                                <time datetime="PT128M">128 min</time>-->
+        <!--                            </div>-->
 
-                        </div>
+        <!--                        </div>-->
 
-                    </div>
+        <!--                    </div>-->
 
-                    <button class="btn btn-primary">
-                        <ion-icon name="play"></ion-icon>
+        <!--                    <button class="btn btn-primary">-->
+        <!--                        <ion-icon name="play"></ion-icon>-->
 
-                        <span>Watch now</span>
-                    </button>
+        <!--                        <span>Watch now</span>-->
+        <!--                    </button>-->
 
+        <!--                </div>-->
+
+        <!--            </div>-->
+        <!--        </section>-->
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item" th:each="banner : ${banners}"
+                     th:classappend="${banners.indexOf(banner)==0}?'active':''">
+                    <img th:src="${banner.bannerImage}"
+                         class="d-block w-100" alt="...">
                 </div>
-
             </div>
-        </section>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
 
 
         <!--
@@ -240,233 +268,83 @@
 
                 </div>
 
-                <ul class="movies-list  has-scrollbar">
+                <ul class="movies-list">
 
-                    <li>
+                    <li th:each="upcoming : ${filmList}" th:if="${upcoming.status==2}">
                         <div class="movie-card">
-
-                            <a th:href="@{/movie-detail}">
+                            <a th:href="@{/movie-detail/{id}(id=${upcoming.filmId})}">
                                 <figure class="card-banner">
-                                    <img src="./assets/images/upcoming-1.png" alt="The Northman movie poster">
+                                    <img th:src="${upcoming.filmImage}"
+                                         th:alt="${upcoming.filmName}">
                                 </figure>
                             </a>
 
                             <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
-                                    <h3 class="card-title">The Northman</h3>
+                                <a th:href="@{/movie-detail/{id}(id=${upcoming.filmId})}">
+                                    <h3 class="card-title" th:text="${upcoming.filmName}"></h3>
                                 </a>
 
-                                <time datetime="2022">2022</time>
+                                <h3 th:classappend="card-title"
+                                    th:text="${upcoming.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
                             </div>
 
                             <div class="card-meta">
-                                <div class="badge badge-outline">HD</div>
+                                <div class="badge badge-outline" th:text="${upcoming.free?'Miễn phí':'Trả phí'}"></div>
 
                                 <div class="duration">
                                     <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT137M">137 min</time>
+                                    <time datetime="PT137M" th:text="${upcoming.totalShowTime+' phút'}"></time>
                                 </div>
 
                                 <div class="rating">
                                     <ion-icon name="star"></ion-icon>
 
-                                    <data>8.5</data>
+                                    <data th:text="${upcoming.stars}"></data>
                                 </div>
                             </div>
 
                         </div>
                     </li>
 
-                    <li>
-                        <div class="movie-card">
 
-                            <a th:href="@{/movie-detail}">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/upcoming-2.png"
-                                         alt="Doctor Strange in the Multiverse of Madness movie poster">
-                                </figure>
-                            </a>
+                    <!--                    <li>-->
+                    <!--                        <div class="movie-card">-->
 
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
-                                    <h3 class="card-title">Doctor Strange in the Multiverse of Madness</h3>
-                                </a>
+                    <!--                            <a th:href="@{/movie-detail}">-->
+                    <!--                                <figure class="card-banner">-->
+                    <!--                                    <img src="./assets/images/upcoming-4.png"-->
+                    <!--                                         alt="The Unbearable Weight of Massive Talent movie poster">-->
+                    <!--                                </figure>-->
+                    <!--                            </a>-->
 
-                                <time datetime="2022">2022</time>
-                            </div>
+                    <!--                            <div class="title-wrapper">-->
+                    <!--                                <a th:href="@{/movie-detail}">-->
+                    <!--                                    <h3 class="card-title">The Unbearable Weight of Massive Talent</h3>-->
+                    <!--                                </a>-->
 
-                            <div class="card-meta">
-                                <div class="badge badge-outline">4K</div>
+                    <!--                                <time datetime="2022">2022</time>-->
+                    <!--                            </div>-->
 
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
+                    <!--                            <div class="card-meta">-->
+                    <!--                                <div class="badge badge-outline">HD</div>-->
 
-                                    <time datetime="PT126M">126 min</time>
-                                </div>
+                    <!--                                <div class="duration">-->
+                    <!--                                    <ion-icon name="time-outline"></ion-icon>-->
 
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
+                    <!--                                    <time datetime="PT107M">107 min</time>-->
+                    <!--                                </div>-->
 
-                                    <data>NR</data>
-                                </div>
-                            </div>
+                    <!--                                <div class="rating">-->
+                    <!--                                    <ion-icon name="star"></ion-icon>-->
 
-                        </div>
-                    </li>
+                    <!--                                    <data>NR</data>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
 
-                    <li>
-                        <div class="movie-card">
-
-                            <a th:href="@{/movie-detail}">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/upcoming-3.png" alt="Memory movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
-                                    <h3 class="card-title">Memory</h3>
-                                </a>
-
-                                <time datetime="2022">2022</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">2K</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="">N/A</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>NR</data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="movie-card">
-
-                            <a th:href="@{/movie-detail}">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/upcoming-4.png"
-                                         alt="The Unbearable Weight of Massive Talent movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
-                                    <h3 class="card-title">The Unbearable Weight of Massive Talent</h3>
-                                </a>
-
-                                <time datetime="2022">2022</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">HD</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT107M">107 min</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>NR</data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
+                    <!--                        </div>-->
+                    <!--                    </li>-->
 
                 </ul>
-
-            </div>
-        </section>
-
-
-        <!--
-          - #SERVICE
-        -->
-
-        <section class="service">
-            <div class="container">
-
-                <div class="service-banner">
-                    <figure>
-                        <img src="./assets/images/service-banner.jpg" alt="HD 4k resolution! only $3.99">
-                    </figure>
-
-                    <a href="./assets/images/service-banner.jpg" download class="service-btn">
-                        <span>Download</span>
-
-                        <ion-icon name="download-outline"></ion-icon>
-                    </a>
-                </div>
-
-                <div class="service-content">
-
-                    <p class="service-subtitle">Our Services</p>
-
-                    <h2 class="h2 service-title">Download Your Shows Watch Offline.</h2>
-
-                    <p class="service-text">
-                        Lorem ipsum dolor sit amet, consecetur adipiscing elseddo eiusmod tempor.There are many
-                        variations of
-                        passages of lorem
-                        Ipsum available, but the majority have suffered alteration in some injected humour.
-                    </p>
-
-                    <ul class="service-list">
-
-                        <li>
-                            <div class="service-card">
-
-                                <div class="card-icon">
-                                    <ion-icon name="tv"></ion-icon>
-                                </div>
-
-                                <div class="card-content">
-                                    <h3 class="h3 card-title">Enjoy on Your TV.</h3>
-
-                                    <p class="card-text">
-                                        Lorem ipsum dolor sit amet, consecetur adipiscing elit, sed do eiusmod tempor.
-                                    </p>
-                                </div>
-
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="service-card">
-
-                                <div class="card-icon">
-                                    <ion-icon name="videocam"></ion-icon>
-                                </div>
-
-                                <div class="card-content">
-                                    <h3 class="h3 card-title">Watch Everywhere.</h3>
-
-                                    <p class="card-text">
-                                        Lorem ipsum dolor sit amet, consecetur adipiscing elit, sed do eiusmod tempor.
-                                    </p>
-                                </div>
-
-                            </div>
-                        </li>
-
-                    </ul>
-
-                </div>
 
             </div>
         </section>
@@ -530,7 +408,8 @@
                                     <h3 class="card-title" th:text="${film.filmName}"></h3>
                                 </a>
 
-                                <time th:datetime="${film.releaseDate.year}" th:text="${film.releaseDate.year}"></time>
+                                <time th:datetime="${film.releaseDate.year}"
+                                      th:text="${film.   releaseDate.year}"></time>
                             </div>
 
                             <div class="card-meta">
@@ -547,197 +426,8 @@
 
             </div>
         </section>
-
-
-        <!--
-          - #TV SERIES
-        -->
-
-        <section class="tv-series">
-            <div class="container">
-
-                <p class="section-subtitle">Best TV Series</p>
-
-                <h2 class="h2 section-title">World Best TV Series</h2>
-
-                <ul class="movies-list">
-
-                    <li>
-                        <div class="movie-card">
-
-                            <a th:href="@{/movie-detail}">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/series-1.png" alt="Moon Knight movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
-                                    <h3 class="card-title">Moon Knight</h3>
-                                </a>
-
-                                <time datetime="2022">2022</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">2K</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT47M">47 min</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>8.6</data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="movie-card">
-
-                            <a th:href="@{/movie-detail}">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/series-2.png" alt="Halo movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
-                                    <h3 class="card-title">Halo</h3>
-                                </a>
-
-                                <time datetime="2022">2022</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">2K</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT59M">59 min</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>8.8</data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="movie-card">
-
-                            <a th:href="@{/movie-detail}">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/series-3.png" alt="Vikings: Valhalla movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
-                                    <h3 class="card-title">Vikings: Valhalla</h3>
-                                </a>
-
-                                <time datetime="2022">2022</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">2K</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT51M">51 min</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>8.3</data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="movie-card">
-
-                            <a th:href="@{/movie-detail}">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/series-4.png" alt="Money Heist movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
-                                    <h3 class="card-title">Money Heist</h3>
-                                </a>
-
-                                <time datetime="2017">2017</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">4K</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT70M">70 min</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>8.3</data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-
-        <!--
-          - #CTA
-        -->
-
-        <section class="cta">
-            <div class="container">
-
-                <div class="title-wrapper">
-                    <h2 class="cta-title">Trial start first 30 days.</h2>
-
-                    <p class="cta-text">
-                        Enter your email to create or restart your membership.
-                    </p>
-                </div>
-
-                <form action="" class="cta-form">
-                    <input type="email" name="email" required placeholder="Enter your email" class="email-field">
-
-                    <button type="submit" class="cta-form-btn">Get started</button>
-                </form>
-
-            </div>
-        </section>
-
     </article>
 </main>
-
-
 <!--
   - #FOOTER
 -->
@@ -871,6 +561,9 @@
 -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
 </body>
 

@@ -1,11 +1,13 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.model.mapper;
 
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.UserDTO;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 
-public class UserMapper {
-    public static UserDTO toUserDTO(User user) {
-        return new UserDTO(
+public class UserMapper
+{
+    public static UserDto toUserDTO(User user)
+    {
+        return new UserDto(
                 user.getUserId(),
                 user.getUsername(),
                 user.getEmail(),
