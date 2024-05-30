@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Thông Tin Cá Nhân</title>
     <link
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -52,11 +52,13 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Họ tên:</div>
+
                         <div class="col-sm-8" id="fullName" th:text="${user.fullname}"> </div>
+
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Số dư ví:</div>
-                        <div class="col-sm-8" id="wallet_balance" th:text="${user.wallet_balance}"> </div>
+                        <div class="col-sm-8" id="wallet_balance" th:text="${user.wallet_balance}"></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Trạng thái:</div>

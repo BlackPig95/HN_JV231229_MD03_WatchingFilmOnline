@@ -64,9 +64,9 @@
                 </select>
             </div>
 
-            <a th:href="@{/login}" class="btn btn-primary" th:if="${username==null}">Sign in</a>
-            <th:block th:if="${username!=null}">
-                <p style="color: #fff" th:text="${username}"></p>
+            <a th:href="@{/login}" class="btn btn-primary" th:if="${session.user==null}">Sign in</a>
+            <th:block th:if="${session.user!=null}">
+                <p style="color: #fff" th:text="${session.user.fullname}"></p>
                 <a style="color: #fff;" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i></a>
             </th:block>
 
@@ -97,7 +97,7 @@
                 </li>
 
                 <li>
-                    <a th:href="@{/all-movie}" class="navbar-link">Movie</a>
+                    <a th:href="@{/listCategory}" class="navbar-link">Movie</a>
                 </li>
 
                 <li>
@@ -156,64 +156,6 @@
 
 <main>
     <article>
-
-        <!--
-          - #HERO
-        -->
-
-        <!--        <section class="hero">-->
-        <!--            <div class="container">-->
-
-        <!--                <div class="hero-content">-->
-
-        <!--                    <p class="hero-subtitle">Filmlane</p>-->
-
-        <!--                    <h1 class="h1 hero-title">-->
-        <!--                        Unlimited <strong>Movie</strong>, TVs Shows, & More.-->
-        <!--                    </h1>-->
-
-        <!--                    <div class="meta-wrapper">-->
-
-        <!--                        <div class="badge-wrapper">-->
-        <!--                            <div class="badge badge-fill">PG 18</div>-->
-
-        <!--                            <div class="badge badge-outline">HD</div>-->
-        <!--                        </div>-->
-
-        <!--                        <div class="ganre-wrapper">-->
-        <!--                            <a href="#">Romance,</a>-->
-
-        <!--                            <a href="#">Drama</a>-->
-        <!--                        </div>-->
-
-        <!--                        <div class="date-time">-->
-
-        <!--                            <div>-->
-        <!--                                <ion-icon name="calendar-outline"></ion-icon>-->
-
-        <!--                                <time datetime="2022">2022</time>-->
-        <!--                            </div>-->
-
-        <!--                            <div>-->
-        <!--                                <ion-icon name="time-outline"></ion-icon>-->
-
-        <!--                                <time datetime="PT128M">128 min</time>-->
-        <!--                            </div>-->
-
-        <!--                        </div>-->
-
-        <!--                    </div>-->
-
-        <!--                    <button class="btn btn-primary">-->
-        <!--                        <ion-icon name="play"></ion-icon>-->
-
-        <!--                        <span>Watch now</span>-->
-        <!--                    </button>-->
-
-        <!--                </div>-->
-
-        <!--            </div>-->
-        <!--        </section>-->
         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item" th:each="banner : ${banners}"
@@ -242,7 +184,7 @@
                     <div class="title-wrapper">
                         <p class="section-subtitle">Online Streaming</p>
 
-                        <h2 class="h2 section-title">Now Showing</h2>
+                        <h2 class="h2 section-title">All movies</h2>
                     </div>
 
                     <ul class="filter-list">
@@ -265,7 +207,7 @@
 
                 <ul class="movies-list">
 
-                    <li th:each="showing : ${filmList}" th:if="${showing.status==1}">
+                    <li th:each="showing : ${filmList}">
                         <div class="movie-card">
                             <a th:href="@{/movie-detail/{id}(id=${showing.filmId})}">
                                 <figure class="card-banner">
@@ -304,221 +246,6 @@
             </div>
         </section>
 
-        <!--
-          - #UPCOMING
-        -->
-
-        <section class="upcoming">
-            <div class="container">
-
-                <div class="flex-wrapper">
-
-                    <div class="title-wrapper">
-                        <p class="section-subtitle">Online Streaming</p>
-
-                        <h2 class="h2 section-title">Upcoming Movies</h2>
-                    </div>
-
-                    <ul class="filter-list">
-
-                        <li>
-                            <button class="filter-btn">Movies</button>
-                        </li>
-
-                        <li>
-                            <button class="filter-btn">TV Shows</button>
-                        </li>
-
-                        <li>
-                            <button class="filter-btn">Anime</button>
-                        </li>
-
-                    </ul>
-
-                </div>
-
-                <ul class="movies-list">
-
-                    <li th:each="upcoming : ${filmList}" th:if="${upcoming.status==2}">
-                        <div class="movie-card">
-                            <a th:href="@{/movie-detail/{id}(id=${upcoming.filmId})}">
-                                <figure class="card-banner">
-                                    <img th:src="${upcoming.filmImage}"
-                                         th:alt="${upcoming.filmName}">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail/{id}(id=${upcoming.filmId})}">
-                                    <h3 class="card-title" th:text="${upcoming.filmName}"></h3>
-                                </a>
-
-                                <h3 th:classappend="card-title"
-                                    th:text="${upcoming.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline" th:text="${upcoming.free?'Miễn phí':'Trả phí'}"></div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-                                    <time datetime="PT137M" th:text="${upcoming.totalShowTime+' phút'}"></time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data th:text="${upcoming.stars}"></data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-                    <!--                    <li>-->
-                    <!--                        <div class="movie-card">-->
-
-                    <!--                            <a th:href="@{/movie-detail}">-->
-                    <!--                                <figure class="card-banner">-->
-                    <!--                                    <img src="./assets/images/upcoming-4.png"-->
-                    <!--                                         alt="The Unbearable Weight of Massive Talent movie poster">-->
-                    <!--                                </figure>-->
-                    <!--                            </a>-->
-
-                    <!--                            <div class="title-wrapper">-->
-                    <!--                                <a th:href="@{/movie-detail}">-->
-                    <!--                                    <h3 class="card-title">The Unbearable Weight of Massive Talent</h3>-->
-                    <!--                                </a>-->
-
-                    <!--                                <time datetime="2022">2022</time>-->
-                    <!--                            </div>-->
-
-                    <!--                            <div class="card-meta">-->
-                    <!--                                <div class="badge badge-outline">HD</div>-->
-
-                    <!--                                <div class="duration">-->
-                    <!--                                    <ion-icon name="time-outline"></ion-icon>-->
-
-                    <!--                                    <time datetime="PT107M">107 min</time>-->
-                    <!--                                </div>-->
-
-                    <!--                                <div class="rating">-->
-                    <!--                                    <ion-icon name="star"></ion-icon>-->
-
-                    <!--                                    <data>NR</data>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-
-                    <!--                        </div>-->
-                    <!--                    </li>-->
-
-                </ul>
-
-            </div>
-        </section>
-
-
-
-
-        <!--
-          - #TOP RATED
-        -->
-
-        <section class="top-rated">
-            <div class="container">
-
-                <p class="section-subtitle">Online Streaming</p>
-
-                <h2 class="h2 section-title">Top Rated Series Movies</h2>
-
-                <ul class="movies-list">
-                    <li th:each="film : ${seriesFilm}">
-                        <div class="movie-card">
-
-                            <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
-                                <figure class="card-banner">
-                                    <img th:src="${film.filmImage}" alt="">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
-                                    <h3 class="card-title" th:text="${film.filmName}"></h3>
-                                </a>
-
-
-                                <time th:datetime="${#dates.format(film.releaseDate,'yyyy')}" th:text="${#dates.format(film.releaseDate,'yyyy')}"></time>
-
-                                <h3 th:classappend="card-title"
-                                    th:text="${film.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
-
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline" th:text="${film.free?'Miễn phí':'Trả phí'}"></div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-                                    <time datetime="PT137M" th:text="${film.totalShowTime}+' phút'"></time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data th:text="${film.stars}"></data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-                </ul>
-
-                <h2 class="h2 section-title">Top Rated Single Movies</h2>
-
-                <ul class="movies-list">
-                    <li th:each="film : ${singleFilm}">
-                        <div class="movie-card">
-
-                            <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
-                                <figure class="card-banner">
-                                    <img th:src="${film.filmImage}" alt="">
-                                </figure>
-                            </a>
-                            <div class="title-wrapper">
-                                <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
-                                    <h3 class="card-title" th:text="${film.filmName}"></h3>
-                                </a>
-
-
-                                <time th:datetime="${#dates.format(film.releaseDate,'yyyy')}"
-                                      th:text="${#dates.format(film.releaseDate,'yyyy')}"></time>
-
-                                <h3 th:classappend="card-title"
-                                    th:text="${film.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
-
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline" th:text="${film.free?'Miễn phí':'Trả phí'}"></div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-                                    <time datetime="PT137M" th:text="${film.totalShowTime}+' phút'"></time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data th:text="${film.stars}"></data>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-
-            </div>
-
-
-        </section>
     </article>
 </main>
 <!--
@@ -626,7 +353,7 @@
                 &copy; 2022 <a href="#">codewithsadee</a>. All Rights Reserved
             </p>
 
-            <img src="/assets/images/footer-bottom-img.png" alt="Online banking companies logo"
+            <img src="./assets/images/footer-bottom-img.png" alt="Online banking companies logo"
                  class="footer-bottom-img">
 
         </div>

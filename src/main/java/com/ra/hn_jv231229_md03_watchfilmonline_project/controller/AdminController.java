@@ -16,27 +16,36 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
-    @Autowired
+public class AdminController
+{
     private IBannerService bannerService;
-    @Autowired
     private IFilmService filmService;
-    @Autowired
     private IUserService userService;
-    @Autowired
     private ICategoryService categoryService;
-    @Autowired
     private ICommentService commentService;
+
+    @Autowired
+    public AdminController(IBannerService bannerService, IFilmService filmService, ICategoryService categoryService, IUserService userService, ICommentService commentService)
+    {
+        this.bannerService = bannerService;
+        this.filmService = filmService;
+        this.categoryService = categoryService;
+        this.userService = userService;
+        this.commentService = commentService;
+    }
+
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-        model.addAttribute("countUser", userService.countUser());
-        model.addAttribute("countAllFilmCategories",categoryService.countAllFilmCategories());
+    public String dashboard(Model model)
+    {
+        model.addAttribute("countAllFilmCategories", categoryService.countAllFilmCategories());
         model.addAttribute("averageRating", commentService.averageRating());
         model.addAttribute("countView", filmService.countView());
         return "admin/dashboard";
     }
+
     @GetMapping("/banner")
-    public String banner(Model model) {
+    public String banner(Model model)
+    {
         List<Banner> banners = bannerService.findAll();
         List<Film> films = filmService.findAll();
         model.addAttribute("films", films);
@@ -44,13 +53,16 @@ public class AdminController {
         model.addAttribute("bannerAdd", new Banner());
         return "banner/list-banner";
     }
+
     @PostMapping("/banner/add")
     public String add(Model model, @RequestParam("filmId") Long filmId,@RequestParam("file") MultipartFile file) {
         bannerService.save(filmId, file);
         return "redirect:/admin/banner";
     }
+
     @GetMapping("/banner/initedit/{id}")
-    public String initedit(Model model, @PathVariable Long id) {
+    public String initedit(Model model, @PathVariable Long id)
+    {
         Banner banner = bannerService.findById(id);
         BannerDto bannerDto = new BannerDto();
         bannerDto.setBannerId(banner.getBannerId());
@@ -61,14 +73,18 @@ public class AdminController {
         model.addAttribute("films", films);
         return "banner/edit-banner";
     }
+
     @PostMapping("/banner/edit")
-    public String edit(@ModelAttribute("bannerDto") BannerDto bannerDto, @RequestParam("filmId") Long filmId) {
+    public String edit(@ModelAttribute("bannerDto") BannerDto bannerDto, @RequestParam("filmId") Long filmId)
+    {
         bannerDto.setFilm(filmService.getFilmById(filmId));
         bannerService.update(bannerDto);
         return "redirect:/admin/banner";
     }
+
     @GetMapping("/banner/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id)
+    {
         bannerService.delete(id);
         return "redirect:/admin/banner";
     }

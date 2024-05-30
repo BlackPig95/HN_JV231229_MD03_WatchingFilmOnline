@@ -18,6 +18,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <!--
   - custom css link
 -->
@@ -32,7 +36,22 @@
         .show-episode {
             display: inline;
         }
+        /* CSS cho danh sách bình luận */
+        .list-group-item {
+            background-color: #000; /* Màu nền đen */
+            color: #fff; /* Màu chữ trắng */
+            border: none; /* Loại bỏ viền */
+        }
+
+        /* CSS cho khung bình luận */
+        #comment-section {
+            background-color: #fff; /* Màu nền trắng */
+            color: #000; /* Màu chữ đen */
+            border: 1px solid #ddd; /* Viền màu xám nhạt */
+            border-radius: 5px; /* Bo góc */
+        }
     </style>
+
 </head>
 
 <body id="#top">
@@ -68,9 +87,11 @@
                     <option value="tu">TU</option>
                 </select>
             </div>
-
-            <button class="btn btn-primary">Sign in</button>
-
+            <a th:href="@{/login}" class="btn btn-primary" th:if="${session.user==null}">Sign in</a>
+            <th:block th:if="${session.user!=null}">
+                <p style="color: #fff" th:text="${session.user.fullname}"></p>
+                <a style="color: #fff;" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </th:block>
         </div>
 
         <button class="menu-open-btn" data-menu-open-btn>
@@ -161,7 +182,10 @@
         <!--
           - #MOVIE DETAIL
         -->
-
+        <br/><br/><br/><br/>
+        <th:block th:if="${roleFree!=null}">
+            <p th:text="${roleFree}" style="font-weight: 900; font-size: 100px; color: red"></p>
+        </th:block>
         <section class="movie-detail" th:object="${detailFilm}">
             <div class="container">
 
@@ -169,15 +193,11 @@
 
                     <img th:src="${detailFilm.filmImage}" th:alt="${detailFilm.filmName}">
 
-                    <button class="play-btn">
-                        <ion-icon name="play-circle-outline"></ion-icon>
-                    </button>
-
                 </figure>
 
                 <div class="movie-detail-content">
 
-                    <p class="detail-subtitle"><a target="_blank" th:href="${detailFilm.trailerUrl}">Xem trailer</a></p>
+                    <p class="detail-subtitle"><a th:href="@{/play-trailer/{idFilm}(idFilm=${detailFilm.filmId})}">Xem trailer</a></p>
 
                     <h1 class="h1 detail-title" th:text="${detailFilm.filmName}"></h1>
 
@@ -213,24 +233,60 @@
                     <div class="details-actions">
                         <button class="btn btn-primary" style="width: 100%">
                             <ion-icon name="play"></ion-icon>
-                            <span><a>Xem ngay</a></span>
+                            <!-- <span><a>Xem ngay</a></span>-->
+                        </span>
+                                </button>
+                            </form>
                         </button>
                     </div>
                 </div>
-                <div class="details-actions">
-                    <form th:each="episode : ${detailFilm.episodeList}"
-                          th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}">
-                        <input type="hidden" name="filmId" th:value="${detailFilm.filmId}">
-                        <button class="btn btn-primary" style="width: fit-content">
-                            <ion-icon name="play"></ion-icon>
-                            <span>
+                <div class="details-actions" th:if="${detailFilm.status==1}">
+                    <th:block th:if="${session.user!=null}">
+                        <form th:action="@{/check-role/{userId}(userId=${session.user.userId})}" th:each="episode : ${detailFilm.episodeList}">
+                            <!--                        th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}"-->
+                            <input type="hidden" name="idEpisode" th:value="${episode.filmEpisodeId}">
+                            <input type="hidden" name="filmId" th:value="${detailFilm.filmId}">
+                            <button class="btn btn-primary" style="width: fit-content">
+                                <ion-icon name="play"></ion-icon>
+                                <span>
                             <a style="text-decoration: none; color: blue;"
                                th:text="${'Tập '+episode.episodeNumber}"></a>
                         </span>
+                            </button>
+                        </form>
+                    </th:block>
+                    <th:block th:if="${session.user==null}">
+                        <form th:action="@{'/check-role/-1'}" th:each="episode : ${detailFilm.episodeList}">
+                            <!--                        th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}"-->
+                            <input type="hidden" name="idEpisode" th:value="${episode.filmEpisodeId}">
+                            <input type="hidden" name="filmId" th:value="${detailFilm.filmId}">
+                            <button class="btn btn-primary" style="width: fit-content">
+                                <ion-icon name="play"></ion-icon>
+                                <span>
+                            <a style="text-decoration: none; color: blue;"
+                               th:text="${'Tập '+episode.episodeNumber}"></a>
+                        </span>
+                            </button>
+                        </form>
+                    </th:block>
+                </div>
+                <th:block th:if="${detailFilm.status!=1}">
+                    <div th:if="${detailFilm.status==2}">
+                        <span style="color: white">Các tập phim đang được cập nhật. Vui lòng chờ</span>
+                    </div>
+                    <div th:if="${detailFilm.status==3}">
+                        <span style="color: white">Phim này đã ngừng chiếu</span>
+                    </div>
+                </th:block>
                         </button>
                     </form>
-
                 </div>
+                <a th:href="@{/favorites/add/{filmId}(filmId=${filmId})}">
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <span>Thêm vào danh sách yêu thích</span>
+                    </button>
+                </a>
             </div>
             <div style="width: 100%; margin-top: 50px; padding: 50px">
                 <th:block th:if="${episodeToPlay != null}">
@@ -240,8 +296,47 @@
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </th:block>
+                <th:block th:if="${filmWithTrailer != null}">
+                    <iframe style="margin-left: auto;" width="90%" height="600"
+                            th:src="${filmWithTrailer.trailerUrl}"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </th:block>
             </div>
         </section>
+
+        <!-- Phần comment -->
+        <div class="row">
+            <div class="col">
+                <form th:action="@{/comments/add/}" method="post" class="p-3 mb-3 bg-white rounded" th:object="${commentDto}">
+                    <h2 class="mb-4" style="color: #00aff0">Bình luận về phim</h2>
+                    <input type="hidden" id="userId"  th:field="*{userId}" />
+                    <input type="hidden" id="filmId"  th:field="*{filmId}" />
+                    <div class="input-group">
+                        <input type="text" id="comment" th:field="*{content}" class="form-control" placeholder="Viết bình luận..." />
+                        <select th:field="*{stars}" class="form-select" style="color: blue">
+                            <option value="1">1 star</option>
+                            <option value="2">2 stars</option>
+                            <option value="3">3 stars</option>
+                            <option value="4">4 stars</option>
+                            <option value="5">5 stars</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Đăng</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col">
+                <ul class="list-group">
+                    <li th:each="comment : ${listComment}" class="list-group-item bg-white text-dark">
+                        <h5 class="mb-1" th:text="${comment.user.username}">User Name</h5>
+                        <p class="mb-1" th:text="${comment.content}">Comment Content</p>
+                        <small class="text-muted" th:text="${comment.stars} + ' stars'">Stars</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
 
     </article>
 </main>

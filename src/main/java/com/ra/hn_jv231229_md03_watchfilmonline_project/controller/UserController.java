@@ -62,4 +62,42 @@ public class UserController {
 		model.addAttribute("filmEpisodes", filmEpisodes);
 		return "user/history-user";
 	}
+	
+	@GetMapping("/addWallet")
+	public String addWallet(Model model) {
+		return "user/addWallet";
+	}
+	
+	@PostMapping("/handleAddMoney")
+	public String handleAddMoney(@RequestParam("money") Long money, Model model) {
+		User user = (User) session.getAttribute("user");
+		if (money < 0) {
+			model.addAttribute("error", "money must be than 0");
+			return "user/addWallet";
+		}
+		userService.handleAddWallet(user, money, session);
+		return "redirect:/user/home";
+	}
+	
+	@GetMapping("/home")
+	public String home() {
+		return "home";
+	}
+	
+	@GetMapping("/viewUpdateAcc")
+	public String viewUpdateAcc(Model model) {
+		return "user/updateAccount";
+	}
+	
+	@PostMapping("/handleUpdateAcc")
+	public String handleUpdateAcc(@RequestParam("option") String option, HttpSession session, Model model) {
+		User user = (User) session.getAttribute("user");
+		boolean check = userService.handleUpdateAcc(user, option);
+		if (check) {
+			return "redirect:/user/home";
+		} else {
+			model.addAttribute("error", "you do not have enough money");
+			return "user/updateAccount";
+		}
+	}
 }
