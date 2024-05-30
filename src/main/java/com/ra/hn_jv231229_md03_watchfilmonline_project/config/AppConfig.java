@@ -51,9 +51,9 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:1028/watch_film_online?createDatabaseIfNotExist=true");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/watch_film_online?createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
-        dataSource.setPassword("123456");
+        dataSource.setPassword("Blackpigsql666");
         return dataSource;
     }
 
@@ -173,5 +173,5 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware
                 .allowCredentials(true)
                 .maxAge(3600);
     }
-    
+
 }
