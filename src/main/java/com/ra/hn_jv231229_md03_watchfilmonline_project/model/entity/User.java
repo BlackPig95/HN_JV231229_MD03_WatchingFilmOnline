@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Set;
+
 @Entity
 @Table(name = "user")
 public class User
@@ -25,7 +26,7 @@ public class User
     @NotEmpty(message = "Tên người dùng không được để trống")
     private String username;
     @Column(name = "email")
-   private String email;
+    private String email;
     @Column(name = "phone", unique = true)
     @NotEmpty(message = "Vui lòng nhập số điện thoại")
     private String phone;
@@ -43,7 +44,7 @@ public class User
     @Column(name = "status")
     private Boolean status;
     @Column(name = "avatar")
-    private String avatar;
+    private String avatar = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
     @Column(name = "created_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt = new Date();
@@ -66,10 +67,10 @@ public class User
     private Set<FilmEpisode> filmEpisodeSet;
 
 
-
     public User()
     {
     }
+
     public User(Long userId)
     {
         this.userId = userId;
@@ -92,119 +93,147 @@ public class User
         this.userRole = userRole;
         this.wallet_balance = wallet_balance;
     }
-    
-    public Long getUserId() {
+
+    public Long getUserId()
+    {
         return userId;
     }
-    
-    public void setUserId(Long userId) {
+
+    public void setUserId(Long userId)
+    {
         this.userId = userId;
     }
-    
-    public String getUsername() {
+
+    public String getUsername()
+    {
         return username;
     }
-    
-    public void setUsername(String username) {
+
+    public void setUsername(String username)
+    {
         this.username = username;
     }
-    
-    public String getEmail() {
+
+    public String getEmail()
+    {
         return email;
     }
-    
-    public void setEmail(String email) {
+
+    public void setEmail(String email)
+    {
         this.email = email;
     }
-    
-    public String getPhone() {
+
+    public String getPhone()
+    {
         return phone;
     }
-    
-    public void setPhone(String phone) {
+
+    public void setPhone(String phone)
+    {
         this.phone = phone;
     }
-    
-    public String getPassword() {
+
+    public String getPassword()
+    {
         return password;
     }
-    
-    public void setPassword(String password) {
+
+    public void setPassword(String password)
+    {
         this.password = password;
     }
-    
-    public UserRole getUserRole() {
+
+    public UserRole getUserRole()
+    {
         return userRole;
     }
-    
-    public void setUserRole(UserRole userRole) {
+
+    public void setUserRole(UserRole userRole)
+    {
         this.userRole = userRole;
     }
-    
-    public String getFullname() {
+
+    public String getFullname()
+    {
         return fullname;
     }
-    
-    public void setFullname(String fullname) {
+
+    public void setFullname(String fullname)
+    {
         this.fullname = fullname;
     }
-    
-    public Long getWallet_balance() {
+
+    public Long getWallet_balance()
+    {
         return wallet_balance;
     }
-    
-    public void setWallet_balance(Long wallet_balance) {
+
+    public void setWallet_balance(Long wallet_balance)
+    {
         this.wallet_balance = wallet_balance;
     }
-    
-    public Boolean getStatus() {
+
+    public Boolean getStatus()
+    {
         return status;
     }
-    
-    public void setStatus(Boolean status) {
+
+    public void setStatus(Boolean status)
+    {
         this.status = status;
     }
-    
-    public String getAvatar() {
+
+    public String getAvatar()
+    {
         return avatar;
     }
-    
-    public void setAvatar(String avatar) {
+
+    public void setAvatar(String avatar)
+    {
         this.avatar = avatar;
     }
-    
-    public Date getCreatedAt() {
+
+    public Date getCreatedAt()
+    {
         return createdAt;
     }
-    
-    public void setCreatedAt(Date createdAt) {
+
+    public void setCreatedAt(Date createdAt)
+    {
         this.createdAt = createdAt;
     }
-    
-    public Date getUpdatedAt() {
+
+    public Date getUpdatedAt()
+    {
         return updatedAt;
     }
-    
-    public void setUpdatedAt(Date updatedAt) {
+
+    public void setUpdatedAt(Date updatedAt)
+    {
         this.updatedAt = updatedAt;
     }
-    
-    public Set<Film> getFilmSet() {
+
+    public Set<Film> getFilmSet()
+    {
         return filmSet;
     }
-    
-    public void setFilmSet(Set<Film> filmSet) {
+
+    public void setFilmSet(Set<Film> filmSet)
+    {
         this.filmSet = filmSet;
     }
-    
-    public Set<FilmEpisode> getFilmEpisodeSet() {
+
+    public Set<FilmEpisode> getFilmEpisodeSet()
+    {
         return filmEpisodeSet;
     }
-    
-    public void setFilmEpisodeSet(Set<FilmEpisode> filmEpisodeSet) {
+
+    public void setFilmEpisodeSet(Set<FilmEpisode> filmEpisodeSet)
+    {
         this.filmEpisodeSet = filmEpisodeSet;
     }
-    
+
     @Override
     public String toString()
     {

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.text.ParseException;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -82,7 +83,8 @@ public class HomePageController
     }
 
     @GetMapping("/movie-detail/{id}")
-    public String movieDetail(@PathVariable Long id, Model model, HttpSession session) {
+    public String movieDetail(@PathVariable Long id, Model model, HttpSession session)
+    {
         Long userId = (Long) session.getAttribute("userId");
         model.addAttribute("detailFilm", filmService.getResponseFilm(filmService.getFilmById(id)));
         model.addAttribute("listComment", commentService.findCommentByFilm(id));
@@ -91,7 +93,7 @@ public class HomePageController
         CommentDto commentDto = new CommentDto();
         commentDto.setFilmId(id);
         commentDto.setUserId(userId);
-        model.addAttribute("commentDto", commentDto );
+        model.addAttribute("commentDto", commentDto);
         return "movie-details";
     }
 
@@ -155,17 +157,17 @@ public class HomePageController
         }
 //        model.addAttribute("idEpisode", idEpisode);
         //Tạo ra set các episode để lưu vào trong lịch sử xem của người dùng
-        Set<FilmEpisode> filmEpisodeSet = new HashSet<>();
-        filmEpisodeSet.add(episodeService.getEpisodeById(idEpisode));
-        user.setFilmEpisodeSet(filmEpisodeSet);
-        try
-        {
-            user.setAvatar("C:\\Users\\Black Pig\\Pictures\\BnS\\348283600_632267798487082_462398122084732790_n.png");
-            userService.update(UserMapper.toUserDTO(user));
-        } catch (ParseException e)
-        {
-            throw new RuntimeException(e);
-        }
+//        Set<FilmEpisode> filmEpisodeSet = new HashSet<>();
+//        filmEpisodeSet.add(episodeService.getEpisodeById(idEpisode));
+//        user.setFilmEpisodeSet(filmEpisodeSet);
+//        try
+//        {
+//            user.setAvatar("C:\\Users\\Black Pig\\Pictures\\BnS\\348283600_632267798487082_462398122084732790_n.png");
+//            userService.update(UserMapper.toUserDTO(user));
+//        } catch (ParseException e)
+//        {
+//            throw new RuntimeException(e);
+//        }
         return "redirect:/play-episode/" + idEpisode + "?filmId=" + filmId;
     }
 }
