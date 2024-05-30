@@ -40,11 +40,11 @@ public class User
     private String fullname;
     @Column(name = "wallet_balance")
     @Min(0)
-    private Long wallet_balance;
+    private Long wallet_balance = 0L;
     @Column(name = "status")
     private Boolean status;
     @Column(name = "avatar")
-    private String avatar = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
+    private String avatar="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
     @Column(name = "created_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt = new Date();

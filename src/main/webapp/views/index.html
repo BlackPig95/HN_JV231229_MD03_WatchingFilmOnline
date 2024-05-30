@@ -445,8 +445,12 @@
                                     <h3 class="card-title" th:text="${film.filmName}"></h3>
                                 </a>
 
+
+                                <time th:datetime="${#dates.format(film.releaseDate,'yyyy')}" th:text="${#dates.format(film.releaseDate,'yyyy')}"></time>
+
                                 <h3 th:classappend="card-title"
                                     th:text="${film.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
+
                             </div>
 
                             <div class="card-meta">
@@ -473,6 +477,7 @@
                 <ul class="movies-list">
                     <li th:each="film : ${singleFilm}">
                         <div class="movie-card">
+
                             <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
                                 <figure class="card-banner">
                                     <img th:src="${film.filmImage}" alt="">
@@ -483,8 +488,13 @@
                                     <h3 class="card-title" th:text="${film.filmName}"></h3>
                                 </a>
 
+
+                                <time th:datetime="${#dates.format(film.releaseDate,'yyyy')}"
+                                      th:text="${#dates.format(film.releaseDate,'yyyy')}"></time>
+
                                 <h3 th:classappend="card-title"
                                     th:text="${film.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
+
                             </div>
 
                             <div class="card-meta">

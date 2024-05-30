@@ -65,13 +65,7 @@
     </style>
 </head>
 <body>
-<div class="sidebar">
-    <h2>Quản Lý</h2>
-    <a href="#">Dashboard</a>
-    <a href="#">Quản Lý </a>
-    <a href="#">Quản Lý </a>
-    <a href="#">Quản Lý </a>
-</div>
+
 
 <div class="main-content">
     <h1 class="mb-4">Trang Quản Lý Quốc Gia</h1>
@@ -141,24 +135,24 @@
 
     <h2 class="mb-3">Danh Sách Quốc Gia</h2>
     <div class="form-container" th:if="${directionCheck}">
-        <a th:href="@{/admin/country?order=id&direction=asc}">
+        <a th:href="@{'/admin/country?order=id&direction=asc&page=' + ${curr}}">
             <button class="btn btn-primary mr-2">Sắp xếp theo ID</button>
         </a>
-        <a th:href="@{/admin/country?order=name&direction=asc}">
+        <a th:href="@{'/admin/country?order=name&direction=asc&page=' +${curr}}">
             <button class="btn btn-primary">Sắp xếp theo Tên Quốc Gia</button>
         </a>
-        <a th:href="@{/admin/country?order=film&direction=asc}">
+        <a th:href="@{'/admin/country?order=film&direction=asc&page=' +${curr}}">
             <button class="btn btn-primary">Sắp xếp theo Số lượng phim</button>
         </a>
     </div>
     <div class="form-container" th:if="${!directionCheck}">
-        <a th:href="@{/admin/country?order=id&direction=desc}">
+        <a th:href="@{'/admin/country?order=id&direction=desc&page=' +${curr}}">
             <button class="btn btn-primary mr-2">Sắp xếp theo ID</button>
         </a>
-        <a th:href="@{/admin/country?order=name&direction=desc}">
+        <a th:href="@{'/admin/country?order=name&direction=desc&page=' +${curr}}">
             <button class="btn btn-primary">Sắp xếp theo Tên Quốc Gia</button>
         </a>
-        <a th:href="@{/admin/country?order=film&direction=desc}">
+        <a th:href="@{'/admin/country?order=film&direction=desc&page=' +${curr}}">
             <button class="btn btn-primary">Sắp xếp theo Số lượng phim</button>
         </a>
     </div>

@@ -17,5 +17,14 @@ public class UserMapper
                 user.getStatus()
         );
     }
+    public static UserDto toEditDto(User user){
+        return new UserDto(
+                user.getUserId(),
+                user.getFullname(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getAvatar()
+        );
+    }
 }
 
