@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Set;
-
 @Entity
 @Table(name = "user")
 public class User
@@ -63,8 +62,14 @@ public class User
     @EqualsAndHashCode.Exclude
     private Set<FilmEpisode> filmEpisodeSet;
 
+
+
     public User()
     {
+    }
+    public User(Long userId)
+    {
+        this.userId = userId;
     }
 
     public User(String avatar, Date createdAt, String email, Set<FilmEpisode> filmEpisodeSet, Set<Film> filmSet, String fullname, String password, String phone, Boolean status, Date updatedAt, Long userId, String username, UserRole userRole, Long wallet_balance)

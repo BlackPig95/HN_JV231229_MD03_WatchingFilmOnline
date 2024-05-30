@@ -32,7 +32,22 @@
         .show-episode {
             display: inline;
         }
+        /* CSS cho danh sách bình luận */
+        .list-group-item {
+            background-color: #000; /* Màu nền đen */
+            color: #fff; /* Màu chữ trắng */
+            border: none; /* Loại bỏ viền */
+        }
+
+        /* CSS cho khung bình luận */
+        #comment-section {
+            background-color: #fff; /* Màu nền trắng */
+            color: #000; /* Màu chữ đen */
+            border: 1px solid #ddd; /* Viền màu xám nhạt */
+            border-radius: 5px; /* Bo góc */
+        }
     </style>
+
 </head>
 
 <body id="#top">
@@ -229,8 +244,13 @@
                         </span>
                         </button>
                     </form>
-
                 </div>
+                <a th:href="@{/favorites/add/{filmId}(filmId=${filmId})}">
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <ion-icon name="heart-outline"></ion-icon>
+                        <span>Thêm vào danh sách yêu thích</span>
+                    </button>
+                </a>
             </div>
             <div style="width: 100%; margin-top: 50px; padding: 50px">
                 <th:block th:if="${episodeToPlay != null}">
@@ -242,6 +262,38 @@
                 </th:block>
             </div>
         </section>
+
+        <!-- Phần comment -->
+        <div class="row">
+            <div class="col">
+                <form th:action="@{/comments/add/}" method="post" class="p-3 mb-3 bg-white rounded" th:object="${commentDto}">
+                    <h2 class="mb-4" style="color: #00aff0">Bình luận về phim</h2>
+                    <input type="hidden" id="userId"  th:field="*{userId}" />
+                    <input type="hidden" id="filmId"  th:field="*{filmId}" />
+                    <div class="input-group">
+                        <input type="text" id="comment" th:field="*{content}" class="form-control" placeholder="Viết bình luận..." />
+                        <select th:field="*{stars}" class="form-select" style="color: blue">
+                            <option value="1">1 star</option>
+                            <option value="2">2 stars</option>
+                            <option value="3">3 stars</option>
+                            <option value="4">4 stars</option>
+                            <option value="5">5 stars</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Đăng</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col">
+                <ul class="list-group">
+                    <li th:each="comment : ${listComment}" class="list-group-item bg-white text-dark">
+                        <h5 class="mb-1" th:text="${comment.user.username}">User Name</h5>
+                        <p class="mb-1" th:text="${comment.content}">Comment Content</p>
+                        <small class="text-muted" th:text="${comment.stars} + ' stars'">Stars</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
 
     </article>
 </main>

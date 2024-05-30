@@ -12,4 +12,5 @@ public interface ICommentService {
     void deleteById(Long id);
     List<Comment> findAllSorted();
     Long countAllComment();
+    List<Comment> findCommentByFilm(Long filmId);
 }
