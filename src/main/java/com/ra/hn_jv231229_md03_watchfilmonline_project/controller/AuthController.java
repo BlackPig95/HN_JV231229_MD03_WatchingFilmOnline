@@ -80,4 +80,9 @@ public class AuthController {
 		}
 		return "forgetPassword";
 	}
+	
+	@GetMapping("/403")
+	public String accessDenied() {
+		return "accessDeniedPage";
+	}
 }
