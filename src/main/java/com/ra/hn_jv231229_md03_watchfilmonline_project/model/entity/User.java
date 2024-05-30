@@ -50,7 +50,7 @@ public class User
     private Date createdAt = new Date();
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private Date updatedAt = new Date();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "film_favorite", joinColumns = @JoinColumn(name = "user_id"),
