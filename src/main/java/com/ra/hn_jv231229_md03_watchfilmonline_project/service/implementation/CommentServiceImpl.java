@@ -65,4 +65,9 @@ public class CommentServiceImpl implements ICommentService {
     public Long countAllComment() {
         return commentDao.countAllComment();
     }
+
+    @Override
+    public Double averageRating() {
+        return commentDao.averageRating();
+    }
 }

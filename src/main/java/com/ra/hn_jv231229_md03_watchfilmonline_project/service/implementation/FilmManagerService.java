@@ -172,6 +172,12 @@ public class FilmManagerService implements IFilmService
     }
 
     @Override
+
+    public Long countView() {
+        return filmManageDao.countView();
+    }
+
+
     public FilmDetailResponseDto getResponseFilm(Film film)
     {
         FilmDetailResponseDto filmResponse = new FilmDetailResponseDto();
@@ -203,4 +209,5 @@ public class FilmManagerService implements IFilmService
         filmResponse.setStars(starsAverage);
         return filmResponse;
     }
+
 }

@@ -141,6 +141,19 @@ public class CategoryDaoImpl implements ICategoryDao {
         }
     }
 
+    @Override
+    public Long countAllFilmCategories() {
+        Session session = sessionFactory.openSession();
+        try {
+            Long count = (Long) session.createQuery("select count(*) from FilmCategory ").uniqueResult();
+            return count;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
+
 //    @Override
 //    public List<FilmCategory> findALlNoPhanTrang() {
 //        Session session = sessionFactory.openSession();

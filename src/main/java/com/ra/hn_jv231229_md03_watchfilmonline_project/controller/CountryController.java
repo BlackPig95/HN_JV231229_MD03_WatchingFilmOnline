@@ -18,12 +18,20 @@ public class CountryController {
     private CountryService countryService;
 
     @GetMapping("")
-    public String list(@RequestParam(value = "name", required = false)String name,@RequestParam(value = "order", required = false) String order,@RequestParam(value = "page", defaultValue = "1") Integer page,Model model) {
-        List<Country> countries = countryService.displayWithPaginationAndOrder(name,order,page);
+    public String list(@RequestParam(value = "name", required = false)String name,
+                       @RequestParam(value = "order", required = false) String order,
+                       @RequestParam(value = "page", defaultValue = "1") Integer page,Model model,
+                       @RequestParam(value = "direction", required = false,defaultValue = "asc") String direction) {
+        List<Country> countries = countryService.displayWithPaginationAndOrder(name,order,page,direction);
         Integer totalPage = (int) Math.ceil((double) countryService.countCountry()/5);
         if (totalPage < 1) {
             totalPage = 1;
         }
+        Boolean directionCheck = true;
+        if (direction.equals("asc")) {
+            directionCheck = false;
+        }
+        model.addAttribute("directionCheck", directionCheck);
         model.addAttribute("totalPage",totalPage);
         model.addAttribute("curr",page);
         model.addAttribute("countryAdd", new Country());

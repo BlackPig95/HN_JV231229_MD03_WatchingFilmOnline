@@ -29,4 +29,5 @@ public interface IUserDao
 
     void update(User user);
     User findByUsername(String username);
+    Long countUser();
 }

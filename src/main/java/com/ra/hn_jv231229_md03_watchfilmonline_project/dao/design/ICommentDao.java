@@ -22,5 +22,7 @@ public interface ICommentDao
     // Sắp xếp bình luận
     List<Comment> findAllSorted();
 
+    Double averageRating();
+
     List<Comment> findCommentByFilm(Long filmId);
 }

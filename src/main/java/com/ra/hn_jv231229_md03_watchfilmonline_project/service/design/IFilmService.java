@@ -28,5 +28,8 @@ public interface IFilmService
 
     List<Film> findAll();
 
+    Long countView();
+
     FilmDetailResponseDto getResponseFilm(Film film);
+
 }
