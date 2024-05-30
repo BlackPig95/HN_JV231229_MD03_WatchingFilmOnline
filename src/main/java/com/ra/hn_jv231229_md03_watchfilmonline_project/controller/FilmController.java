@@ -39,13 +39,20 @@ public class FilmController
     }
 
     @GetMapping("/list")
-    public String listFilm(Model model, @RequestParam(defaultValue = "1") int currentPage)
+    public String listFilm(Model model, @RequestParam(defaultValue = "1") int currentPage
+            , @RequestParam(value = "columnName", defaultValue = "filmId") String columnName
+            , @RequestParam(value = "isAscending", defaultValue = "true") Boolean isAscending)
     {
         int size = 5;
         //Index trong hql bắt đầu từ 0 => Lấy currentPage -1. Nhân với size để ra index bắt đầu
-        model.addAttribute("listFilm", filmService.getAllFilms((currentPage - 1) * size, size));
+        model.addAttribute("listFilm", filmService.sortFilmList((currentPage - 1) * size, size,
+                columnName, isAscending));
+//        model.addAttribute("listFilm", filmService.sortFilmList(0, 1000,
+//                columnName, isAscending));
         //Tổng số phim hiện có / size => Số trang cần hiển thị. Ép kiểu về Int vì math.ceil trả về double
         model.addAttribute("totalPages", (int) Math.ceil((double) filmService.countNumberOfFilms() / size));
+        model.addAttribute("columnName", columnName);
+        model.addAttribute("isAscending", isAscending);
         model.addAttribute("currentPage", currentPage);
         return "film/list-film";
     }
@@ -55,7 +62,7 @@ public class FilmController
     {
         model.addAttribute("filmModel", new FilmRequestDto());
         model.addAttribute("categoryList", categoryService.findAll(0, 1000));
-//        model.addAttribute("countryList", countryService.findAll());
+        model.addAttribute("countryList", countryService.findAll());
         return "film/add-film-view";
     }
 
@@ -63,21 +70,9 @@ public class FilmController
     public String initEdit(@PathVariable("id") long filmId, Model model)
     {
         Film film = filmService.getFilmById(filmId);
-//        FilmRequestDto filmRequestDto = new FilmRequestDto();
-//        filmRequestDto.setFilmId(filmId);
-//        filmRequestDto.setDirector(film.getDirector());
-//        filmRequestDto.setFilmDescription(film.getFilmDescription());
-//        filmRequestDto.setFilmName(film.getFilmName());
-//        filmRequestDto.setFree(film.getFree());
-//        filmRequestDto.setLanguage(film.getLanguage());
-//        filmRequestDto.setMainActorName(film.getMainActorName());
-//        filmRequestDto.setMainActressName(film.getMainActressName());
-//        filmRequestDto.setReleaseDate(film.getReleaseDate());
-//        filmRequestDto.setSeriesSingle(film.getSeriesSingle());
-//        filmRequestDto.setStatus(film.getStatus());
-//        filmRequestDto.setTotalEpisode(film.getTotalEpisode());
-//        film.setCountry();
-//        film.setFilmCategory();
+        model.addAttribute("categoryList", categoryService.findAll(0, 1000));
+        model.addAttribute("filmModel", setAttributeDto(filmId, film));
+        model.addAttribute("countryList", countryService.findAll());
         model.addAttribute("categoryList", categoryService.findAll(0, 1000));
         model.addAttribute("filmModel", setAttributeDto(filmId, film));
         return "film/edit-film-view";
@@ -89,7 +84,7 @@ public class FilmController
         if (result.hasErrors())
         {
             model.addAttribute("filmModel", filmRequestDto);
-//        model.addAttribute("countryList", countryService.findAll());
+            model.addAttribute("countryList", countryService.findAll());
             model.addAttribute("categoryList", categoryService.findAll(0, 1000));
             return "film/add-film-view";
         }
@@ -129,7 +124,7 @@ public class FilmController
         {
             model.addAttribute("filmModel", filmRequestDto);
             model.addAttribute("categoryList", categoryService.findAll(0, 1000));
-//        model.addAttribute("countryList", countryService.findAll());
+            model.addAttribute("countryList", countryService.findAll());
             return "film/edit-film-view";
         }
         //Tạo ra object giữ list các episodeDto
@@ -269,7 +264,7 @@ public class FilmController
         filmRequestDto.setTotalEpisode(film.getTotalEpisode());
         filmRequestDto.setTrailerUrl(film.getTrailerUrl());
         filmRequestDto.setCategoryId(film.getFilmCategory().getCategoryId());
-//        filmRequestDto.setCountryId(film.getCountry().getCountryId());
+        filmRequestDto.setCountryId(film.getCountry().getCountryId());
         filmRequestDto.setEpisodeList(episodeService.getEpisodeListByFilmId(filmId));
         return filmRequestDto;
     }

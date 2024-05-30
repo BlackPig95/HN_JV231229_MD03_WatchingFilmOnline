@@ -1,7 +1,5 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Date;
 
 public class UserDTO
@@ -13,9 +11,9 @@ public class UserDTO
     private String role;
     private Date createdAt;
     private Boolean status;
-    private MultipartFile fileAvatar;
 
-    public UserDTO(Long userId, String userName, String email, String phone, String role, Date createdAt, Boolean status, MultipartFile fileAvatar) {
+    public UserDTO(Long userId, String userName, String email, String phone, String role, Date createdAt, Boolean status)
+    {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
@@ -23,15 +21,6 @@ public class UserDTO
         this.role = role;
         this.createdAt = createdAt;
         this.status = status;
-        this.fileAvatar = fileAvatar;
-    }
-
-    public MultipartFile getFileAvatar() {
-        return fileAvatar;
-    }
-
-    public void setFileAvatar(MultipartFile fileAvatar) {
-        this.fileAvatar = fileAvatar;
     }
 
     public Long getUserId()

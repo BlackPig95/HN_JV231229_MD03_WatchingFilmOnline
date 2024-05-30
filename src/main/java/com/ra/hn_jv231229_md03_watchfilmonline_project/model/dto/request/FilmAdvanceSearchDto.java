@@ -1,16 +1,5 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request;
 
-import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.List;
-
 public class FilmAdvanceSearchDto
 {
     private Long filmId;

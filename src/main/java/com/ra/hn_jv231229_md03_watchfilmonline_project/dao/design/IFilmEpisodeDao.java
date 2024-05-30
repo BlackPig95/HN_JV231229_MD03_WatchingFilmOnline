@@ -9,6 +9,8 @@ public interface IFilmEpisodeDao
 {
     Boolean saveEpisode(FilmEpisode filmEpisode);
 
+    FilmEpisode getEpisodeById(Long episodeId);
+
     List<FilmEpisode> getEpisodeListByFilmId(long filmId);
 
     Boolean deleteEpisode(long id);

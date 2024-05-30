@@ -1,56 +1,55 @@
-package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request;
+package com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.response;
 
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Country;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmCategory;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
-public class FilmRequestDto
+public class FilmDetailResponseDto
 {
     private Long filmId;
-    @NotEmpty(message = "Tên phim không được để trống")
     private String filmName;
     private String filmDescription;
-    private MultipartFile fileImage;
+    private String filmImage;
     private String trailerUrl;
-    @NotNull(message = "Vui lòng chọn quốc gia")
-    private Long countryId;
-    @NotNull(message = "Vui lòng chọn ngày phim ra mắt")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Long viewCount = 0l;
     private Date releaseDate;
     private String director;
     private String mainActorName;
     private String mainActressName;
     private String language;
     private Boolean seriesSingle;
-    @Min(value = 1, message = "Số tập phim ít nhất là 1")
     private Integer totalEpisode;
     private Boolean isFree;
-    @Range(min = 1, max = 3)
     private Integer status; //Status 1 = Đang chiếu, 2 = Sắp chiếu, 3 = Ngừng chiếu
-    @NotNull(message = "Vui lòng chọn thể loại")
-    private Long categoryId;
+    private FilmCategory filmCategory;
+    private Country country;
     private List<FilmEpisode> episodeList;
+    private Integer totalShowTime;
+    private Double stars;
 
-    public FilmRequestDto()
+    public FilmDetailResponseDto()
     {
     }
 
-    public FilmRequestDto(Long categoryId, Long countryId, String director, List<FilmEpisode> episodeList, MultipartFile fileImage, String filmDescription, Long filmId, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Integer status, Integer totalEpisode, String trailerUrl)
+    public FilmDetailResponseDto(Country country, String director, List<FilmEpisode> episodeList, FilmCategory filmCategory, String filmDescription, Long filmId, String filmImage, String filmName, Boolean isFree, String language, String mainActorName, String mainActressName, Date releaseDate, Boolean seriesSingle, Double stars, Integer status, Integer totalEpisode, Integer totalShowTime, String trailerUrl, Long viewCount)
     {
-        this.categoryId = categoryId;
-        this.countryId = countryId;
+        this.country = country;
         this.director = director;
         this.episodeList = episodeList;
-        this.fileImage = fileImage;
+        this.filmCategory = filmCategory;
         this.filmDescription = filmDescription;
         this.filmId = filmId;
+        this.filmImage = filmImage;
         this.filmName = filmName;
         this.isFree = isFree;
         this.language = language;
@@ -58,9 +57,32 @@ public class FilmRequestDto
         this.mainActressName = mainActressName;
         this.releaseDate = releaseDate;
         this.seriesSingle = seriesSingle;
+        this.stars = stars;
         this.status = status;
         this.totalEpisode = totalEpisode;
+        this.totalShowTime = totalShowTime;
         this.trailerUrl = trailerUrl;
+        this.viewCount = viewCount;
+    }
+
+    public Long getFilmId()
+    {
+        return filmId;
+    }
+
+    public void setFilmId(Long filmId)
+    {
+        this.filmId = filmId;
+    }
+
+    public Country getCountry()
+    {
+        return country;
+    }
+
+    public void setCountry(Country country)
+    {
+        this.country = country;
     }
 
     public String getDirector()
@@ -73,44 +95,24 @@ public class FilmRequestDto
         this.director = director;
     }
 
-    public MultipartFile getFileImage()
+    public List<FilmEpisode> getEpisodeList()
     {
-        return fileImage;
+        return episodeList;
     }
 
-    public void setFileImage(MultipartFile fileImage)
+    public void setEpisodeList(List<FilmEpisode> episodeList)
     {
-        this.fileImage = fileImage;
+        this.episodeList = episodeList;
     }
 
-    public @NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date getReleaseDate()
+    public FilmCategory getFilmCategory()
     {
-        return releaseDate;
+        return filmCategory;
     }
 
-    public void setReleaseDate(@NotNull(message = "Vui lòng chọn ngày phim ra mắt") Date releaseDate)
+    public void setFilmCategory(FilmCategory filmCategory)
     {
-        this.releaseDate = releaseDate;
-    }
-
-    public Long getCategoryId()
-    {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId)
-    {
-        this.categoryId = categoryId;
-    }
-
-    public Long getCountryId()
-    {
-        return countryId;
-    }
-
-    public void setCountryId(Long countryId)
-    {
-        this.countryId = countryId;
+        this.filmCategory = filmCategory;
     }
 
     public String getFilmDescription()
@@ -123,14 +125,14 @@ public class FilmRequestDto
         this.filmDescription = filmDescription;
     }
 
-    public Long getFilmId()
+    public String getFilmImage()
     {
-        return filmId;
+        return filmImage;
     }
 
-    public void setFilmId(Long filmId)
+    public void setFilmImage(String filmImage)
     {
-        this.filmId = filmId;
+        this.filmImage = filmImage;
     }
 
     public String getFilmName()
@@ -183,15 +185,15 @@ public class FilmRequestDto
         this.mainActressName = mainActressName;
     }
 
-//    public Date getReleaseDate()
-//    {
-//        return releaseDate;
-//    }
-//
-//    public void setReleaseDate(Date releaseDate)
-//    {
-//        this.releaseDate = releaseDate;
-//    }
+    public Date getReleaseDate()
+    {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate)
+    {
+        this.releaseDate = releaseDate;
+    }
 
     public Boolean getSeriesSingle()
     {
@@ -223,16 +225,6 @@ public class FilmRequestDto
         this.totalEpisode = totalEpisode;
     }
 
-    public List<FilmEpisode> getEpisodeList()
-    {
-        return episodeList;
-    }
-
-    public void setEpisodeList(List<FilmEpisode> episodeList)
-    {
-        this.episodeList = episodeList;
-    }
-
     public String getTrailerUrl()
     {
         return trailerUrl;
@@ -241,5 +233,35 @@ public class FilmRequestDto
     public void setTrailerUrl(String trailerUrl)
     {
         this.trailerUrl = trailerUrl;
+    }
+
+    public Long getViewCount()
+    {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount)
+    {
+        this.viewCount = viewCount;
+    }
+
+    public Integer getTotalShowTime()
+    {
+        return totalShowTime;
+    }
+
+    public void setTotalShowTime(Integer totalShowTime)
+    {
+        this.totalShowTime = totalShowTime;
+    }
+
+    public Double getStars()
+    {
+        return stars;
+    }
+
+    public void setStars(Double stars)
+    {
+        this.stars = stars;
     }
 }

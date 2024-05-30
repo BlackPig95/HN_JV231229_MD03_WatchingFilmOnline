@@ -1,6 +1,7 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.design;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmRequestDto;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.response.FilmDetailResponseDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
 
 import java.util.List;
@@ -23,7 +24,12 @@ public interface IFilmService
 
     List<Film> getTopRate(Boolean seriesSingle);
 
+    List<Film> sortFilmList(int currentPage, int size, String columnName, Boolean isAscending);
+
     List<Film> findAll();
+
     Long countView();
+
+    FilmDetailResponseDto getResponseFilm(Film film);
 
 }
