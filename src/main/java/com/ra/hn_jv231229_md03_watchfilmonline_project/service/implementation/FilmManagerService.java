@@ -61,7 +61,7 @@ public class FilmManagerService implements IFilmService
         film.setStatus(filmRequestDto.getStatus());
         film.setTotalEpisode(filmRequestDto.getTotalEpisode());
         film.setFilmCategory(categoryDao.findById(filmRequestDto.getCategoryId()));
-//        film.setCountry(countryDao.findById(filmRequestDto.getCountryId()));
+        film.setCountry(countryDao.findById(filmRequestDto.getCountryId()));
         if (filmRequestDto.getFilmId() == null)
         {
             film.setFilmImage(fileUploadService.uploadFileToServer(filmRequestDto.getFileImage()));
@@ -173,7 +173,8 @@ public class FilmManagerService implements IFilmService
 
     @Override
 
-    public Long countView() {
+    public Long countView()
+    {
         return filmManageDao.countView();
     }
 

@@ -4,33 +4,55 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
-public class UserDTO
+public class UserDto
 {
     private Long userId;
     private String userName;
+    private String fullName;
     private String email;
     private String phone;
     private String role;
     private Date createdAt;
     private Boolean status;
     private MultipartFile fileAvatar;
+    private String avatarUrl;
 
-    public UserDTO(Long userId, String userName, String email, String phone, String role, Date createdAt, Boolean status, MultipartFile fileAvatar) {
-        this.userId = userId;
-        this.userName = userName;
-        this.email = email;
-        this.phone = phone;
-        this.role = role;
-        this.createdAt = createdAt;
-        this.status = status;
-        this.fileAvatar = fileAvatar;
+    public UserDto()
+    {
     }
 
-    public MultipartFile getFileAvatar() {
+    public UserDto(String avatarUrl, Date createdAt, String email, MultipartFile fileAvatar, String fullName, String phone, String role, Boolean status, Long userId, String userName)
+    {
+        this.avatarUrl = avatarUrl;
+        this.createdAt = createdAt;
+        this.email = email;
+        this.fileAvatar = fileAvatar;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.role = role;
+        this.status = status;
+        this.userId = userId;
+        this.userName = userName;
+    }
+
+    public UserDto(Long userId, String username, String email, String phone, String name, Date createdAt, Boolean status)
+    {
+        this.userId = userId;
+        this.userName = username;
+        this.email = email;
+        this.phone = phone;
+        this.role = name;
+        this.createdAt = createdAt;
+        this.status = status;
+    }
+
+    public MultipartFile getFileAvatar()
+    {
         return fileAvatar;
     }
 
-    public void setFileAvatar(MultipartFile fileAvatar) {
+    public void setFileAvatar(MultipartFile fileAvatar)
+    {
         this.fileAvatar = fileAvatar;
     }
 
@@ -104,10 +126,30 @@ public class UserDTO
         this.role = role;
     }
 
+    public String getAvatarUrl()
+    {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl)
+    {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getFullName()
+    {
+        return fullName;
+    }
+
+    public void setFullName(String fullName)
+    {
+        this.fullName = fullName;
+    }
+
     @Override
     public String toString()
     {
-        return "UserDTO{" +
+        return "UserDto{" +
                 "userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
