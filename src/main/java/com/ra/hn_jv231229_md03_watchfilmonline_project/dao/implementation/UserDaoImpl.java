@@ -191,7 +191,7 @@ public class UserDaoImpl implements IUserDao
 		Session session = this.sessionFactory.openSession();
 		try {
 			session.beginTransaction();
-			session.update(user);
+			session.merge(user);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();

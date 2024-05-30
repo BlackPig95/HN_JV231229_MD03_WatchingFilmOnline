@@ -37,10 +37,9 @@ public class AuthController {
 		User user = userService.authenticate(username, password);
 		if (user != null) {
 			session.setAttribute("user", user);
-			model.addAttribute("username", username);
 			if (user.getUserRole().name().equals("ADMIN")) {
 				return "redirect:/admin/dashboard";
-			} else return "home";
+			} else return "redirect:/user/home";
 		} else {
 			return "redirect:/login";
 		}
