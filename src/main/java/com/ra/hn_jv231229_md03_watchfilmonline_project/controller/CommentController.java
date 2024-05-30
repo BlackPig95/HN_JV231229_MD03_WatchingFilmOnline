@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 @Controller
 @RequestMapping("/comments")
@@ -36,21 +38,23 @@ public class CommentController {
         return "comment/listCommentFilm";
     }
 
-    @GetMapping("/add")
-    public String showAddCommentForm(Model model) {
-        List<Film> films = filmService.getAllFilms(0,1000);
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("films", films);
-        model.addAttribute("users", users);
-        model.addAttribute("commentDto", new CommentDto());
-        return "comment/addCommentFilm";
-    }
+//    @GetMapping("/add")
+//    public String showAddCommentForm(Model model) {
+//        List<Film> films = filmService.getAllFilms(0,1000);
+//        List<User> users = userService.getAllUsers();
+//        model.addAttribute("films", films);
+//        model.addAttribute("users", users);
+//        model.addAttribute("commentDto", new CommentDto());
+//        return "comment/addCommentFilm";
+//    }
 
     @PostMapping("/add")
     public String addComment(@ModelAttribute("commentDto") CommentDto commentDto) {
         commentService.addComment(commentDto);
-        return "redirect:/comments";
+        return "redirect:/movie-detail/" + commentDto.getFilmId();
     }
+
+
 
     @GetMapping("/{id}/delete")
     public String deleteComment(@PathVariable("id") Long id) {
@@ -73,6 +77,13 @@ public class CommentController {
         return "comment/listCommentFilm";
     }
 
+    @GetMapping("/listCommentByFilm/{id}")
+    public String getListCommentByFilm(Model model, @PathVariable("id") Long id, HttpSession session) {
+        model.addAttribute("listComment", commentService.findCommentByFilm(id));
+        model.addAttribute("filmId", id);
+        session.getAttribute("userId");
+        return "movie-details";
+    }
 
 
 }

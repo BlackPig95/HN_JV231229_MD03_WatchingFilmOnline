@@ -9,32 +9,107 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
-public class CommentDaoImpl implements ICommentDao
-{
+public class CommentDaoImpl implements ICommentDao {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Comment> findAll(int currentPage, int size)
-    {
+    public List<Comment> findAll(int currentPage, int size) {
         Session session = sessionFactory.openSession();
-        try
-        {
-            return session.createQuery("select c from Comment c join fetch c.film f join fetch c.user u", Comment.class)
-                    .setFirstResult(currentPage * size)
+        try {
+            return session.createQuery("select c from Comment c join c.film f join c.user u", Comment.class)
+                    .setFirstResult(currentPage*size)
                     .setMaxResults(size)
                     .getResultList();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally
-        {
+        } finally {
             session.close();
         }
+    }
+
+
+    @Override
+    public void addComment(Comment comment) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            session.save(comment);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<Comment> findByContentContaining(String content) {
+        Session session = sessionFactory.openSession();
+        try {
+            return session.createQuery("from Comment c where c.content like :content", Comment.class)
+                    .setParameter("content", "%" + content + "%")
+                    .getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            Comment comment = session.get(Comment.class, id);
+            if (comment != null) {
+                session.delete(comment);
+                session.getTransaction().commit();
+            } else {
+                throw new RuntimeException("Comment not found");
+            }
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
+
+
+    @Override
+    public Long countAllComment() {
+        Session session = sessionFactory.openSession();
+        try {
+            return (Long) session.createQuery("select count(*) from Comment").uniqueResult();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
+
+
+
+
+    @Override
+    public List<Comment> findAllSorted() {
+        Session session = sessionFactory.openSession();
+        List<Comment> comments = new ArrayList<>();
+        try {
+            String hql = "FROM Comment c ORDER BY c.stars ASC";
+            Query query = session.createQuery(hql);
+            comments = query.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+        return comments;
     }
 
     @Override
@@ -52,106 +127,6 @@ public class CommentDaoImpl implements ICommentDao
         {
             session.close();
         }
-    }
-
-    @Override
-    public void addComment(Comment comment)
-    {
-        Session session = sessionFactory.openSession();
-        try
-        {
-            session.beginTransaction();
-            session.save(comment);
-            session.getTransaction().commit();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        } finally
-        {
-            session.close();
-        }
-    }
-
-    @Override
-    public List<Comment> findByContentContaining(String content)
-    {
-        Session session = sessionFactory.openSession();
-        try
-        {
-            return session.createQuery("from Comment c where c.content like :content", Comment.class)
-                    .setParameter("content", "%" + content + "%")
-                    .getResultList();
-        } catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        } finally
-        {
-            session.close();
-        }
-    }
-
-    @Override
-    public void deleteById(Long id)
-    {
-        Session session = sessionFactory.openSession();
-        try
-        {
-            session.beginTransaction();
-            Comment comment = session.get(Comment.class, id);
-            if (comment != null)
-            {
-                session.delete(comment);
-                session.getTransaction().commit();
-            } else
-            {
-                throw new RuntimeException("Comment not found");
-            }
-        } catch (Exception e)
-        {
-            session.getTransaction().rollback();
-            throw new RuntimeException(e);
-        } finally
-        {
-            session.close();
-        }
-    }
-
-
-    @Override
-    public Long countAllComment()
-    {
-        Session session = sessionFactory.openSession();
-        try
-        {
-            return (Long) session.createQuery("select count(*) from Comment").uniqueResult();
-        } catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        } finally
-        {
-            session.close();
-        }
-    }
-
-
-    @Override
-    public List<Comment> findAllSorted()
-    {
-        Session session = sessionFactory.openSession();
-        List<Comment> comments = new ArrayList<>();
-        try
-        {
-            String hql = "FROM Comment c ORDER BY c.stars ASC";
-            Query query = session.createQuery(hql);
-            comments = query.getResultList();
-        } catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        } finally
-        {
-            session.close();
-        }
-        return comments;
     }
 
     @Override

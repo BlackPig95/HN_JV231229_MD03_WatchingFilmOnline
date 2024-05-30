@@ -3,6 +3,7 @@ package com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "comment")
 public class Comment
 {
     @Id
