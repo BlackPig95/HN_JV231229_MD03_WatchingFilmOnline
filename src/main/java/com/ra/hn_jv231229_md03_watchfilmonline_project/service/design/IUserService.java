@@ -8,6 +8,7 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.model.request.UserUpdateS
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.response.BaseResponse;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.util.Page;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.List;
 
@@ -33,5 +34,9 @@ public interface IUserService
 
     String getNewPassword(String username);
 
-
+    Long countUser();
+    
+    void handleAddWallet(User user, Long money, HttpSession session);
+    
+    boolean handleUpdateAcc(User user,String option);
 }
