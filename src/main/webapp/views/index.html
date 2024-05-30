@@ -93,7 +93,7 @@
             <ul class="navbar-list">
 
                 <li>
-                    <a href="/index.html" class="navbar-link">Home</a>
+                    <a href="/index.html" class="navbar-link" th:text="#{home}"></a>
                 </li>
 
                 <li>
@@ -427,7 +427,45 @@
             <div class="container">
 
                 <p class="section-subtitle">Online Streaming</p>
+                <h2 class="h2 section-title">Recommend Film</h2>
 
+                <ul class="movies-list">
+                    <li th:each="film : ${recommendFilm}">
+                        <div class="movie-card">
+
+                            <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
+                                <figure class="card-banner">
+                                    <img th:src="${film.filmImage}" alt="">
+                                </figure>
+                            </a>
+
+                            <div class="title-wrapper">
+                                <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
+                                    <h3 class="card-title" th:text="${film.filmName}"></h3>
+                                </a>
+
+                                <h3 th:classappend="card-title"
+                                    th:text="${film.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
+                            </div>
+
+                            <div class="card-meta">
+                                <div class="badge badge-outline" th:text="${film.free?'Miễn phí':'Trả phí'}"></div>
+
+                                <div class="duration">
+                                    <ion-icon name="time-outline"></ion-icon>
+                                    <time datetime="PT137M" th:text="${film.totalEpisode}+' phút'"></time>
+                                </div>
+
+                                <div class="rating">
+                                    <ion-icon name="star"></ion-icon>
+
+                                    <data th:text="${film.releaseDate}"></data>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
                 <h2 class="h2 section-title">Top Rated Series Movies</h2>
 
                 <ul class="movies-list">
@@ -506,7 +544,6 @@
                 </ul>
 
             </div>
-
 
         </section>
     </article>

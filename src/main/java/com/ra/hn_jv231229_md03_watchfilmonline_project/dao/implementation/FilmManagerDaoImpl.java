@@ -3,6 +3,7 @@ package com.ra.hn_jv231229_md03_watchfilmonline_project.dao.implementation;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmEpisodeDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmManageDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmCategory;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -280,6 +282,19 @@ public class FilmManagerDaoImpl implements IFilmManageDao
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<Film> getRecommendFilm() {
+        Session session=sessionFactory.openSession();
+        try {
+            List list = session.createQuery("from Film ").list();
+            return list;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }finally {
             session.close();
         }
     }
