@@ -18,21 +18,25 @@ import java.text.ParseException;
 import java.util.Set;
 
 @Controller
-@Repository
 @RequestMapping("/user")
-public class UserController {
+public class UserController
+{
     @Autowired
     private HttpSession session;
     @Autowired
     private UserService userService;
+
     @GetMapping("/infor")
-    public String infor(Model model) {
+    public String infor(Model model)
+    {
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
         return "user/infor-user";
     }
+
     @GetMapping("/edit")
-    public String edit(Model model) {
+    public String edit(Model model)
+    {
         User user = (User) session.getAttribute("user");
         UserDto userDto = new UserDto();
         userDto.setUserId(user.getUserId());
@@ -43,18 +47,24 @@ public class UserController {
         model.addAttribute("userDto", userDto);
         return "user/edit-user";
     }
+
     @PostMapping("/edit")
-    public String edit(@Validated @ModelAttribute("userDto") UserDto userDto, BindingResult bindingResult) throws ParseException {
-        if (bindingResult.hasErrors()) {
+    public String edit(@Validated @ModelAttribute("userDto") UserDto userDto, BindingResult bindingResult) throws ParseException
+    {
+        if (bindingResult.hasErrors())
+        {
             return "redirect:/user/edit";
-        } else {
+        } else
+        {
             userService.update(userDto);
             session.setAttribute("user", userService.findById(userDto.getUserId()));
             return "redirect:/user/infor";
         }
     }
+
     @GetMapping("/history")
-    public String history(Model model) {
+    public String history(Model model)
+    {
         User user = (User) session.getAttribute("user");
         Set<FilmEpisode> filmEpisodes = user.getFilmEpisodeSet();
         model.addAttribute("filmEpisodes", filmEpisodes);

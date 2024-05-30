@@ -24,15 +24,15 @@ public class User
     private Long userId;
     @Column(name = "username", unique = true)
     @NotEmpty(message = "Tên người dùng không được để trống")
-    @Size(min = 6)
+//    @Size(min = 6)
 //    @Pattern(regexp = "^[a-zA-Z.]+$")
     private String username;
     @Column(name = "email")
-    @Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$",message = "Định dạng email không hợp lệ")
+//    @Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$", message = "Định dạng email không hợp lệ")
     private String email;
     @Column(name = "phone", unique = true)
     @NotEmpty(message = "Vui lòng nhập số điện thoại")
-    @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$",message = "Định dạng số điện thoại không hợp lệ")
+//    @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$", message = "Định dạng số điện thoại không hợp lệ")
     private String phone;
     @Column(name = "password")
     private String password;
@@ -112,21 +112,29 @@ public class User
         this.createdAt = createdAt;
     }
 
-    public @Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$", message = "Định dạng email không hợp lệ") String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public void setEmail(@Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$", message = "Định dạng email không hợp lệ") String email) {
+    public void setEmail()
+    {
         this.email = email;
     }
 
-
-    public @NotEmpty(message = "Vui lòng nhập số điện thoại") @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$", message = "Định dạng số điện thoại không hợp lệ") String getPhone() {
+    public String getPhone()
+    {
         return phone;
     }
 
-    public void setPhone(@NotEmpty(message = "Vui lòng nhập số điện thoại") @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$", message = "Định dạng số điện thoại không hợp lệ") String phone) {
+    public void setPhone(@NotEmpty(message = "Vui lòng nhập số điện thoại") @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$", message = "Định dạng số điện thoại không hợp lệ") String phone)
+    {
         this.phone = phone;
+    }
+
+    public @NotEmpty(message = "Vui lòng nhập tên của bạn") String getFullname()
+    {
+        return fullname;
     }
 
     public @NotNull String getFullName()
@@ -147,13 +155,6 @@ public class User
     public void setPassword(String password)
     {
         this.password = password;
-    }
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public Boolean getStatus()
@@ -211,7 +212,8 @@ public class User
         return username;
     }
 
-    public void setUsername(String userName) {
+    public void setUsername(String userName)
+    {
         this.username = userName;
     }
 
@@ -236,7 +238,8 @@ public class User
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "User{" +
                 "userId=" + userId +
                 ", userName='" + username + '\'' +
