@@ -19,7 +19,6 @@ import java.text.ParseException;
 import java.util.Set;
 
 @Controller
-@Repository
 @RequestMapping("/user")
 public class UserController {
 	@Autowired

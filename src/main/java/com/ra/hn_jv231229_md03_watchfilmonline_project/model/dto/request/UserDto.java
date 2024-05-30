@@ -8,29 +8,33 @@ public class UserDto
 {
     private Long userId;
     private String userName;
+    private String fullName;
     private String email;
     private String phone;
     private String role;
     private Date createdAt;
     private Boolean status;
     private MultipartFile fileAvatar;
-    
-    
-    public UserDto() {
-    }
-    
-    public UserDto(Long userId, String userName, String email, String phone, String role, Date createdAt, Boolean status, MultipartFile fileAvatar) {
-        this.userId = userId;
-        this.userName = userName;
+    private String avatarUrl;
+
+
+    public UserDto(String avatarUrl, Date createdAt, String email, MultipartFile fileAvatar, String fullName, String phone, String role, Boolean status, Long userId, String userName)
+    {
+        this.avatarUrl = avatarUrl;
+        this.createdAt = createdAt;
         this.email = email;
+        this.fileAvatar = fileAvatar;
+        this.fullName = fullName;
         this.phone = phone;
         this.role = role;
-        this.createdAt = createdAt;
         this.status = status;
-        this.fileAvatar = fileAvatar;
+        this.userId = userId;
+        this.userName = userName;
     }
-    
-    public UserDto(Long userId, String username, String email, String phone, String name, Date createdAt, Boolean status) {
+
+    public UserDto(Long userId, String username, String email, String phone, String name, Date createdAt, Boolean status)
+    {
+
         this.userId = userId;
         this.userName = username;
         this.email = email;
@@ -40,88 +44,91 @@ public class UserDto
         this.status = status;
     }
     
+    
+    public Long getUserId() {
+        return userId;
+    }
+    
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+    
+    public String getUserName() {
+        return userName;
+    }
+    
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    
+    public String getFullName() {
+        return fullName;
+    }
+    
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getPhone() {
+        return phone;
+    }
+    
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
+    public String getRole() {
+        return role;
+    }
+    
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+    
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public Boolean getStatus() {
+        return status;
+    }
+    
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+    
     public MultipartFile getFileAvatar() {
         return fileAvatar;
     }
-
+    
     public void setFileAvatar(MultipartFile fileAvatar) {
         this.fileAvatar = fileAvatar;
     }
-
-    public Long getUserId()
-    {
-        return userId;
+    
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
-
-    public void setUserId(Long userId)
-    {
-        this.userId = userId;
+    
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
-
-    public String getUserName()
-    {
-        return userName;
-    }
-
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
-    }
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
-
-    public String getPhone()
-    {
-        return phone;
-    }
-
-    public void setPhone(String phone)
-    {
-        this.phone = phone;
-    }
-
-    public Date getCreatedAt()
-    {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt)
-    {
-        this.createdAt = createdAt;
-    }
-
-    public Boolean getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(Boolean status)
-    {
-        this.status = status;
-    }
-
-    public String getRole()
-    {
-        return role;
-    }
-
-    public void setRole(String role)
-    {
-        this.role = role;
-    }
-
+    
     @Override
     public String toString()
     {
-        return "UserDTO{" +
+        return "UserDto{" +
                 "userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +

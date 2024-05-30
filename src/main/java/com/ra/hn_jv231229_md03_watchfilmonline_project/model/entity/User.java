@@ -24,15 +24,11 @@ public class User
     private Long userId;
     @Column(name = "username", unique = true)
     @NotEmpty(message = "Tên người dùng không được để trống")
-//    @Size(min = 6)
-//    @Pattern(regexp = "^[a-zA-Z.]+$")
     private String username;
     @Column(name = "email")
-//    @Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$",message = "Định dạng email không hợp lệ")
-    private String email;
+   private String email;
     @Column(name = "phone", unique = true)
     @NotEmpty(message = "Vui lòng nhập số điện thoại")
-//    @Pattern(regexp = "^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$",message = "Định dạng số điện thoại không hợp lệ")
     private String phone;
     @Column(name = "password")
     private String password;
@@ -91,42 +87,53 @@ public class User
         this.userRole = userRole;
         this.wallet_balance = wallet_balance;
     }
-
-    public String getAvatar()
-    {
-        return avatar;
+    
+    public Long getUserId() {
+        return userId;
     }
-
-    public void setAvatar(String avatar)
-    {
-        this.avatar = avatar;
+    
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
-
-    public Date getCreatedAt()
-    {
-        return createdAt;
+    
+    public String getUsername() {
+        return username;
     }
-
-    public void setCreatedAt(Date createdAt)
-    {
-        this.createdAt = createdAt;
+    
+    public void setUsername(String username) {
+        this.username = username;
     }
-
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
-
+    
     public String getPhone() {
         return phone;
     }
-
-    public void setPhone (String phone) {
+    
+    public void setPhone(String phone) {
         this.phone = phone;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    public UserRole getUserRole() {
+        return userRole;
+    }
+    
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
     
     public String getFullname() {
@@ -137,97 +144,65 @@ public class User
         this.fullname = fullname;
     }
     
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
-
-    public Boolean getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(Boolean status)
-    {
-        this.status = status;
-    }
-
-    public Date getUpdatedAt()
-    {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt)
-    {
-        this.updatedAt = updatedAt;
-    }
-
-    public Set<FilmEpisode> getFilmEpisodeSet()
-    {
-        return filmEpisodeSet;
-    }
-
-    public void setFilmEpisodeSet(Set<FilmEpisode> filmEpisodeSet)
-    {
-        this.filmEpisodeSet = filmEpisodeSet;
-    }
-
-    public Set<Film> getFilmSet()
-    {
-        return filmSet;
-    }
-
-    public void setFilmSet(Set<Film> filmSet)
-    {
-        this.filmSet = filmSet;
-    }
-
-    public Long getUserId()
-    {
-        return userId;
-    }
-
-    public void setUserId(Long userId)
-    {
-        this.userId = userId;
-    }
-
-    public String getUsername()
-    {
-        return username;
-    }
-
-    public void setUsername(String userName) {
-        this.username = userName;
-    }
-
-    public UserRole getUserRole()
-    {
-        return userRole;
-    }
-
-    public void setUserRole(UserRole userRole)
-    {
-        this.userRole = userRole;
-    }
-
-    public @Min(0) Long getWallet_balance()
-    {
+    public Long getWallet_balance() {
         return wallet_balance;
     }
-
-    public void setWallet_balance(@Min(0) Long wallet_balance)
-    {
+    
+    public void setWallet_balance(Long wallet_balance) {
         this.wallet_balance = wallet_balance;
     }
-
+    
+    public Boolean getStatus() {
+        return status;
+    }
+    
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+    
+    public String getAvatar() {
+        return avatar;
+    }
+    
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+    
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+    
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+    
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+    
+    public Set<Film> getFilmSet() {
+        return filmSet;
+    }
+    
+    public void setFilmSet(Set<Film> filmSet) {
+        this.filmSet = filmSet;
+    }
+    
+    public Set<FilmEpisode> getFilmEpisodeSet() {
+        return filmEpisodeSet;
+    }
+    
+    public void setFilmEpisodeSet(Set<FilmEpisode> filmEpisodeSet) {
+        this.filmEpisodeSet = filmEpisodeSet;
+    }
+    
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "User{" +
                 "userId=" + userId +
                 ", userName='" + username + '\'' +

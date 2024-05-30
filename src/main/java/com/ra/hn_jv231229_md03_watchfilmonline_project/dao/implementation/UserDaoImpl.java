@@ -25,20 +25,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-
 @Repository
 public class UserDaoImpl implements IUserDao
 {
     private final SessionFactory sessionFactory;
-    
-	@Autowired
-	public UserDaoImpl(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-   
+
+    @Autowired
+    public UserDaoImpl(SessionFactory sessionFactory)
+    {
+        this.sessionFactory = sessionFactory;
+    }
+
     @Override
 
     @Transactional
@@ -77,6 +74,7 @@ public class UserDaoImpl implements IUserDao
 
             List<User> users = query.getResultList();
             List<UserDto> userDTOs = users.stream()
+
                     .map(UserMapper::toUserDTO)
                     .collect(Collectors.toList());
             System.out.println(userDTOs);
@@ -116,7 +114,6 @@ public class UserDaoImpl implements IUserDao
             session.close();
         }
     }
-
 	
 	@Override
 	@Transactional
@@ -204,22 +201,7 @@ public class UserDaoImpl implements IUserDao
 		}
 		
 	}
-	
-	@Override
-	public User findByUsername(String username) {
-		Session session = sessionFactory.openSession();
-		try {
-			return session.createQuery("select u from User u where u.username = :username", User.class)
-					  .setParameter("username", username)
-					  .getSingleResult();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return null;
-	}
-    @Override
+
     public User findById(Long id)
     {
         Session session = sessionFactory.openSession();
@@ -234,16 +216,39 @@ public class UserDaoImpl implements IUserDao
             session.close();
         }
     }
+	 
+    @Override
+    public User findByUsername(String username)
+    {
+        Session session = sessionFactory.openSession();
+        try
+        {
+            return session.createQuery("select u from User u where u.username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } finally
+        {
+            session.close();
+        }
+        return null;
+    }
 
     @Override
-    public Long countUser() {
+    public Long countUser()
+    {
         Session session = sessionFactory.openSession();
-        try {
+        try
+        {
             Long count = (Long) session.createQuery("select count(*) from User").uniqueResult();
             return count;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
-        } finally {
+        } finally
+        {
             session.close();
         }
         return 0L;

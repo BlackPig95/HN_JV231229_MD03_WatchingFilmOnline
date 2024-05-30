@@ -28,6 +28,8 @@ public interface IUserDao
     List<User> getAllUsers();
 
     void update(User user);
+
     User findByUsername(String username);
+
     Long countUser();
 }
