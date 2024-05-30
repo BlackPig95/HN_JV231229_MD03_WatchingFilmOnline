@@ -1,6 +1,7 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.controller;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmManageDao;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.CommentDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Banner;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IBannerService;
@@ -9,6 +10,7 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmReq
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.response.FilmDetailResponseDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICommentService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmEpisodeService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,7 @@ public class HomePageController
 {
     private final IFilmService filmService;
     private final IFilmEpisodeService episodeService;
+    private final ICommentService commentService;
 
     @Autowired
     private IBannerService bannerService;
@@ -33,6 +37,7 @@ public class HomePageController
     {
         this.filmService = filmService;
         this.episodeService = episodeService;
+        this.commentService = commentService;
     }
     @RequestMapping("/")
     public String index(Model model)
@@ -56,11 +61,19 @@ public class HomePageController
     }
 
     @GetMapping("/movie-detail/{id}")
-    public String movieDetail(@PathVariable Long id, Model model)
-    {
+    public String movieDetail(@PathVariable Long id, Model model, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
         model.addAttribute("detailFilm", filmService.getResponseFilm(filmService.getFilmById(id)));
+        model.addAttribute("listComment", commentService.findCommentByFilm(id));
+        model.addAttribute("userId", userId);
+        model.addAttribute("filmId", id);
+        CommentDto commentDto = new CommentDto();
+        commentDto.setFilmId(id);
+        commentDto.setUserId(userId);
+        model.addAttribute("commentDto", commentDto );
         return "movie-details";
     }
+
 
     @RequestMapping("/home")
     public String home()
