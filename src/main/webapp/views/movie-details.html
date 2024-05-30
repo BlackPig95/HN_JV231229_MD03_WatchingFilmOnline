@@ -18,6 +18,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <!--
   - custom css link
 -->
@@ -68,9 +72,11 @@
                     <option value="tu">TU</option>
                 </select>
             </div>
-
-            <button class="btn btn-primary">Sign in</button>
-
+            <a th:href="@{/login}" class="btn btn-primary" th:if="${session.user==null}">Sign in</a>
+            <th:block th:if="${session.user!=null}">
+                <p style="color: #fff" th:text="${session.user.fullName}"></p>
+                <a style="color: #fff;" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </th:block>
         </div>
 
         <button class="menu-open-btn" data-menu-open-btn>
@@ -161,7 +167,10 @@
         <!--
           - #MOVIE DETAIL
         -->
-
+        <br/><br/><br/><br/>
+        <th:block th:if="${roleFree!=null}">
+            <p th:text="${roleFree}" style="font-weight: 900; font-size: 100px; color: red"></p>
+        </th:block>
         <section class="movie-detail" th:object="${detailFilm}">
             <div class="container">
 
@@ -169,15 +178,11 @@
 
                     <img th:src="${detailFilm.filmImage}" th:alt="${detailFilm.filmName}">
 
-                    <button class="play-btn">
-                        <ion-icon name="play-circle-outline"></ion-icon>
-                    </button>
-
                 </figure>
 
                 <div class="movie-detail-content">
 
-                    <p class="detail-subtitle"><a target="_blank" th:href="${detailFilm.trailerUrl}">Xem trailer</a></p>
+                    <p class="detail-subtitle"><a th:href="@{/play-trailer/{idFilm}(idFilm=${detailFilm.filmId})}">Xem trailer</a></p>
 
                     <h1 class="h1 detail-title" th:text="${detailFilm.filmName}"></h1>
 
@@ -213,29 +218,63 @@
                     <div class="details-actions">
                         <button class="btn btn-primary" style="width: 100%">
                             <ion-icon name="play"></ion-icon>
-                            <span><a>Xem ngay</a></span>
+                            <!-- <span><a>Xem ngay</a></span>-->
+                        </span>
+                                </button>
+                            </form>
                         </button>
                     </div>
                 </div>
-                <div class="details-actions">
-                    <form th:each="episode : ${detailFilm.episodeList}"
-                          th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}">
-                        <input type="hidden" name="filmId" th:value="${detailFilm.filmId}">
-                        <button class="btn btn-primary" style="width: fit-content">
-                            <ion-icon name="play"></ion-icon>
-                            <span>
+                <div class="details-actions" th:if="${detailFilm.status==1}">
+                    <th:block th:if="${session.user!=null}">
+                        <form th:action="@{/check-role/{userId}(userId=${session.user.userId})}" th:each="episode : ${detailFilm.episodeList}">
+                            <!--                        th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}"-->
+                            <input type="hidden" name="idEpisode" th:value="${episode.filmEpisodeId}">
+                            <input type="hidden" name="filmId" th:value="${detailFilm.filmId}">
+                            <button class="btn btn-primary" style="width: fit-content">
+                                <ion-icon name="play"></ion-icon>
+                                <span>
                             <a style="text-decoration: none; color: blue;"
                                th:text="${'Tập '+episode.episodeNumber}"></a>
                         </span>
-                        </button>
-                    </form>
-
+                            </button>
+                        </form>
+                    </th:block>
+                    <th:block th:if="${session.user==null}">
+                        <form th:action="@{'/check-role/-1'}" th:each="episode : ${detailFilm.episodeList}">
+                            <!--                        th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}"-->
+                            <input type="hidden" name="idEpisode" th:value="${episode.filmEpisodeId}">
+                            <input type="hidden" name="filmId" th:value="${detailFilm.filmId}">
+                            <button class="btn btn-primary" style="width: fit-content">
+                                <ion-icon name="play"></ion-icon>
+                                <span>
+                            <a style="text-decoration: none; color: blue;"
+                               th:text="${'Tập '+episode.episodeNumber}"></a>
+                        </span>
+                            </button>
+                        </form>
+                    </th:block>
                 </div>
+                <th:block th:if="${detailFilm.status!=1}">
+                    <div th:if="${detailFilm.status==2}">
+                        <span style="color: white">Các tập phim đang được cập nhật. Vui lòng chờ</span>
+                    </div>
+                    <div th:if="${detailFilm.status==3}">
+                        <span style="color: white">Phim này đã ngừng chiếu</span>
+                    </div>
+                </th:block>
             </div>
             <div style="width: 100%; margin-top: 50px; padding: 50px">
                 <th:block th:if="${episodeToPlay != null}">
                     <iframe style="margin-left: auto;" width="90%" height="600"
                             th:src="${episodeToPlay.filmEpisodeUrl}"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </th:block>
+                <th:block th:if="${filmWithTrailer != null}">
+                    <iframe style="margin-left: auto;" width="90%" height="600"
+                            th:src="${filmWithTrailer.trailerUrl}"
                             title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
