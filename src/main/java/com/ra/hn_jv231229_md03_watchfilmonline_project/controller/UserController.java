@@ -1,6 +1,7 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.controller;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.UserDto;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.User;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.mapper.UserMapper;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -55,14 +57,6 @@ public class UserController {
 			return "redirect:/user/infor";
 	}
 	
-	@GetMapping("/history")
-	public String history(Model model) {
-		User user = (User) session.getAttribute("user");
-		Set<FilmEpisode> filmEpisodes = user.getFilmEpisodeSet();
-		model.addAttribute("filmEpisodes", filmEpisodes);
-		return "user/history-user";
-	}
-	
 	@GetMapping("/addWallet")
 	public String addWallet(Model model) {
 		return "user/addWallet";
@@ -78,12 +72,6 @@ public class UserController {
 		userService.handleAddWallet(user, money, session);
 		return "redirect:/user/home";
 	}
-	
-	@GetMapping("/home")
-	public String home() {
-		return "home";
-	}
-	
 	@GetMapping("/viewUpdateAcc")
 	public String viewUpdateAcc(Model model) {
 		return "user/updateAccount";
@@ -99,5 +87,23 @@ public class UserController {
 			model.addAttribute("error", "you do not have enough money");
 			return "user/updateAccount";
 		}
-	}
+    @GetMapping("/history")
+    public String history(Model model)
+    {
+        User user = (User) session.getAttribute("user");
+        if (user == null)
+        {
+            return "redirect:/login";
+        }
+        Set<FilmEpisode> filmEpisodes = user.getFilmEpisodeSet();
+        model.addAttribute("filmEpisodes", filmEpisodes);
+        return "user/history-user";
+    }
+
+    @GetMapping("/home")
+    public String home()
+    {
+        return "index";
+    }
+
 }

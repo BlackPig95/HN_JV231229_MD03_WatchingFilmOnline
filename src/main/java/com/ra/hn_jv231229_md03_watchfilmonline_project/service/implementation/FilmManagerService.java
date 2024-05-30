@@ -1,5 +1,6 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
 
+import com.mysql.cj.Session;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.ICategoryDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.ICountryDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmManageDao;
@@ -8,6 +9,7 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmReq
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.response.FilmDetailResponseDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Comment;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmCategory;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.util.FileUploadService;
@@ -209,6 +211,11 @@ public class FilmManagerService implements IFilmService
         double starsAverage = commentList.stream().mapToDouble(Comment::getStars).average().orElse(0);
         filmResponse.setStars(starsAverage);
         return filmResponse;
+    }
+
+    @Override
+    public List<Film> getRecommendFilm() {
+      return filmManageDao.getRecommendFilm();
     }
 
 }

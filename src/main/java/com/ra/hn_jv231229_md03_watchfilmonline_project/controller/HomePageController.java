@@ -24,10 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class HomePageController
@@ -36,21 +33,25 @@ public class HomePageController
     private final IFilmEpisodeService episodeService;
     private final IUserService userService;
     private final ICommentService commentService;
-    @Autowired
-    private IBannerService bannerService;
+    private final IBannerService bannerService;
+    private final HttpSession session;
 
     @Autowired
-    public HomePageController(IFilmService filmService, IFilmEpisodeService episodeService, IUserService userService, ICommentService commentService)
+    public HomePageController(IFilmService filmService, IFilmEpisodeService episodeService, IUserService userService, ICommentService commentService, IBannerService bannerService, HttpSession session)
     {
         this.filmService = filmService;
         this.episodeService = episodeService;
         this.userService = userService;
         this.commentService = commentService;
+        this.bannerService = bannerService;
+        this.session = session;
     }
 
     @RequestMapping("/")
     public String index(Model model)
     {
+        List<Film> recommendFilm=filmService.getRecommendFilm();
+        Collections.shuffle(recommendFilm);
         List<Film> seriesFilm = filmService.getTopRate(true);
         List<Film> singleFilm = filmService.getTopRate(false);
         List<Film> allFilms = filmService.findAll();
@@ -79,6 +80,12 @@ public class HomePageController
         model.addAttribute("seriesFilm", responseSeriesList);
         model.addAttribute("singleFilm", responseSingleList);
         model.addAttribute("filmList", responseFilmList);
+        User user = (User) session.getAttribute("user");
+        if (user != null)
+        {
+            model.addAttribute("username", user.getUsername());
+        }
+        model.addAttribute("recommendFilm", recommendFilm);
         return "index";
     }
 

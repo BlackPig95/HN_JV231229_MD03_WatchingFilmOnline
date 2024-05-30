@@ -23,16 +23,17 @@ public class AuthController
 {
     private final IUserService userService;
     private final IFilmService filmService;
-    private IBannerService bannerService;
+    private final IBannerService bannerService;
+    private final HttpSession session;
 
     @Autowired
-    public AuthController(IUserService userService, IFilmService filmService, IBannerService bannerService)
+    public AuthController(IUserService userService, IFilmService filmService, IBannerService bannerService, HttpSession session)
     {
         this.userService = userService;
         this.filmService = filmService;
         this.bannerService = bannerService;
+        this.session = session;
     }
-
 
     @GetMapping("/login")
     public String loginPage()
@@ -51,6 +52,12 @@ public class AuthController
     @GetMapping("/all-movie")
     public String allMovie(Model model)
     {
+        User user = (User) session.getAttribute("user");
+        if (user == null)
+        {
+            return "redirect:/login";
+        }
+        model.addAttribute("username", user.getUsername());
         List<Film> seriesFilm = filmService.getTopRate(true);
         List<Film> singleFilm = filmService.getTopRate(false);
         List<Film> allFilms = filmService.findAll();

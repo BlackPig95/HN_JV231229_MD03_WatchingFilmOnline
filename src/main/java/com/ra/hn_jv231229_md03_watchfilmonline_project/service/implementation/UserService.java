@@ -27,8 +27,6 @@ import java.text.ParseException;
 import java.util.Date;
 
 @Service
-
-
 public class UserService implements IUserService {
 	@Autowired
 	private FileUploadService fileUploadService;
@@ -135,40 +133,44 @@ public class UserService implements IUserService {
 		session.setAttribute("user", user);
 		userDao.update(user);
 	}
-	
-	@Override
-	public boolean handleUpdateAcc(User user, String option) {
-		Payment payment = new Payment();
-		payment.setUser(user);
-		payment.setPaymentDate(new Date());
-		switch (option) {
-			case "MONTHLY - 100.000đ":
-				if (user.getWallet_balance() < 100000) {
-					return false;
-				}
-				user.setWallet_balance(user.getWallet_balance() - 100000);
-				payment.setSubscriptionType(SubscriptionType.MONTHLY);
-				break;
-			case "HALF_YEAR - 50.000đ":
-				if (user.getWallet_balance() < 500000) {
-					return false;
-				}
-				user.setWallet_balance(user.getWallet_balance() - 500000);
-				payment.setSubscriptionType(SubscriptionType.HALF_YEAR);
-				break;
-			case "YEARLY - 1.000.000đ":
-				if (user.getWallet_balance() < 1000000) {
-					return false;
-				}
-				user.setWallet_balance(user.getWallet_balance() - 1000000);
-				payment.setSubscriptionType(SubscriptionType.YEARLY);
-				break;
-			default:
-				return false;
-		}
-		user.setUserRole(UserRole.PAID);
-		userDao.update(user);
-		paymentDao.save(payment);
-		return true;
-	}
+    @Override
+    public boolean handleUpdateAcc(User user, String option)
+    {
+        Payment payment = new Payment();
+        payment.setUser(user);
+        payment.setPaymentDate(new Date());
+        switch (option)
+        {
+            case "MONTHLY - 100.000đ":
+                if (user.getWallet_balance() < 100000)
+                {
+                    return false;
+                }
+                user.setWallet_balance(user.getWallet_balance() - 100000);
+                payment.setSubscriptionType(SubscriptionType.MONTHLY);
+                break;
+            case "HALF_YEAR - 500.000đ":
+                if (user.getWallet_balance() < 500000)
+                {
+                    return false;
+                }
+                user.setWallet_balance(user.getWallet_balance() - 500000);
+                payment.setSubscriptionType(SubscriptionType.HALF_YEAR);
+                break;
+            case "YEARLY - 1.000.000đ":
+                if (user.getWallet_balance() < 1000000)
+                {
+                    return false;
+                }
+                user.setWallet_balance(user.getWallet_balance() - 1000000);
+                payment.setSubscriptionType(SubscriptionType.YEARLY);
+                break;
+            default:
+                return false;
+        }
+        user.setUserRole(UserRole.PAID);
+        userDao.update(user);
+        paymentDao.save(payment);
+        return true;
+   
 }

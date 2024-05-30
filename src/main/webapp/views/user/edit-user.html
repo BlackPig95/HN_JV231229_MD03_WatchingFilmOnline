@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Cập Nhật Thông Tin Cá Nhân</title>
     <link
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -21,7 +21,7 @@
                     <label for="currentAvatar">Avatar hiện tại:</label>
                     <div>
                         <img
-                                th:src="*{avatarUrl}"
+                                th:src="*{avatar}"
                                 alt="Avatar hiện tại"
                                 class="img-fluid rounded-circle"
                                 id="currentAvatar"
@@ -83,12 +83,12 @@
                 </div>
 
 
-<!--                    <input-->
-<!--                            type="text"-->
-<!--                            th:field="*{userName}"-->
-<!--                            hidden-->
+                <!--                    <input-->
+                <!--                            type="text"-->
+                <!--                            th:field="*{userName}"-->
+                <!--                            hidden-->
 
-<!--                    />-->
+                <!--                    />-->
 
                     <input
                             type="text"
