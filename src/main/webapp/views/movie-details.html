@@ -89,7 +89,7 @@
             </div>
             <a th:href="@{/login}" class="btn btn-primary" th:if="${session.user==null}">Sign in</a>
             <th:block th:if="${session.user!=null}">
-                <p style="color: #fff" th:text="${session.user.fullName}"></p>
+                <p style="color: #fff" th:text="${session.user.fullname}"></p>
                 <a style="color: #fff;" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i></a>
             </th:block>
         </div>

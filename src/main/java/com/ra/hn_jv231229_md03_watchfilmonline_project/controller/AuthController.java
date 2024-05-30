@@ -89,6 +89,7 @@ public class AuthController
         if (user != null)
         {
             session.setAttribute("user", user);
+            session.setAttribute("userId", user.getUserId());
             model.addAttribute("username", username);
             if (user.getUserRole().name().equals("ADMIN"))
             {
@@ -168,7 +169,10 @@ public class AuthController
         }
         return "forgetPassword";
     }
-	@GetMapping("/403")
-	public String accessDenied() {
-		return "accessDeniedPage";
-	}
+
+    @GetMapping("/403")
+    public String accessDenied()
+    {
+        return "accessDeniedPage";
+    }
+}
