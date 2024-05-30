@@ -196,13 +196,13 @@
                                 </button>
                             </form>
                         </div>
-                        <form th:action="@{/favorites/remove}" method="post">
-                            <input type="hidden" name="filmId" th:value="${film.filmId}">
+                        <a th:href="@{'/favorites'+'/remove/'+${film.filmId}}">
                             <button type="submit" class="btn btn-outline-secondary">
                                 <ion-icon name="heart-outline"></ion-icon>
                                 <span>Xóa khỏi danh sách yêu thích</span>
                             </button>
-                        </form>
+                        </a>
+
                     </div>
                 </th:block>
             </div>

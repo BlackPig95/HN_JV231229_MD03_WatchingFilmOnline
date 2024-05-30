@@ -33,7 +33,7 @@ public class HomePageController
     private IBannerService bannerService;
 
     @Autowired
-    public HomePageController(IFilmService filmService, IFilmEpisodeService episodeService)
+    public HomePageController(IFilmService filmService, IFilmEpisodeService episodeService,ICommentService commentService)
     {
         this.filmService = filmService;
         this.episodeService = episodeService;

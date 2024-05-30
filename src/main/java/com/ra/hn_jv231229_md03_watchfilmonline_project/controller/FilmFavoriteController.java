@@ -21,14 +21,16 @@ public class FilmFavoriteController {
 
     @Autowired
     private FilmManagerService filmManagerService;
-    @GetMapping("/add")
-    public  String addFilmToFavorites(@RequestParam("filmId") Long filmId, HttpSession session) {
+    @GetMapping("/list")
+    public  String addFilmToFavorites( Model model,HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
-        Film film = filmManagerService.getFilmById(filmId);
-        filmFavoriteService.addFilmToFavorites(user, film);
+        List<Film> favoriteFilms = filmFavoriteService.getFavoritesFilm(user);
+        model.addAttribute("favoriteFilms", favoriteFilms);
+//        Film film = filmManagerService.getFilmById(filmId);
+//        filmFavoriteService.addFilmToFavorites(user, film);
         return "favoriteFilm/favorite_film";
     }
 //    @PostMapping("/add")
@@ -42,8 +44,8 @@ public class FilmFavoriteController {
 //        return "redirect:/favorites/list";
 //    }
 
-    @PostMapping("/remove")
-    public String removeFilmFromFavorites(@RequestParam("filmId") Long filmId, HttpSession session) {
+    @GetMapping("/remove/{filmId}")
+    public String removeFilmFromFavorites(@PathVariable("filmId") Long filmId, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -53,14 +55,15 @@ public class FilmFavoriteController {
         return "redirect:/favorites/list";
     }
 
+
     @GetMapping("/add/{filmId}")
-    public String getFavoriteFilms(@PathVariable("filmId") Long filmId, HttpSession session, Model model) {
+    public String getFavoriteFilms(@PathVariable("filmId") Long filmId, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
-        List<Film> favoriteFilms = filmFavoriteService.getFavoritesFilm(user);
-        model.addAttribute("favoriteFilms", favoriteFilms);
-        return "favoriteFilm/favorite_film";
+        Film film = filmManagerService.getFilmById(filmId);
+        filmFavoriteService.addFilmToFavorites(user, film);
+        return "redirect:/favorites/list";
     }
 }
