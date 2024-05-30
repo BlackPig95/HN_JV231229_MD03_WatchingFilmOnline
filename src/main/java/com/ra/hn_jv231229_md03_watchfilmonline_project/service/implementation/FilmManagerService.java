@@ -1,17 +1,16 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.service.implementation;
 
+import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.ICategoryDao;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.ICountryDao;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.IFilmManageDao;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design.*;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.request.FilmRequestDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.dto.response.FilmDetailResponseDto;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Comment;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmEpisode;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICategoryService;
-import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICountryService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.IFilmService;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.util.FileUploadService;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +61,7 @@ public class FilmManagerService implements IFilmService
         film.setStatus(filmRequestDto.getStatus());
         film.setTotalEpisode(filmRequestDto.getTotalEpisode());
         film.setFilmCategory(categoryDao.findById(filmRequestDto.getCategoryId()));
-        film.setCountry(countryDao.findById(filmRequestDto.getCountryId()));
+//        film.setCountry(countryDao.findById(filmRequestDto.getCountryId()));
         if (filmRequestDto.getFilmId() == null)
         {
             film.setFilmImage(fileUploadService.uploadFileToServer(filmRequestDto.getFileImage()));

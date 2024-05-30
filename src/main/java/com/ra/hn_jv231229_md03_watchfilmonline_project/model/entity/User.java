@@ -25,11 +25,10 @@ public class User
     @Column(name = "username", unique = true)
     @NotEmpty(message = "Tên người dùng không được để trống")
     @Size(min = 6)
-    @Pattern(regexp = "^[a-zA-Z.]+$")
+//    @Pattern(regexp = "^[a-zA-Z.]+$")
     private String username;
     @Column(name = "email")
     @Pattern(regexp = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$",message = "Định dạng email không hợp lệ")
-
     private String email;
     @Column(name = "phone", unique = true)
     @NotEmpty(message = "Vui lòng nhập số điện thoại")
@@ -149,8 +148,13 @@ public class User
     {
         this.password = password;
     }
+    public String getPhone() {
+        return phone;
+    }
 
-
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public Boolean getStatus()
     {
@@ -202,13 +206,12 @@ public class User
         this.userId = userId;
     }
 
-    public @NotNull @Size(min = 6) @Pattern(regexp = "^[a-zA-Z.]+$") String getUsername()
+    public String getUsername()
     {
         return username;
     }
 
-    public void setUsername(@NotNull @Size(min = 6) @Pattern(regexp = "^[a-zA-Z.]+$") String userName)
-    {
+    public void setUsername(String userName) {
         this.username = userName;
     }
 
