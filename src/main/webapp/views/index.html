@@ -365,18 +365,18 @@
                     <li th:each="film : ${seriesFilm}">
                         <div class="movie-card">
 
-                            <a th:href="@{/movie-detail}">
+                            <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
                                 <figure class="card-banner">
                                     <img th:src="${film.filmImage}" alt="">
                                 </figure>
                             </a>
 
                             <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
+                                <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
                                     <h3 class="card-title" th:text="${film.filmName}"></h3>
                                 </a>
 
-                                <time th:datetime="${film.releaseDate.year}" th:text="${film.releaseDate.year}"></time>
+                                <time th:datetime="${#dates.format(film.releaseDate,'yyyy')}" th:text="${#dates.format(film.releaseDate,'yyyy')}"></time>
                             </div>
 
                             <div class="card-meta">
@@ -397,19 +397,19 @@
                     <li th:each="film : ${singleFilm}">
                         <div class="movie-card">
 
-                            <a th:href="@{/movie-detail}">
+                            <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
                                 <figure class="card-banner">
                                     <img th:src="${film.filmImage}" alt="">
                                 </figure>
                             </a>
 
                             <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
+                                <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
                                     <h3 class="card-title" th:text="${film.filmName}"></h3>
                                 </a>
 
-                                <time th:datetime="${film.releaseDate.year}"
-                                      th:text="${film.   releaseDate.year}"></time>
+                                <time th:datetime="${#dates.format(film.releaseDate,'yyyy')}"
+                                      th:text="${#dates.format(film.releaseDate,'yyyy')}"></time>
                             </div>
 
                             <div class="card-meta">

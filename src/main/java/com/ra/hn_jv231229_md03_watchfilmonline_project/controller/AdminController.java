@@ -44,7 +44,7 @@ public class AdminController {
         model.addAttribute("bannerAdd", new Banner());
         return "banner/list-banner";
     }
-    @GetMapping("/banner/add")
+    @PostMapping("/banner/add")
     public String add(Model model, @RequestParam("filmId") Long filmId,@RequestParam("file") MultipartFile file) {
         bannerService.save(filmId, file);
         return "redirect:/admin/banner";

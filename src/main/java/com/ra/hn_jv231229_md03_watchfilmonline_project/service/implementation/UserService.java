@@ -87,7 +87,7 @@ public class UserService implements IUserService
 
 
      @Override
-    public void update(UserDto userDto) throws ParseException {
+    public void update(UserDto userDto)  {
         MultipartFile file = userDto.getFileAvatar();
         User user = findById(userDto.getUserId());
 

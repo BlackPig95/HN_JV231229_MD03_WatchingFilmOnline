@@ -5,6 +5,7 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Country;
 import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -62,7 +63,6 @@ public class CountryService implements ICountryService {
     public void save(Country country) {
         countryDao.save(country);
     }
-
     @Override
     public void delete(Long id) {
         Country country = findById(id);

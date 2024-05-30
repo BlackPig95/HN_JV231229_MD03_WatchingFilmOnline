@@ -25,10 +25,8 @@ public class FileUploadService
 {
     @Value("${bucketName}")
     private String bucketName;
-
     @Autowired
     private Storage storage;
-
     @Autowired
     private ServletContext servletContext;
 
@@ -63,7 +61,7 @@ public class FileUploadService
     // upload file lên firebase
     private String uploadFileFromServerToFirebase(String filePath)
     {
-        Path localPath = Paths.get(filePath); // lấy ra đối tượng Paths của ảnh vừa upload lên server
+                Path localPath = Paths.get(filePath); // lấy ra đối tượng Paths của ảnh vừa upload lên server
         String fileName = localPath.getFileName().toString(); // lấy ra tên file upload
 
         BlobId blobId = BlobId.of(bucketName, fileName); // tạo file trên storage bằng tên và bucketname chỉ đinh

@@ -43,8 +43,23 @@ public class UserDto
         this.createdAt = createdAt;
         this.status = status;
     }
-    
-    
+
+    public UserDto(Long userId, String fullName, String email, String phone, String avatarUrl) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.avatarUrl = avatarUrl;
+    }
+
+    public UserDto(Long userId, String fullName, String email, String phone, MultipartFile fileAvatar) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.fileAvatar = fileAvatar;
+    }
+
     public Long getUserId() {
         return userId;
     }

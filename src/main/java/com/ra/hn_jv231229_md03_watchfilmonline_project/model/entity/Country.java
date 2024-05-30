@@ -16,7 +16,7 @@ public class Country
     @Column(name = "country_name")
     @NotEmpty(message = "Tên quốc gia không được để trống")
     private String countryName;
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country",fetch = FetchType.EAGER)
     private List<Film> filmList;
 
     public Country()
