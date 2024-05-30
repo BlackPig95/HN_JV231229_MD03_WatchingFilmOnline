@@ -33,5 +33,5 @@ public interface IUserService
 
     String getNewPassword(String username);
 
-    Long countUser();
+
 }

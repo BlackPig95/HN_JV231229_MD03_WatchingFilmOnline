@@ -132,9 +132,5 @@ public class UserService implements IUserService
         return str.toString();
     }
 
-    @Override
-    public Long countUser()
-    {
-        return userDao.countUser();
-    }
+
 }

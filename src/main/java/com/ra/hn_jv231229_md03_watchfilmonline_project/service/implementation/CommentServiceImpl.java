@@ -74,6 +74,8 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public List<Comment> findCommentByFilm(Long filmId) {
         return commentDao.findCommentByFilm(filmId);
+    }
+    @Override
     public Double averageRating() {
         return commentDao.averageRating();
     }

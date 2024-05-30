@@ -60,7 +60,7 @@ public class FilmFavoriteDaoImpl implements IFavoriteFilmDao {
         try {
             session.beginTransaction();
             user.getFilmSet().remove(film);
-            session.update(user);
+            userDao.update(user);
             session.getTransaction().commit();
         }catch (Exception e){
             session.getTransaction().rollback();

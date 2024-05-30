@@ -191,7 +191,7 @@ public class UserDaoImpl implements IUserDao
 		Session session = this.sessionFactory.openSession();
 		try {
 			session.beginTransaction();
-			session.update(user);
+			session.merge(user);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
@@ -234,27 +234,6 @@ public class UserDaoImpl implements IUserDao
             session.close();
         }
         return null;
-    }
-
-    @Override
-    public Long countUser()
-    {
-        Session session = sessionFactory.openSession();
-        try
-        {
-            session.beginTransaction();
-            session.merge(user);
-            session.getTransaction().commit();
-            Long count = (Long) session.createQuery("select count(*) from User").uniqueResult();
-            return count;
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        } finally
-        {
-            session.close();
-        }
-        return 0L;
     }
 }
 
