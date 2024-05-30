@@ -33,16 +33,18 @@ public class HomePageController
     private final IFilmEpisodeService episodeService;
     private final IUserService userService;
     private final ICommentService commentService;
-    @Autowired
-    private IBannerService bannerService;
+    private final IBannerService bannerService;
+    private final HttpSession session;
 
     @Autowired
-    public HomePageController(IFilmService filmService, IFilmEpisodeService episodeService, IUserService userService, ICommentService commentService)
+    public HomePageController(IFilmService filmService, IFilmEpisodeService episodeService, IUserService userService, ICommentService commentService, IBannerService bannerService, HttpSession session)
     {
         this.filmService = filmService;
         this.episodeService = episodeService;
         this.userService = userService;
         this.commentService = commentService;
+        this.bannerService = bannerService;
+        this.session = session;
     }
 
     @RequestMapping("/")
@@ -78,6 +80,11 @@ public class HomePageController
         model.addAttribute("seriesFilm", responseSeriesList);
         model.addAttribute("singleFilm", responseSingleList);
         model.addAttribute("filmList", responseFilmList);
+        User user = (User) session.getAttribute("user");
+        if (user != null)
+        {
+            model.addAttribute("username", user.getUsername());
+        }
         model.addAttribute("recommendFilm", recommendFilm);
         return "index";
     }
