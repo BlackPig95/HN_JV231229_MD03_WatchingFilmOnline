@@ -28,7 +28,7 @@ import java.util.Date;
 
 @Service
 
-=======
+
 public class UserService implements IUserService {
 	@Autowired
 	private FileUploadService fileUploadService;

@@ -37,6 +37,7 @@ public class AdminController
     @GetMapping("/dashboard")
     public String dashboard(Model model)
     {
+        model.addAttribute("countUser",userService.countUser());
         model.addAttribute("countAllFilmCategories", categoryService.countAllFilmCategories());
         model.addAttribute("averageRating", commentService.averageRating());
         model.addAttribute("countView", filmService.countView());
