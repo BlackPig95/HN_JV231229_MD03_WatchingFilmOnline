@@ -69,7 +69,7 @@ public class CountryService implements ICountryService {
         if (country.getFilmList().isEmpty()) {
             countryDao.delete(id);
         } else {
-            country.setCountryName(country.getCountryName() + "(Inactive)");
+            country.setCountryName("N/A");
             save(country);
         }
     }
