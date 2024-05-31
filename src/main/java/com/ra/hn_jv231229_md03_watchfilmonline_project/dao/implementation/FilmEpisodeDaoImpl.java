@@ -140,4 +140,20 @@ public class FilmEpisodeDaoImpl implements IFilmEpisodeDao
             session.close();
         }
     }
+
+    @Override
+    public FilmEpisode getById(Long episodeId)
+    {
+        Session session = sessionFactory.openSession();
+        try
+        {
+            return session.get(FilmEpisode.class, episodeId);
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        } finally
+        {
+            session.close();
+        }
+    }
 }

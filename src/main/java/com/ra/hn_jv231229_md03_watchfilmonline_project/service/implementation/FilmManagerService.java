@@ -17,9 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.List;
+import java.util.*;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -214,8 +213,11 @@ public class FilmManagerService implements IFilmService
     }
 
     @Override
-    public List<Film> getRecommendFilm() {
-      return filmManageDao.getRecommendFilm();
+    public List<Film> getRecommendFilm()
+    {
+        List<Film> filmList = filmManageDao.getRecommendFilm();
+        Collections.shuffle(filmList);
+        return filmList.subList(0, Math.min(4, filmList.size()));
     }
 
 }

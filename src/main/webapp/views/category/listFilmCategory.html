@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Responsive Admin & Dashboard Template based on Bootstrap 5">
     <meta name="author" content="AdminKit">
-    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+    <meta name="keywords"
+          content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="shortcut icon" th:href="@{/assets/images/icon-48x48.png}" />
+    <link rel="shortcut icon" th:href="@{/assets/images/icon-48x48.png}"/>
 
-    <link rel="canonical" href="https://demo-basic.adminkit.io/" />
+    <link rel="canonical" href="https://demo-basic.adminkit.io/"/>
 
     <title>AdminKit Demo - Bootstrap 5 Admin Template</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
     <link th:href="@{/assets/css/app.css}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -23,46 +25,13 @@
 
 
 <body>
+
 <div class="wrapper">
-    <nav id="sidebar" class="sidebar js-sidebar">
-        <div class="sidebar-content js-simplebar">
-            <a class="sidebar-brand" href="index.html">
-                <span class="align-middle">AdminKit</span>
-            </a>
-
-            <ul class="sidebar-nav">
-                <li class="sidebar-header">
-                    Pages
-                </li>
-                <li class="sidebar-item ">
-                    <a class="sidebar-link" href="index.html">
-                        <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Dashboard</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="category.html">
-                        <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Category</span>
-                    </a>
-                </li>
-                <li class="sidebar-item active">
-                    <a class="sidebar-link" href="#">
-                        <i class="align-middle" data-feather="square"></i> <span class="align-middle">CategoryFilm</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="user.html">
-                        <i class="align-middle" data-feather="user"></i> <span class="align-middle">User</span>
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-    </nav>
-
     <div class="main">
         <nav class="navbar navbar-expand navbar-light navbar-bg">
-            <a class="sidebar-toggle js-sidebar-toggle mx-2">
-                <i class="hamburger align-self-center"></i>
+            <a class="btn btn-success" th:href="@{/admin/dashboard}">
+                <i class="fe-airplay"></i>
+                <button type="button" class="btn btn-success">Dashboard</button>
             </a>
 
             <div class="navbar-collapse collapse">
@@ -255,7 +224,8 @@
                                     <button type="button" class="btn btn-success">+ Add new Category</button>
                                 </a>
                                 <form class="d-flex" role="search" th:action="@{/listCategory}" method="get">
-                                    <input class="form-control me-2 fst-italic" type="search" placeholder="Enter category's name..."
+                                    <input class="form-control me-2 fst-italic" type="search"
+                                           placeholder="Enter category's name..."
                                            aria-label="Search" name="query" th:value="${query}">
                                     <button class="btn btn-outline-success" type="submit">Search</button>
                                 </form>
@@ -280,7 +250,8 @@
                                 <td th:text="${category.description}"></td>
                                 <td th:text="${category.status} ? 'Active' : 'Inactive'"></td>
                                 <td><a th:href="@{'/listCategory/' + ${category.categoryId} + '/edit'}">Edit</a></td>
-                                <td><a th:href="@{'/listCategory/' + ${category.categoryId} + '/delete'}" onclick="return confirm('Muon xoa ko?');">Delete</a></td>
+                                <td><a th:href="@{'/listCategory/' + ${category.categoryId} + '/delete'}"
+                                       onclick="return confirm('Muon xoa ko?');">Delete</a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -291,7 +262,9 @@
                             <ul class="pagination">
                                 <li th:each="i : ${#numbers.sequence(1, totalPages)}"
                                     th:class="${currentPage == i ? 'page-item active' : 'page-item'}">
-                                    <a class="page-link" th:href="@{'/listCategory?page=' + ${i} + '&sort=' + ${sort} + '&query=' + ${#strings.defaultString(query, '')}}" th:text="${i}"></a>
+                                    <a class="page-link"
+                                       th:href="@{'/listCategory?page=' + ${i} + '&sort=' + ${sort} + '&query=' + ${#strings.defaultString(query, '')}}"
+                                       th:text="${i}"></a>
                                 </li>
                             </ul>
                         </nav>
@@ -299,7 +272,6 @@
                 </div>
             </div>
         </main>
-
 
 
         <footer class="footer">

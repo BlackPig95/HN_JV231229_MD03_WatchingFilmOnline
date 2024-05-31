@@ -108,7 +108,7 @@ public class CategoryController
     }
 
     @GetMapping("/user-category")
-    public String userCategory(Model model)
+    public String userCategory(@RequestParam(value = "catId", required = false, defaultValue = "1") Long catId, Model model)
     {
         User user = (User) session.getAttribute("user");
         if (user == null)
@@ -116,36 +116,23 @@ public class CategoryController
             return "redirect:/login";
         }
         List<Film> favoriteFilms = filmFavoriteService.getFavoritesFilm(user);
-        model.addAttribute("favoriteFilms", favoriteFilms);
         model.addAttribute("username", user.getUsername());
-        List<Film> seriesFilm = filmService.getTopRate(true);
-        List<Film> singleFilm = filmService.getTopRate(false);
         List<Film> allFilms = filmService.findAll();
         List<Banner> banners = bannerService.findAll();
 
         model.addAttribute("banners", banners);
 
         List<FilmDetailResponseDto> responseFilmList = new ArrayList<>();
-        List<FilmDetailResponseDto> responseSeriesList = new ArrayList<>();
-        List<FilmDetailResponseDto> responseSingleList = new ArrayList<>();
+
         //ALl films
         for (Film film : allFilms)
         {
             responseFilmList.add(filmService.getResponseFilm(film));
         }
-        //Series list
-        for (Film film : seriesFilm)
-        {
-            responseSeriesList.add(filmService.getResponseFilm(film));
-        }
-        //Single list
-        for (Film film : singleFilm)
-        {
-            responseSingleList.add(filmService.getResponseFilm(film));
-        }
-        model.addAttribute("seriesFilm", responseSeriesList);
-        model.addAttribute("singleFilm", responseSingleList);
+
         model.addAttribute("filmList", responseFilmList);
+        model.addAttribute("categoryList", categoryService.findAll(0, 1000));
+        model.addAttribute("catId", catId);
 //        Film film = filmManagerService.getFilmById(filmId);
 //        filmFavoriteService.addFilmToFavorites(user, film);
         return "/category/category_film";

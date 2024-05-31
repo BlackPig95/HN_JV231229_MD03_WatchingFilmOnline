@@ -58,6 +58,7 @@
         th, td {
             text-align: center;
         }
+
         .page-link.active {
             background-color: #007bff;
             color: white;
@@ -68,6 +69,10 @@
 
 
 <div class="main-content">
+    <a class="btn btn-success" th:href="@{/admin/dashboard}">
+        <i class="fe-airplay"></i>
+        <button type="button" class="btn btn-success">Dashboard</button>
+    </a>
     <h1 class="mb-4">Trang Quản Lý Quốc Gia</h1>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCountryModal">
@@ -75,7 +80,8 @@
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="addCountryModal" tabindex="-1" aria-labelledby="addCountryModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addCountryModal" tabindex="-1" aria-labelledby="addCountryModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -184,7 +190,8 @@
     <nav>
         <ul class="pagination">
             <li th:each="page : ${#numbers.sequence(1,totalPage)}" class="page-item">
-                <a th:href="@{'/admin/country?page='+${page}}" th:text="${page}" th:classappend="${page == curr} ? ' active' : ''"   class="page-link">1</a>
+                <a th:href="@{'/admin/country?page='+${page}}" th:text="${page}"
+                   th:classappend="${page == curr} ? ' active' : ''" class="page-link">1</a>
             </li>
         </ul>
     </nav>

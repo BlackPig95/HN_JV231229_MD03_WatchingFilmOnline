@@ -103,16 +103,22 @@ public class AuthController
                 return "redirect:/admin/dashboard";
             } else
             {
+                List<Film> recommendFilm = filmService.getRecommendFilm();
                 List<Film> seriesFilm = filmService.getTopRate(true);
                 List<Film> singleFilm = filmService.getTopRate(false);
                 List<Film> allFilms = filmService.findAll();
                 List<Banner> banners = bannerService.findAll();
 
                 model.addAttribute("banners", banners);
-
                 List<FilmDetailResponseDto> responseFilmList = new ArrayList<>();
                 List<FilmDetailResponseDto> responseSeriesList = new ArrayList<>();
                 List<FilmDetailResponseDto> responseSingleList = new ArrayList<>();
+                List<FilmDetailResponseDto> responseRecommend = new ArrayList<>();
+                //Recommend films
+                for (Film film : recommendFilm)
+                {
+                    responseRecommend.add(filmService.getResponseFilm(film));
+                }
                 //ALl films
                 for (Film film : allFilms)
                 {
@@ -131,6 +137,7 @@ public class AuthController
                 model.addAttribute("seriesFilm", responseSeriesList);
                 model.addAttribute("singleFilm", responseSingleList);
                 model.addAttribute("filmList", responseFilmList);
+                model.addAttribute("recommendFilm", responseRecommend);
                 return "index";
             }
         } else

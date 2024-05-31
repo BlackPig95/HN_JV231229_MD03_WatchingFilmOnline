@@ -307,7 +307,7 @@
 
                 <p class="section-subtitle">Online Streaming</p>
 
-                <h2 class="h2 section-title">Top Rated Movies</h2>
+                <h2 class="h2 section-title">Films By Category</h2>
 
                 <ul class="filter-list">
 
@@ -328,45 +328,44 @@
                     </li>
 
                 </ul>
-        <select class="filter-select" onchange="filterContent(this.value);" style="color: white;background: #0a0a0a">
-          <option value="movies">Movies</option>
-          <option value="tv-shows">TV Shows</option>
-          <option value="documentary">Documentary</option>
-          <option value="sports">Sports</option>
-        </select>
-
+                <form th:action="@{/listCategory/user-category/}">
+                    <select name="catId" class="filter-select" style="color: white;background: #0a0a0a">
+                        <option th:each="cat : ${categoryList}" th:text="${cat.categoryName}"
+                                th:value="${cat.categoryId}"></option>
+                    </select>
+                    <input type="submit" value="Lọc" style="color: black; width: 100px"/>
+                </form>
                 <ul class="movies-list">
-
-                    <li>
+                    <li th:each="showing : ${filmList}" th:if="${showing.filmCategory.categoryId == catId}">
                         <div class="movie-card">
-
-                            <a th:href="@{/movie-detail}">
+                            <a th:href="@{/movie-detail/{id}(id=${showing.filmId})}">
                                 <figure class="card-banner">
-                                    <img src="./assets/images/movie-1.png" alt="Sonic the Hedgehog 2 movie poster">
+                                    <img th:src="${showing.filmImage}"
+                                         th:alt="${showing.filmName}">
                                 </figure>
                             </a>
 
                             <div class="title-wrapper">
-                                <a th:href="@{/movie-detail}">
-                                    <h3 class="card-title">Sonic the Hedgehog 2</h3>
+                                <a th:href="@{/movie-detail/{id}(id=${showing.filmId})}">
+                                    <h3 class="card-title" th:text="${showing.filmName}"></h3>
                                 </a>
 
-                                <time datetime="2022">2022</time>
+                                <h3 th:classappend="card-title"
+                                    th:text="${showing.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
                             </div>
 
                             <div class="card-meta">
-                                <div class="badge badge-outline">2K</div>
+                                <div class="badge badge-outline" th:text="${showing.free?'Miễn phí':'Trả phí'}"></div>
 
                                 <div class="duration">
                                     <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT122M">122 min</time>
+                                    <time datetime="PT137M" th:text="${showing.totalShowTime+' phút'}"></time>
                                 </div>
 
                                 <div class="rating">
                                     <ion-icon name="star"></ion-icon>
 
-                                    <data>7.8</data>
+                                    <data th:text="${showing.stars}"></data>
                                 </div>
                             </div>
 
