@@ -46,7 +46,7 @@
   - #HEADER
 -->
 
-<header class="header" data-header>
+<header class="header" data-header id="header-scroll">
     <div class="container">
 
         <div class="overlay" data-overlay></div>
@@ -95,6 +95,11 @@
                            class="dropdown-item notify-item">
                             <i style="font-size: 20px" class="fa-solid fa-circle-up"></i>
                             <span>Update Account</span>
+                        </a>
+                        <a th:href="@{/user/infor}" style="display: flex;gap: 10px"
+                           class="dropdown-item notify-item">
+                            <i style="font-size: 20px" class="fa-solid fa-circle-up"></i>
+                            <span>Personal Info</span>
                         </a>
                         <!-- item-->
                         <a th:href="@{/logout}" style="display: flex;gap: 10px" class="dropdown-item notify-item">
@@ -219,7 +224,7 @@
             <div class="carousel-inner">
                 <div class="carousel-item" th:each="banner : ${banners}"
                      th:classappend="${banners.indexOf(banner)==0}?'active':''">
-                    <img th:src="${banner.bannerImage}"
+                    <img style="width: 100%; height: 600px" th:src="${banner.bannerImage}"
                          class="d-block w-100" alt="...">
                 </div>
             </div>
@@ -442,7 +447,8 @@
                                 <a th:href="@{/movie-detail/{id}(id=${film.filmId})}">
                                     <h3 class="card-title" th:text="${film.filmName}"></h3>
                                 </a>
-
+                                <time th:datetime="${#dates.format(film.releaseDate,'yyyy')}"
+                                      th:text="${#dates.format(film.releaseDate,'yyyy')}"></time>
                                 <h3 th:classappend="card-title"
                                     th:text="${film.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
                             </div>
@@ -452,13 +458,13 @@
 
                                 <div class="duration">
                                     <ion-icon name="time-outline"></ion-icon>
-                                    <time datetime="PT137M" th:text="${film.totalEpisode}+' phút'"></time>
+                                    <time datetime="PT137M" th:text="${film.totalShowTime}+' phút'"></time>
                                 </div>
 
                                 <div class="rating">
                                     <ion-icon name="star"></ion-icon>
 
-                                    <data th:text="${film.releaseDate}"></data>
+                                    <data th:text="${film.stars}"></data>
                                 </div>
                             </div>
 
@@ -483,7 +489,8 @@
                                 </a>
 
 
-                                <time th:datetime="${#dates.format(film.releaseDate,'yyyy')}" th:text="${#dates.format(film.releaseDate,'yyyy')}"></time>
+                                <time th:datetime="${#dates.format(film.releaseDate,'yyyy')}"
+                                      th:text="${#dates.format(film.releaseDate,'yyyy')}"></time>
 
                                 <h3 th:classappend="card-title"
                                     th:text="${film.seriesSingle?'Phim bộ':'Phim lẻ'}"></h3>
@@ -740,7 +747,7 @@
 <!-- App js -->
 <script th:src="@{/assets/assets_admin/js/app.min.js}"></script>
 <script>
-    const nav = document.getElementById('header');
+    const nav = document.getElementById('header-scroll');
     window.onscroll = function () {
         if (document.body.scrollTop >= 20 || document.documentElement.scrollTop >= 20) {
             nav.classList.add("nav-colored");

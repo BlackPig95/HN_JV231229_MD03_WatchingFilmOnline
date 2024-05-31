@@ -28,7 +28,8 @@
             <li class="dropdown d-none d-lg-block">
                 <a class="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" href="#"
                    role="button" aria-haspopup="false" aria-expanded="false">
-                    <img th:src="@{/assets/assets_admin/images/flags/vietnam.jpg}" alt="user-image" class="mr-1" height="12">
+                    <img th:src="@{/assets/assets_admin/images/flags/vietnam.jpg}" alt="user-image" class="mr-1"
+                         height="12">
                     <span
                             class="align-middle">Vietnam <i class="mdi mdi-chevron-down"></i> </span>
                 </a>
@@ -204,7 +205,7 @@
                     <li class="menu-title">QUẢN LÝ</li>
 
                     <li>
-                        <a th:href="@{/admin/home}">
+                        <a th:href="@{/admin/dashboard}">
                             <i class="fe-airplay"></i>
                             <span> Dashboard </span>
                         </a>
@@ -296,8 +297,6 @@
                     </div>
 
 
-
-
                     <div class="col-md-6 col-xl-3">
                         <div class="card-box tilebox-one">
                             <i class="fe-tag float-right"></i>
@@ -310,7 +309,9 @@
                         <div class="card-box tilebox-one">
                             <i class="fe-layers float-right"></i>
                             <h5 class="text-muted text-uppercase mb-3 mt-0">Trung bình đánh giá</h5>
-                            <h3 class="mb-3"><span data-plugin="counterup" th:text="${#numbers.formatDecimal(averageRating, 2, 'COMMA', 2, 'POINT')}"></span></h3>
+                            <h3 class="mb-3"><span data-plugin="counterup"
+                                                   th:text="${#numbers.formatDecimal(averageRating, 2, 'COMMA', 2, 'POINT')}"></span>
+                            </h3>
                         </div>
                     </div>
 

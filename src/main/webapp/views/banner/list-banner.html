@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Trang Quản Lý Banner</title>
     <link
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -67,8 +67,11 @@
 </head>
 <body>
 
-
 <div class="main-content">
+    <a class="btn btn-success" th:href="@{/admin/dashboard}">
+        <i class="fe-airplay"></i>
+        <button type="button" class="btn btn-success">Dashboard</button>
+    </a>
     <h1 class="mb-4">Trang Quản Lý Banner</h1>
     <!-- Button trigger modal -->
     <button
@@ -124,8 +127,9 @@
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="film">Phim</label>
-                                    <select class="form-control" id="film" name="filmId" >
-                                        <option th:each="film : ${films}" th:value="${film.filmId}" th:text="${film.filmName}"></option>
+                                    <select class="form-control" id="film" name="filmId">
+                                        <option th:each="film : ${films}" th:value="${film.filmId}"
+                                                th:text="${film.filmName}"></option>
                                     </select>
                                 </div>
                             </div>

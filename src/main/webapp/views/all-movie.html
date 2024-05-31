@@ -46,7 +46,7 @@
 <!--
   - #HEADER
 -->
-<header class="header" data-header>
+<header class="header" data-header id="header-scroll">
     <div class="container">
 
         <div class="overlay" data-overlay></div>
@@ -303,7 +303,7 @@
             <div class="carousel-inner">
                 <div class="carousel-item" th:each="banner : ${banners}"
                      th:classappend="${banners.indexOf(banner)==0}?'active':''">
-                    <img th:src="${banner.bannerImage}"
+                    <img style="width: 100%; height: 600px" th:src="${banner.bannerImage}"
                          class="d-block w-100" alt="...">
                 </div>
             </div>
@@ -575,7 +575,7 @@
 <!-- App js -->
 <script th:src="@{/assets/assets_admin/js/app.min.js}"></script>
 <script>
-    const nav = document.getElementById('header');
+    const nav = document.getElementById('header-scroll');
     window.onscroll = function () {
         if (document.body.scrollTop >= 20 || document.documentElement.scrollTop >= 20) {
             nav.classList.add("nav-colored");

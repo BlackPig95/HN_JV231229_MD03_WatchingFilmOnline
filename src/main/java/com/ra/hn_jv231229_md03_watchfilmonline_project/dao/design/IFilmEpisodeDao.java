@@ -18,4 +18,6 @@ public interface IFilmEpisodeDao
     String getFilmImageById(long id);
 
     void deletePreviousEpisode(long id);
+
+    FilmEpisode getById(Long episodeId);
 }

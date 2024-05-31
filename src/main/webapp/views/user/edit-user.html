@@ -21,7 +21,7 @@
                     <label for="currentAvatar">Avatar hiện tại:</label>
                     <div>
                         <img
-                                th:src="*{avatar}"
+                                th:src="*{avatarUrl}"
                                 alt="Avatar hiện tại"
                                 class="img-fluid rounded-circle"
                                 id="currentAvatar"
@@ -90,42 +90,42 @@
 
                 <!--                    />-->
 
-                    <input
-                            type="text"
-                            th:value="*{userId}"
-                            name="userId"
-                            hidden
-                    />
-<!--                <input-->
-<!--                        type="text"-->
-<!--                        th:field="*{password}"-->
-<!--                        hidden-->
-<!--                />-->
-<!--                <input-->
-<!--                        type="text"-->
-<!--                        th:field="*{userRole}"-->
-<!--                        hidden-->
-<!--                />-->
-<!--                <input-->
-<!--                        type="text"-->
-<!--                        th:field="*{wallet_balance}"-->
-<!--                        hidden-->
-<!--                />-->
-<!--                <input-->
-<!--                        type="text"-->
-<!--                        th:field="*{status}"-->
-<!--                        hidden-->
-<!--                />-->
-<!--                <input-->
-<!--                        type="text"-->
-<!--                        th:field="*{createdAt}"-->
-<!--                        hidden-->
-<!--                />-->
-<!--                <input-->
-<!--                        type="text"-->
-<!--                        th:field="*{updatedAt}"-->
-<!--                        hidden-->
-<!--                />-->
+                <input
+                        type="text"
+                        th:value="*{userId}"
+                        name="userId"
+                        hidden
+                />
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{password}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{userRole}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{wallet_balance}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{status}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{createdAt}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{updatedAt}"-->
+                <!--                        hidden-->
+                <!--                />-->
                 <button type="submit" class="btn btn-primary">Cập Nhật</button>
             </form>
         </div>

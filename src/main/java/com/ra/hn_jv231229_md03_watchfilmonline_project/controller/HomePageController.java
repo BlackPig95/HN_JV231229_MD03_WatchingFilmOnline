@@ -50,8 +50,7 @@ public class HomePageController
     @RequestMapping("/")
     public String index(Model model)
     {
-        List<Film> recommendFilm=filmService.getRecommendFilm();
-        Collections.shuffle(recommendFilm);
+        List<Film> recommendFilm = filmService.getRecommendFilm();
         List<Film> seriesFilm = filmService.getTopRate(true);
         List<Film> singleFilm = filmService.getTopRate(false);
         List<Film> allFilms = filmService.findAll();
@@ -62,6 +61,12 @@ public class HomePageController
         List<FilmDetailResponseDto> responseFilmList = new ArrayList<>();
         List<FilmDetailResponseDto> responseSeriesList = new ArrayList<>();
         List<FilmDetailResponseDto> responseSingleList = new ArrayList<>();
+        List<FilmDetailResponseDto> responseRecommend = new ArrayList<>();
+        //Recommend films
+        for (Film film : recommendFilm)
+        {
+            responseRecommend.add(filmService.getResponseFilm(film));
+        }
         //ALl films
         for (Film film : allFilms)
         {
@@ -85,7 +90,7 @@ public class HomePageController
         {
             model.addAttribute("username", user.getUsername());
         }
-        model.addAttribute("recommendFilm", recommendFilm);
+        model.addAttribute("recommendFilm", responseRecommend);
         return "index";
     }
 
@@ -133,6 +138,7 @@ public class HomePageController
         filmEpisodeDto.setFilmId(idEpisode);
         model.addAttribute("episodeToPlay", filmEpisodeDto);
         model.addAttribute("detailFilm", filmService.getResponseFilm(filmService.getFilmById(filmId)));
+        userService.addHistory(idEpisode, (User) session.getAttribute("user"));
         return "movie-details";
     }
 
