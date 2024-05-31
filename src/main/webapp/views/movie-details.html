@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Guy 2021</title>
+    <title th:text="${detailFilm.filmName}"></title>
 
     <!--
       - favicon
@@ -13,16 +13,56 @@
     <link rel="shortcut icon" th:href="@{assets/images/favicon.svg}" type="image/svg+xml">
 
     <!--
-      - custom css link
-    -->
-    <link rel="stylesheet" th:href="@{assets/css/index.css}">
-
-    <!--
       - google font link
     -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!-- third party css -->
+    <link th:href="@{/assets/assets_admin/libs/datatables/dataTables.bootstrap4.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/libs/datatables/buttons.bootstrap4.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/libs/datatables/responsive.bootstrap4.css}" rel="stylesheet" type="text/css"/>
+
+    <!--	&lt;!&ndash; App css &ndash;&gt;-->
+    <link th:href="@{/assets/assets_admin/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/css/icons.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/assets_admin/css/app.min.css}" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" th:href="@{/assets/css/index.css}">
+    <!--
+  - custom css link
+-->
+    <link rel="stylesheet" th:href="@{/assets/css/index.css}">
+    <style>
+        .nav-colored {
+            background-color: black;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .show-episode {
+            display: inline;
+        }
+        /* CSS cho danh sách bình luận */
+        .list-group-item {
+            background-color: #000; /* Màu nền đen */
+            color: #fff; /* Màu chữ trắng */
+            border: none; /* Loại bỏ viền */
+        }
+
+        /* CSS cho khung bình luận */
+        #comment-section {
+            background-color: #fff; /* Màu nền trắng */
+            color: #000; /* Màu chữ đen */
+            border: 1px solid #ddd; /* Viền màu xám nhạt */
+            border-radius: 5px; /* Bo góc */
+        }
+    </style>
+
 </head>
 
 <body id="#top">
@@ -31,13 +71,13 @@
   - #HEADER
 -->
 
-<header class="header" data-header>
+<header class="header" id="header" data-header>
     <div class="container">
 
         <div class="overlay" data-overlay></div>
 
         <a href="index.html" class="logo">
-            <img src="./assets/images/logo.svg" alt="Filmlane logo">
+            <img th:src="@{/assets/images/logo.svg}" alt="Filmlane logo">
         </a>
 
         <div class="header-actions">
@@ -58,9 +98,38 @@
                     <option value="tu">TU</option>
                 </select>
             </div>
+            <a th:href="@{/login}" class="btn btn-primary" th:if="${session.user==null}">Sign in</a>
+            <th:block th:if="${session.user!=null}">
+                <p style="color: #fff" th:text="${session.user.fullname}"></p>
+                <a style="color: #fff;" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </th:block>
+            <th:block th:if="${username!=null}">
+                <li class="dropdown notification-list">
+                    <a style="font-size: 20px" class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light"
+                       data-toggle="dropdown"
+                       href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                        <a th:href="@{/user/addWallet}" style="display: flex;gap: 10px;align-items: center"
+                           class="dropdown-item notify-item">
+                            <i class="fa-solid fa-wallet"></i>
+                            <span class="currency" th:text="${session.user.wallet_balance}"></span>
+                        </a>
+                        <!-- item-->
+                        <a th:href="@{/user/viewUpdateAcc}" style="display: flex;gap: 10px"
+                           class="dropdown-item notify-item">
+                            <i style="font-size: 20px" class="fa-solid fa-circle-up"></i>
+                            <span>Update Account</span>
+                        </a>
+                        <!-- item-->
+                        <a th:href="@{/logout}" style="display: flex;gap: 10px" class="dropdown-item notify-item">
+                            <i class="fe-log-out"></i>
+                            <span>Logout</span>
+                        </a>
 
-            <button class="btn btn-primary">Sign in</button>
-
+                    </div>
+                </li>
+            </th:block>
         </div>
 
         <button class="menu-open-btn" data-menu-open-btn>
@@ -72,7 +141,7 @@
             <div class="navbar-top">
 
                 <a href="index.html" class="logo">
-                    <img src="./assets/images/logo.svg" alt="Filmlane logo">
+                    <img src="/assets/images/logo.svg" alt="Filmlane logo">
                 </a>
 
                 <button class="menu-close-btn" data-menu-close-btn>
@@ -84,23 +153,23 @@
             <ul class="navbar-list">
 
                 <li>
-                    <a href="index.html" class="navbar-link">Home</a>
+                    <a th:href="@{/}" class="navbar-link">Home</a>
                 </li>
 
                 <li>
-                    <a href="#" class="navbar-link">Movie</a>
+                    <a th:href="@{/all-movie}" class="navbar-link">Movie</a>
                 </li>
 
                 <li>
-                    <a href="#" class="navbar-link">Tv Show</a>
+                    <a th:href="@{/favorites/list}" class="navbar-link">Favorite</a>
                 </li>
 
                 <li>
-                    <a href="#" class="navbar-link">Web Series</a>
+                    <a th:href="@{/listCategory/user-category}" class="navbar-link">Categories</a>
                 </li>
 
                 <li>
-                    <a href="#" class="navbar-link">Pricing</a>
+                    <a th:href="@{/user/history}" class="navbar-link">History</a>
                 </li>
 
             </ul>
@@ -151,277 +220,164 @@
         <!--
           - #MOVIE DETAIL
         -->
-
-        <section class="movie-detail">
+        <br/><br/><br/><br/>
+        <th:block th:if="${roleFree!=null}">
+            <p th:text="${roleFree}" style="font-weight: 900; font-size: 50px; color: red"></p>
+        </th:block>
+        <section class="movie-detail" th:object="${detailFilm}">
             <div class="container">
 
                 <figure class="movie-detail-banner">
 
-                    <img src="./assets/images/movie-4.png" alt="Free guy movie poster">
-
-                    <button class="play-btn">
-                        <ion-icon name="play-circle-outline"></ion-icon>
-                    </button>
+                    <img th:src="${detailFilm.filmImage}" th:alt="${detailFilm.filmName}">
 
                 </figure>
 
                 <div class="movie-detail-content">
 
-                    <p class="detail-subtitle">New Episodes</p>
+                    <p class="detail-subtitle"><a th:href="@{/play-trailer/{idFilm}(idFilm=${detailFilm.filmId})}">Xem trailer</a></p>
 
-                    <h1 class="h1 detail-title">
-                        Free <strong>Guy</strong>
-                    </h1>
+                    <h1 class="h1 detail-title" th:text="${detailFilm.filmName}"></h1>
 
                     <div class="meta-wrapper">
 
                         <div class="badge-wrapper">
-                            <div class="badge badge-fill">PG 13</div>
-
-                            <div class="badge badge-outline">HD</div>
+                            <div class="badge badge-outline">
+                                <a th:text="${detailFilm.free?'Miễn phí':'Trả phí'}"></a>
+                            </div>
                         </div>
-
                         <div class="ganre-wrapper">
-                            <a href="#">Comedy,</a>
-
-                            <a href="#">Action,</a>
-
-                            <a href="#">Adventure,</a>
-
-                            <a href="#">Science Fiction</a>
+                            <a th:text="${detailFilm.filmCategory.categoryName}"></a>
                         </div>
 
                         <div class="date-time">
-
                             <div>
                                 <ion-icon name="calendar-outline"></ion-icon>
-
-                                <time datetime="2021">2021</time>
+                                <time datetime="2021"
+                                      th:text="${#dates.format(detailFilm.releaseDate, 'yyyy-MM-dd')}"></time>
                             </div>
 
                             <div>
                                 <ion-icon name="time-outline"></ion-icon>
 
-                                <time datetime="PT115M">115 min</time>
+                                <time datetime="PT115M" th:text="${detailFilm.totalShowTime+' phút'}"></time>
                             </div>
 
                         </div>
-
                     </div>
 
-                    <p class="storyline">
-                        A bank teller called Guy realizes he is a background character in an open world video game
-                        called Free
-                        City that will
-                        soon go offline.
-                    </p>
+                    <p class="storyline" th:text="${detailFilm.filmDescription}"></p>
 
-                    <div class="details-actions">
-
-                        <button class="share">
-                            <ion-icon name="share-social"></ion-icon>
-
-                            <span>Share</span>
+                    <a th:href="@{/favorites/add/{filmId}(filmId=${filmId})}">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <ion-icon name="heart-outline"></ion-icon>
+                            <span>Thêm vào danh sách yêu thích</span>
                         </button>
-
-                        <div class="title-wrapper">
-                            <p class="title">Prime Video</p>
-
-                            <p class="text">Streaming Channels</p>
-                        </div>
-
-                        <button class="btn btn-primary">
-                            <ion-icon name="play"></ion-icon>
-
-                            <span>Watch Now</span>
-                        </button>
-
-                    </div>
-
-                    <a href="./assets/images/movie-4.png" download class="download-btn">
-                        <span>Download</span>
-
-                        <ion-icon name="download-outline"></ion-icon>
                     </a>
-
+                </div>
+                <div class="details-actions" th:if="${detailFilm.status==1}">
+                    <th:block th:if="${session.user!=null}">
+                        <form th:action="@{/check-role/{userId}(userId=${session.user.userId})}" th:each="episode : ${detailFilm.episodeList}">
+                            <!--                        th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}"-->
+                            <input type="hidden" name="idEpisode" th:value="${episode.filmEpisodeId}">
+                            <input type="hidden" name="filmId" th:value="${detailFilm.filmId}">
+                            <button class="btn btn-primary" style="width: fit-content">
+                                <ion-icon name="play"></ion-icon>
+                                <span>
+                            <a style="text-decoration: none; color: blue;"
+                               th:text="${'Tập '+episode.episodeNumber}"></a>
+                        </span>
+                            </button>
+                        </form>
+                    </th:block>
+                    <th:block th:if="${session.user==null}">
+                        <form th:action="@{'/check-role/-1'}" th:each="episode : ${detailFilm.episodeList}">
+                            <!--                        th:action="@{/play-episode/{idEpisode}(idEpisode=${episode.filmEpisodeId})}"-->
+                            <input type="hidden" name="idEpisode" th:value="${episode.filmEpisodeId}">
+                            <input type="hidden" name="filmId" th:value="${detailFilm.filmId}">
+                            <button class="btn btn-primary" style="width: fit-content">
+                                <ion-icon name="play"></ion-icon>
+                                <span>
+                            <a style="text-decoration: none; color: blue;"
+                               th:text="${'Tập '+episode.episodeNumber}"></a>
+                        </span>
+                            </button>
+                        </form>
+                    </th:block>
+                </div>
+                <th:block th:if="${detailFilm.status!=1}">
+                    <div th:if="${detailFilm.status==2}">
+                        <span style="color: white">Các tập phim đang được cập nhật. Vui lòng chờ</span>
+                    </div>
+                    <div th:if="${detailFilm.status==3}">
+                        <span style="color: white">Phim này đã ngừng chiếu</span>
+                    </div>
+                </th:block>
+                        </button>
+                    </form>
                 </div>
 
+            <div style="width: 100%; margin-top: 50px; padding: 50px">
+                <th:block th:if="${episodeToPlay != null}">
+                    <iframe style="margin-left: auto;" width="90%" height="600"
+                            th:src="${episodeToPlay.filmEpisodeUrl}"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </th:block>
+                <th:block th:if="${filmWithTrailer != null}">
+                    <iframe style="margin-left: auto;" width="90%" height="600"
+                            th:src="${filmWithTrailer.trailerUrl}"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </th:block>
             </div>
         </section>
 
-
-
-        <!--
-          - #TV SERIES
-        -->
-
-        <section class="tv-series">
-            <div class="container">
-
-                <p class="section-subtitle">Best TV Series</p>
-
-                <h2 class="h2 section-title">World Best TV Series</h2>
-
-                <ul class="movies-list">
-
-                    <li>
-                        <div class="movie-card">
-
-                            <a href="./movie-details.html">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/series-1.png" alt="Moon Knight movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a href="./movie-details.html">
-                                    <h3 class="card-title">Moon Knight</h3>
-                                </a>
-
-                                <time datetime="2022">2022</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">2K</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT47M">47 min</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>8.6</data>
-                                </div>
-                            </div>
-
-                        </div>
+        <!-- Phần comment -->
+        <div class="row">
+            <div class="col">
+                <form th:action="@{/comments/add/}" method="post" class="p-3 mb-3 bg-white rounded" th:object="${commentDto}">
+                    <h2 class="mb-4" style="color: #00aff0">Bình luận về phim</h2>
+                    <input type="hidden" id="userId"  th:field="*{userId}" />
+                    <input type="hidden" id="filmId"  th:field="*{filmId}" />
+                    <div class="input-group">
+                        <input type="text" id="comment" th:field="*{content}" class="form-control" placeholder="Viết bình luận..." />
+                        <select th:field="*{stars}" class="form-select" style="color: blue">
+                            <option value="1">1 star</option>
+                            <option value="2">2 stars</option>
+                            <option value="3">3 stars</option>
+                            <option value="4">4 stars</option>
+                            <option value="5">5 stars</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Đăng</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col">
+                <ul class="list-group">
+                    <li th:each="comment : ${listComment}" class="list-group-item bg-white text-dark">
+                        <h5 class="mb-1" th:text="${comment.user.username}">User Name</h5>
+                        <p class="mb-1" th:text="${comment.content}">Comment Content</p>
+                        <small class="text-muted" th:text="${comment.stars} + ' stars'">Stars</small>
                     </li>
-
-                    <li>
-                        <div class="movie-card">
-
-                            <a href="./movie-details.html">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/series-2.png" alt="Halo movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a href="./movie-details.html">
-                                    <h3 class="card-title">Halo</h3>
-                                </a>
-
-                                <time datetime="2022">2022</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">2K</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT59M">59 min</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>8.8</data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="movie-card">
-
-                            <a href="./movie-details.html">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/series-3.png" alt="Vikings: Valhalla movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a href="./movie-details.html">
-                                    <h3 class="card-title">Vikings: Valhalla</h3>
-                                </a>
-
-                                <time datetime="2022">2022</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">2K</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT51M">51 min</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>8.3</data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="movie-card">
-
-                            <a href="./movie-details.html">
-                                <figure class="card-banner">
-                                    <img src="./assets/images/series-4.png" alt="Money Heist movie poster">
-                                </figure>
-                            </a>
-
-                            <div class="title-wrapper">
-                                <a href="./movie-details.html">
-                                    <h3 class="card-title">Money Heist</h3>
-                                </a>
-
-                                <time datetime="2017">2017</time>
-                            </div>
-
-                            <div class="card-meta">
-                                <div class="badge badge-outline">4K</div>
-
-                                <div class="duration">
-                                    <ion-icon name="time-outline"></ion-icon>
-
-                                    <time datetime="PT70M">70 min</time>
-                                </div>
-
-                                <div class="rating">
-                                    <ion-icon name="star"></ion-icon>
-
-                                    <data>8.3</data>
-                                </div>
-                            </div>
-
-                        </div>
-                    </li>
-
                 </ul>
-
             </div>
-        </section>
+        </div>
+
 
     </article>
 </main>
+
+
 
 
 <!--
   - #FOOTER
 -->
 
-<footer class="footer">
+<footer class="footer" style="position: static">
 
     <div class="footer-top">
         <div class="container">
@@ -429,7 +385,7 @@
             <div class="footer-brand-wrapper">
 
                 <a href="index.html" class="logo">
-                    <img src="./assets/images/logo.svg" alt="Filmlane logo">
+                    <img src="/assets/images/logo.svg" alt="Logo">
                 </a>
 
                 <ul class="footer-list">
@@ -522,7 +478,7 @@
                 &copy; 2022 <a href="#">codewithsadee</a>. All Rights Reserved
             </p>
 
-            <img src="./assets/images/footer-bottom-img.png" alt="Online banking companies logo"
+            <img src="/assets/images/footer-bottom-img.png" alt="Online banking companies logo"
                  class="footer-bottom-img">
 
         </div>
@@ -535,6 +491,28 @@
   - #GO TO TOP
 -->
 
+
+<script>
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(amount);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var elements = document.querySelectorAll(".currency");
+        elements.forEach(function (element) {
+            var value = parseFloat(element.textContent);
+            element.textContent = formatCurrency(value);
+        });
+    });
+    const nav = document.getElementById('header');
+    window.onscroll = function () {
+        if (document.body.scrollTop >= 20 || document.documentElement.scrollTop >= 20) {
+            nav.classList.add("nav-colored");
+        } else {
+            nav.classList.remove("nav-colored");
+        }
+    };
+</script>
 <a href="#top" class="go-top" data-go-top>
     <ion-icon name="chevron-up"></ion-icon>
 </a>
@@ -550,7 +528,44 @@
 -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
+<!-- Vendor js -->
+<script th:src="@{/assets/assets_admin/js/vendor.min.js}"></script>
+
+<!-- Required datatable js -->
+<script th:src="@{/assets/assets_admin/libs/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/dataTables.bootstrap4.min.js}"></script>
+<!-- Buttons examples -->
+<script th:src="@{/assets/assets_admin/libs/datatables/dataTables.buttons.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/jszip/jszip.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/buttons.html5.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/buttons.print.min.js}"></script>
+
+<!-- Responsive examples -->
+<script th:src="@{/assets/assets_admin/libs/datatables/dataTables.responsive.min.js}"></script>
+<script th:src="@{/assets/assets_admin/libs/datatables/responsive.bootstrap4.min.js}"></script>
+
+<!-- Datatables init -->
+<script th:src="@{/assets/assets_admin/js/pages/datatables.init.js}"></script>
+
+<!-- App js -->
+<script th:src="@{/assets/assets_admin/js/app.min.js}"></script>
+<script>
+    const nav = document.getElementById('header');
+    window.onscroll = function () {
+        if (document.body.scrollTop >= 20 || document.documentElement.scrollTop >= 20) {
+            nav.classList.add("nav-colored");
+        } else {
+            nav.classList.remove("nav-colored");
+        }
+    };
+</script>
 </body>
 
 </html>

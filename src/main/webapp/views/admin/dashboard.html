@@ -28,7 +28,8 @@
             <li class="dropdown d-none d-lg-block">
                 <a class="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" href="#"
                    role="button" aria-haspopup="false" aria-expanded="false">
-                    <img th:src="@{/assets/assets_admin/images/flags/vietnam.jpg}" alt="user-image" class="mr-1" height="12">
+                    <img th:src="@{/assets/assets_admin/images/flags/vietnam.jpg}" alt="user-image" class="mr-1"
+                         height="12">
                     <span
                             class="align-middle">Vietnam <i class="mdi mdi-chevron-down"></i> </span>
                 </a>
@@ -41,8 +42,6 @@
                     </a>
                 </div>
             </li>
-
-
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="#"
                    role="button" aria-haspopup="false" aria-expanded="false">
@@ -206,30 +205,9 @@
                     <li class="menu-title">QUẢN LÝ</li>
 
                     <li>
-                        <a th:href="@{/admin/home}">
+                        <a th:href="@{/admin/dashboard}">
                             <i class="fe-airplay"></i>
                             <span> Dashboard </span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/admin/user}">
-                            <i class="fe-briefcase"></i>
-                            Quản lý film
-                        </a>
-
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/film}">
-                            <i class="fe-disc"></i>
-                            Quản lý loại film
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/admin/category}">
-                            <i class="fe-disc"></i>
-                            Quản lý loại blog
                         </a>
                     </li>
                     <li>
@@ -238,7 +216,38 @@
                             Quản lý user
                         </a>
                     </li>
+                    <li>
+                        <a th:href="@{/film/list}">
+                            <i class="fe-briefcase"></i>
+                            Quản lý film
+                        </a>
 
+                    </li>
+                    <li>
+                        <a th:href="@{/listCategory}">
+                            <i class="fe-disc"></i>
+                            Quản lý loại film
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/admin/country}">
+                            <i class="fe-disc"></i>
+                            Quản lý quốc gia
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/banner}">
+                            <i class="fe-disc"></i>
+                            Quản lý Banner
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/comments}">
+                            <i class="fe-disc"></i>
+                            Quản lý bình luận
+                        </a>
+                    </li>
                 </ul>
 
             </div>
@@ -282,33 +291,35 @@
                     <div class="col-md-6 col-xl-3">
                         <div class="card-box tilebox-one">
                             <i class="fe-box float-right"></i>
-                            <h5 class="text-muted text-uppercase mb-3 mt-0">Số khách hàng hiện tại</h5>
-                            <h3 class="mb-3" data-plugin="counterup" th:text="${countCustomers}">0</h3>
+                            <h5 class="text-muted text-uppercase mb-3 mt-0">Số người dùng hiện tại</h5>
+                            <h3 class="mb-3" data-plugin="counterup" th:text="${countUser}"></h3>
                         </div>
                     </div>
 
-
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card-box tilebox-one">
-                            <i class="fe-layers float-right"></i>
-                            <h5 class="text-muted text-uppercase mb-3 mt-0">Số film hiện có</h5>
-                            <h3 class="mb-3"><span data-plugin="counterup" th:text="${countProducts}">0</span></h3>
-                        </div>
-                    </div>
 
                     <div class="col-md-6 col-xl-3">
                         <div class="card-box tilebox-one">
                             <i class="fe-tag float-right"></i>
-                            <h5 class="text-muted text-uppercase mb-3 mt-0">Tổng số doanh thu</h5>
-                            <h3 class="mb-3"><span data-plugin="counterup" th:text="${countOrders}">0</span></h3>
+                            <h5 class="text-muted text-uppercase mb-3 mt-0">Tổng số lượt xem</h5>
+                            <h3 class="mb-3"><span data-plugin="counterup" th:text="${countView}"></span></h3>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3">
+                        <div class="card-box tilebox-one">
+                            <i class="fe-layers float-right"></i>
+                            <h5 class="text-muted text-uppercase mb-3 mt-0">Trung bình đánh giá</h5>
+                            <h3 class="mb-3"><span data-plugin="counterup"
+                                                   th:text="${#numbers.formatDecimal(averageRating, 2, 'COMMA', 2, 'POINT')}"></span>
+                            </h3>
                         </div>
                     </div>
 
                     <div class="col-md-6 col-xl-3">
                         <div class="card-box tilebox-one">
                             <i class="fe-briefcase float-right"></i>
-                            <h5 class="text-muted text-uppercase mb-3 mt-0">Số loại film hiện tại</h5>
-                            <h3 class="mb-3" data-plugin="counterup" th:text="${countBlogs}">0</h3>
+                            <h5 class="text-muted text-uppercase mb-3 mt-0">Số lượng thể loại</h5>
+                            <h3 class="mb-3" data-plugin="counterup" th:text="${countAllFilmCategories}"></h3>
                         </div>
                     </div>
                 </div>

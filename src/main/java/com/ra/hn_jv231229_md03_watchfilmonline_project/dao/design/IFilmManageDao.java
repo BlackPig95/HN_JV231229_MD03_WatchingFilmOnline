@@ -1,6 +1,7 @@
 package com.ra.hn_jv231229_md03_watchfilmonline_project.dao.design;
 
 import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.Film;
+import com.ra.hn_jv231229_md03_watchfilmonline_project.model.entity.FilmCategory;
 
 import java.util.List;
 
@@ -21,6 +22,11 @@ public interface IFilmManageDao
     Integer countNumberOfFilms();
 
     String getFilmImageById(long id);
+
     List<Film> getTopRate(Boolean seriesSingle);
 
+    List<Film> findAll();
+
+    Long countView();
+    List<Film> getRecommendFilm();
 }

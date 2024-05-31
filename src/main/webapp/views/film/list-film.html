@@ -33,6 +33,10 @@
 <body>
 
 <nav class="navbar bg-body-tertiary">
+    <a class="btn btn-success" th:href="@{/admin/dashboard}">
+        <i class="fe-airplay"></i>
+        <button type="button" class="btn btn-success">Dashboard</button>
+    </a>
     <div class="container-fluid">
         <h1>Quản lý phim</h1>
         <!--        Thêm th:action để chỉ định đến controller tìm kiếm theo tên-->
@@ -52,22 +56,38 @@
 <!--   class="p-3 mb-2 bg-primary text-white border border-primary text-bg-primary rounded">Thêm-->
 <!--    phim-->
 <!--    lẻ</a>-->
-<a th:href="@{/film/initAdd}" style="text-decoration: none"
-   class="p-3 mb-2 bg-primary text-white border border-primary text-bg-primary rounded">Thêm
-    phim mới</a><br/><br/>
+<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding-right: 200px">
+    <a th:href="@{/film/initAdd}" style="text-decoration: none"
+       class="p-3 mb-2 bg-primary text-white border border-primary text-bg-primary rounded">Thêm
+        phim mới
+    </a>
+    <form th:action="@{/film/list}">
+        <span>Sắp xếp theo</span>
+        <select name="columnName">
+            <option th:selected="${columnName.equals('filmId')}" value="filmId">Id</option>
+            <option th:selected="${columnName.equals('filmName')}" value="filmName">Tên</option>
+            <option th:selected="${columnName.equals('categoryName')}" value="categoryName">Tên thể loại</option>
+        </select>
+        <select name="isAscending">
+            <option th:selected="${isAscending}" th:value="true">Tăng dần</option>
+            <option th:selected="${!isAscending}" th:value="false">Giảm dần</option>
+        </select>
+        <button type="submit">Chọn</button>
+    </form>
+</div>
 <h3>Danh sách phim hiện có</h3>
 <table style="text-align: center" class="table table-bordered table-striped table-light table-hover table-responsive">
     <thead>
     <tr>
         <th scope="col">Id</th>
-        <th style="width: 15%" scope="col">Tên phim</th>
+        <th style="width: fit-content" scope="col">Tên phim</th>
         <th>Ảnh minh họa</th>
-        <th>Thể loại</th>
-        <th scope="col">Mô tả</th>
-        <th style="width: 7%" scope="col">Phân loại</th>
-        <th style="width: 5%" scope="col">Số tập</th>
-        <th style="width: 10%" scope="col">Trạng thái</th>
-        <th style="width: 15%" scope="col" colspan="2">Quản lý</th>
+        <th style="width: fit-content">Thể loại</th>
+        <th scope="col" style="width: fit-content">Mô tả</th>
+        <th style="width: fit-content" scope="col">Phân loại</th>
+        <th style="width: fit-content" scope="col">Số tập</th>
+        <th style="width: fit-content" scope="col">Trạng thái</th>
+        <th style="width: fit-content" scope="col" colspan="2">Quản lý</th>
     </tr>
     </thead>
     <tbody>
@@ -84,22 +104,45 @@
             <td th:case="2">Phim sắp chiếu</td>
             <td th:case="3">Đã ngừng chiếu</td>
         </th:block>
-        <td><a th:href="@{/film/initEdit/{id}(id=${film.filmId})}">Xem chi tiết và sửa</a></td>
-        <td><a th:href="@{/film/deleteFilm/{id}(id=${film.filmId})}">Xóa phim</a></td>
+        <td><a type="button" class="btn btn-primary" th:href="@{/film/initEdit/{id}(id=${film.filmId})}"
+               style="text-decoration: none">Xem chi tiết và
+            sửa</a></td>
+        <td><a type="button" class="btn btn-danger" th:onclick="'handleDelete('+${film.filmId}+')'">Xóa phim</a></td>
+        <!--        th:href="@{/film/deleteFilm/{id}(id=${film.filmId})}"-->
     </tr>
     </tbody>
 </table>
 <div class="d-flex justify-content-center">
-    <a th:href="@{'/film/list?currentPage=' + ${page}}"
+    <a th:href="@{'/film/list?currentPage='+${page}+'&columnName='+${columnName}+'&isAscending='+${isAscending}}"
        class="border border-light p-3 mb-2 bg-success text-white page-button"
        th:each="page : ${#numbers.sequence(1, totalPages)}" th:text="${page}"
-       th:classappend="${page==currentPage?'bg-info text-dark':''}"
+       th:classappend="${page==currentPage?'bg-warning text-dark':''}"
        style="text-decoration: none"></a>
 </div>
 <!--Bootstrap-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<!--Sweet Alert-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function handleDelete(id) {
+        Swal.fire({
+            title: "Bạn có chắc chắn muốn xóa không?",
+            showDenyButton: true,
+            confirmButtonText: "Xóa",
+            denyButtonText: `Hủy`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire("Đã xóa!");
+                fetch("/film/deleteFilm/" + id);
+            } else if (result.isDenied) {
+                Swal.fire("Đã hủy");
+            }
+        });
+    }
+</script>
 </body>
 
 </html>

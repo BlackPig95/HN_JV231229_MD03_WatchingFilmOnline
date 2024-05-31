@@ -11,6 +11,7 @@ import com.ra.hn_jv231229_md03_watchfilmonline_project.service.design.ICommentSe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -20,6 +21,9 @@ public class CommentServiceImpl implements ICommentService {
 
     @Autowired
     private IFilmManageDao manageDao;
+
+    @Autowired
+    private HttpSession session;
 
     @Autowired
     private IUserDao userDao;
@@ -32,6 +36,7 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public void addComment(CommentDto commentDto) {
         Film film = manageDao.getFilmById(commentDto.getFilmId());
+//        User user = userDao.findById(2L);
         User user = userDao.findById(commentDto.getUserId());
         if (film != null && user != null) {
             Comment comment = new Comment();
@@ -64,5 +69,14 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public Long countAllComment() {
         return commentDao.countAllComment();
+    }
+
+    @Override
+    public List<Comment> findCommentByFilm(Long filmId) {
+        return commentDao.findCommentByFilm(filmId);
+    }
+    @Override
+    public Double averageRating() {
+        return commentDao.averageRating();
     }
 }

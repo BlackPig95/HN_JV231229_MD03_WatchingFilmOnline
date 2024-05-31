@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Cập Nhật Thông Tin Cá Nhân</title>
     <link
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -16,38 +16,27 @@
             <h1>Cập Nhật Thông Tin Cá Nhân</h1>
         </div>
         <div class="card-body">
-            <form th:action="@{/user/edit}" method="post" th:object="${user}" enctype="multipart/form-data">
+            <form th:action="@{/user/edit}" method="post" th:object="${userDto}" enctype="multipart/form-data">
                 <div class="form-group text-center">
                     <label for="currentAvatar">Avatar hiện tại:</label>
                     <div>
                         <img
-                                th:src="*{avatar}"
+                                th:src="*{avatarUrl}"
                                 alt="Avatar hiện tại"
                                 class="img-fluid rounded-circle"
                                 id="currentAvatar"
                         />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="userName">Tên người dùng:</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="userName"
-                            th:field="*{userName}"
 
-                    />
-                </div>
-                <div th:if="${#fields.hasErrors('userName')}" class="alert alert-danger"
-                     th:errors="*{userName}">
-                </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input
                             type="email"
                             class="form-control"
                             id="email"
-                            th:field="*{email}"
+                            th:value="*{email}"
+                            name="email"
 
                     />
                 </div>
@@ -60,7 +49,8 @@
                             type="text"
                             class="form-control"
                             id="phone"
-                            th:field="*{phone}"
+                            th:value="*{phone}"
+                            name="phone"
 
                     />
                 </div>
@@ -73,7 +63,8 @@
                             type="text"
                             class="form-control"
                             id="fullName"
-                            th:field="*{fullName}"
+                            th:value="*{fullName}"
+                            name="fullName"
 
                     />
                 </div>
@@ -86,44 +77,55 @@
                             type="file"
                             class="form-control"
                             id="avatar"
-                            name="avatar"
+                            th:value="*{fileAvatar}"
+                            name="fileAvatar"
                     />
                 </div>
-                    <input
-                            type="text"
-                            th:field="*{userId}"
-                            hidden
-                    />
+
+
+                <!--                    <input-->
+                <!--                            type="text"-->
+                <!--                            th:field="*{userName}"-->
+                <!--                            hidden-->
+
+                <!--                    />-->
+
                 <input
                         type="text"
-                        th:field="*{password}"
+                        th:value="*{userId}"
+                        name="userId"
                         hidden
                 />
-                <input
-                        type="text"
-                        th:field="*{userRole}"
-                        hidden
-                />
-                <input
-                        type="text"
-                        th:field="*{wallet_balance}"
-                        hidden
-                />
-                <input
-                        type="text"
-                        th:field="*{status}"
-                        hidden
-                />
-                <input
-                        type="text"
-                        th:field="*{createdAt}"
-                        hidden
-                />
-                <input
-                        type="text"
-                        th:field="*{updatedAt}"
-                        hidden
-                />
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{password}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{userRole}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{wallet_balance}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{status}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{createdAt}"-->
+                <!--                        hidden-->
+                <!--                />-->
+                <!--                <input-->
+                <!--                        type="text"-->
+                <!--                        th:field="*{updatedAt}"-->
+                <!--                        hidden-->
+                <!--                />-->
                 <button type="submit" class="btn btn-primary">Cập Nhật</button>
             </form>
         </div>

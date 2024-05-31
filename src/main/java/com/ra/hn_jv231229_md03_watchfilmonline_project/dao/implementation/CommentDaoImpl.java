@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -21,7 +20,7 @@ public class CommentDaoImpl implements ICommentDao {
     public List<Comment> findAll(int currentPage, int size) {
         Session session = sessionFactory.openSession();
         try {
-            return session.createQuery("select c from Comment c join fetch c.film f join fetch c.user u", Comment.class)
+            return session.createQuery("select c from Comment c join c.film f join c.user u", Comment.class)
                     .setFirstResult(currentPage*size)
                     .setMaxResults(size)
                     .getResultList();
@@ -31,6 +30,7 @@ public class CommentDaoImpl implements ICommentDao {
             session.close();
         }
     }
+
 
     @Override
     public void addComment(Comment comment) {
@@ -112,6 +112,34 @@ public class CommentDaoImpl implements ICommentDao {
         return comments;
     }
 
+    @Override
+    public List<Comment> findCommentByFilm(Long filmId)
+    {
+        Session session = sessionFactory.openSession();
+        try
+        {
+            return session.createQuery("from Comment where film.filmId = :filmId", Comment.class)
+                    .setParameter("filmId", filmId).getResultList();
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        } finally
+        {
+            session.close();
+        }
+    }
 
+    @Override
+    public Double averageRating() {
+        Session session = sessionFactory.openSession();
+        try {
+            Double count = (Double) session.createQuery("select avg (stars) from Comment").uniqueResult();
+            return count == null ? 0 : count;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
 
 }
